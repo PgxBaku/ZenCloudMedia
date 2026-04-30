@@ -29,6 +29,19 @@ const socialLinks = [
 
 const contactEmail = "zen1cloud1@gmail.com";
 
+const heroPhrases = [
+  "Fast stories, clear reels, receipts included.",
+  "Turning noisy headlines into clear vertical explainers.",
+  "Short reels that make fast-moving stories easier to understand.",
+  "AI-assisted reels for news, markets, science, and the weird edge of now.",
+  "Receipts-first reels for a world moving too fast.",
+  "Clear, sourced explainers built for the scroll.",
+  "Newsroom pace, creator rhythm, software precision.",
+  "Making sense of the scroll, one sourced reel at a time.",
+  "Short-form video for stories that deserve more than a headline.",
+  "Fast context for news, markets, science, and everything in motion.",
+];
+
 const reelTracks = [
   {
     title: "Oil Price Pulse",
@@ -84,13 +97,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.055)_1px,transparent_1px),linear-gradient(180deg,rgba(20,20,20,0.045)_1px,transparent_1px)] bg-[size:44px_44px]" />
         <div className="relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-7xl flex-col rounded-[28px] border border-[#141414]/10 bg-[#fbf7ef]/88 shadow-2xl shadow-[#24170b]/10 backdrop-blur">
           <nav className="flex items-center justify-between border-b border-[#141414]/10 px-5 py-4 sm:px-7">
-            <Link href="/" className="flex items-center gap-3">
-              <span className="grid size-12 place-items-center overflow-hidden rounded-full border border-[#141414]/10 bg-[#141414] shadow-sm">
+            <Link href="/" className="flex items-center gap-4">
+              <span className="grid size-16 place-items-center overflow-hidden rounded-full border border-[#141414]/10 bg-[#141414] shadow-md sm:size-20">
                 <Image
                   src="/zencloudmedia-logo.png"
                   alt="ZenCloudMedia logo"
-                  width={48}
-                  height={48}
+                  width={80}
+                  height={80}
                   priority
                   className="size-full object-cover"
                 />
@@ -119,15 +132,22 @@ export default function Home() {
           </nav>
 
           <div className="grid flex-1 gap-8 p-5 sm:p-7 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
-            <div className="flex flex-col justify-between gap-12 py-8 lg:py-12">
+            <div className="flex flex-col justify-between gap-12 py-0 lg:py-0">
               <div>
                 <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#236b5d]/25 bg-[#e3f0ea] px-4 py-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#236b5d]">
                   <Sparkles className="size-4" aria-hidden="true" />
                   Remotion-powered reels
                 </p>
-                <h1 className="max-w-4xl text-5xl font-semibold leading-[0.97] tracking-tight sm:text-7xl lg:text-8xl">
-                  Short-form explainers with receipts, rhythm, and a point of
-                  view.
+                <h1 className="hero-rotator max-w-4xl pl-7 pr-4 text-4xl font-medium italic leading-tight tracking-tight sm:pl-10 sm:text-6xl lg:text-7xl">
+                  {heroPhrases.map((phrase, index) => (
+                    <span
+                      key={phrase}
+                      className="hero-phrase"
+                      style={{ animationDelay: `${index * 3}s` }}
+                    >
+                      {phrase}
+                    </span>
+                  ))}
                 </h1>
                 <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5b534a] sm:text-xl">
                   ZenCloudMedia is my publishing studio for AI-assisted news
@@ -191,30 +211,36 @@ export default function Home() {
                   {reelTracks.map((track, index) => (
                     <div
                       key={track.title}
-                      className={`relative aspect-[9/16] overflow-hidden rounded-[20px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur ${
+                      className={`relative aspect-[9/16] ${
                         index % 2 === 0 ? "translate-y-8" : ""
                       }`}
                     >
-                      <Image
-                        src={track.image}
-                        alt={`${track.title} reel still`}
-                        fill
-                        sizes="(min-width: 1024px) 140px, 28vw"
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.18)_42%,rgba(0,0,0,0.78))]" />
-                      <div className="relative flex h-full flex-col justify-between p-3">
-                        <span className="w-fit rounded-full bg-black/45 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur">
-                          {track.tag}
-                        </span>
-                        <span>
-                          <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f6bc53]">
-                            {String(index + 1).padStart(2, "0")}
+                      <div
+                        className="reel-card group relative size-full overflow-hidden rounded-[20px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur transition duration-500 hover:-translate-y-2 hover:border-white/45 hover:shadow-[#f6bc53]/20"
+                        style={{ animationDelay: `${index * 140}ms` }}
+                      >
+                        <Image
+                          src={track.image}
+                          alt={`${track.title} reel still`}
+                          fill
+                          sizes="(min-width: 1024px) 140px, 28vw"
+                          className="reel-card-image object-cover transition duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.18)_42%,rgba(0,0,0,0.78))] transition duration-500 group-hover:bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.1)_42%,rgba(0,0,0,0.66))]" />
+                        <div className="reel-card-shine absolute inset-y-0 -left-1/2 w-1/2 rotate-12 bg-white/18 blur-xl" />
+                        <div className="relative flex h-full flex-col justify-between p-3">
+                          <span className="w-fit rounded-full bg-black/45 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur transition duration-500 group-hover:bg-[#f6bc53] group-hover:text-[#141414]">
+                            {track.tag}
                           </span>
-                          <span className="block text-sm font-semibold leading-tight text-white drop-shadow">
-                            {track.title}
+                          <span>
+                            <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f6bc53] transition duration-500 group-hover:text-white">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <span className="block text-sm font-semibold leading-tight text-white drop-shadow">
+                              {track.title}
+                            </span>
                           </span>
-                        </span>
+                        </div>
                       </div>
                     </div>
                   ))}

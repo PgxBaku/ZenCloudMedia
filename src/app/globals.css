@@ -24,3 +24,146 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+.hero-rotator {
+  display: grid;
+  min-height: 5em;
+  position: relative;
+}
+
+.hero-rotator::before,
+.hero-rotator::after {
+  color: #9a6b21;
+  font-size: 0.95em;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.58;
+  pointer-events: none;
+  position: absolute;
+}
+
+.hero-rotator::before {
+  content: open-quote;
+  left: 0;
+  top: -0.04em;
+}
+
+.hero-rotator::after {
+  bottom: 0.42em;
+  content: close-quote;
+  right: 0;
+}
+
+.hero-phrase {
+  animation: hero-phrase-cycle 30s ease-in-out infinite;
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translate3d(0, 0.18em, 0);
+  will-change: opacity, transform;
+}
+
+.reel-card {
+  animation: reel-float 6.5s ease-in-out infinite both;
+  will-change: transform;
+}
+
+.reel-card-image {
+  animation: reel-image-pan 9s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.reel-card-shine {
+  animation: reel-shine 5.5s ease-in-out infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reel-card:hover,
+.reel-card:hover .reel-card-image,
+.reel-card:hover .reel-card-shine {
+  animation-play-state: paused;
+}
+
+@keyframes reel-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(0.45deg);
+  }
+}
+
+@keyframes hero-phrase-cycle {
+  0%,
+  8% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  10%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -0.18em, 0);
+  }
+}
+
+@keyframes reel-image-pan {
+  0% {
+    transform: scale(1.04) translate3d(-1.5%, -1%, 0);
+  }
+  100% {
+    transform: scale(1.1) translate3d(1.5%, 1%, 0);
+  }
+}
+
+@keyframes reel-shine {
+  0%,
+  42% {
+    opacity: 0;
+    transform: translateX(0) rotate(12deg);
+  }
+  56% {
+    opacity: 0.42;
+  }
+  72%,
+  100% {
+    opacity: 0;
+    transform: translateX(320%) rotate(12deg);
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-rotator {
+    min-height: 4em;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-rotator {
+    min-height: 3.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reel-card,
+  .reel-card-image,
+  .reel-card-shine,
+  .hero-phrase {
+    animation: none !important;
+  }
+
+  .hero-phrase:first-child {
+    opacity: 1;
+    transform: none;
+  }
+}
