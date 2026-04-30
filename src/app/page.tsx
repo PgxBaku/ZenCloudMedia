@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowUpRight, Play, Radio, Sparkles } from "lucide-react";
 import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
+import NavBar from "./components/NavBar";
 
 const socialLinks = [
   {
@@ -47,31 +47,37 @@ const reelTracks = [
     title: "Oil Price Pulse",
     tag: "Markets",
     image: "/reels/oil-price-pulse-cover.jpeg",
+    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
   },
   {
     title: "Three Pressures",
     tag: "Energy",
     image: "/reels/oil-price-pulse-pressures.jpeg",
+    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
   },
   {
     title: "Hormuz Routes",
     tag: "Geopolitics",
     image: "/reels/oil-price-pulse-routes.jpeg",
+    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
   },
   {
     title: "Night Briefing",
     tag: "World",
     image: "/reels/world-night-police.jpg",
+    href: "https://www.tiktok.com/@baku_retsu",
   },
   {
     title: "Conflict Watch",
     tag: "Dispatch",
     image: "/reels/world-conflict-smoke.jpg",
+    href: "https://www.tiktok.com/@baku_retsu",
   },
   {
     title: "Harbor Smoke",
     tag: "Global",
     image: "/reels/news-harbor-smoke.jpg",
+    href: "https://www.facebook.com/61573241866709",
   },
 ];
 
@@ -96,47 +102,14 @@ export default function Home() {
       <section className="relative min-h-screen px-5 py-5 sm:px-8 lg:px-10">
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.055)_1px,transparent_1px),linear-gradient(180deg,rgba(20,20,20,0.045)_1px,transparent_1px)] bg-[size:44px_44px]" />
         <div className="relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-7xl flex-col rounded-[28px] border border-[#141414]/10 bg-[#fbf7ef]/88 shadow-2xl shadow-[#24170b]/10 backdrop-blur">
-          <nav className="flex items-center justify-between border-b border-[#141414]/10 px-5 py-4 sm:px-7">
-            <Link href="/" className="flex items-center gap-4">
-              <span className="grid size-16 place-items-center overflow-hidden rounded-full border border-[#141414]/10 bg-[#141414] shadow-md sm:size-20">
-                <Image
-                  src="/zencloudmedia-logo.png"
-                  alt="ZenCloudMedia logo"
-                  width={80}
-                  height={80}
-                  priority
-                  className="size-full object-cover"
-                />
-              </span>
-              <span className="text-lg font-semibold tracking-tight">
-                ZenCloudMedia
-              </span>
-            </Link>
-            <div className="hidden items-center gap-6 text-sm font-medium text-[#4d463e] sm:flex">
-              <a href="#reels" className="transition hover:text-[#141414]">
-                Reels
-              </a>
-              <a href="#socials" className="transition hover:text-[#141414]">
-                Socials
-              </a>
-              <a href="#process" className="transition hover:text-[#141414]">
-                Process
-              </a>
-              <a
-                href={`mailto:${contactEmail}`}
-                className="rounded-full bg-[#141414] px-4 py-2 text-[#f3efe6] transition hover:bg-[#2f3f3a]"
-              >
-                Contact
-              </a>
-            </div>
-          </nav>
+          <NavBar />
 
           <div className="grid flex-1 gap-8 p-5 sm:p-7 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
             <div className="flex flex-col justify-between gap-12 py-0 lg:py-0">
               <div>
                 <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#236b5d]/25 bg-[#e3f0ea] px-4 py-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#236b5d]">
                   <Sparkles className="size-4" aria-hidden="true" />
-                  Remotion-powered reels
+                  Short-form news reels
                 </p>
                 <h1 className="hero-rotator max-w-4xl pl-7 pr-4 text-4xl font-medium italic leading-tight tracking-tight sm:pl-10 sm:text-6xl lg:text-7xl">
                   {heroPhrases.map((phrase, index) => (
@@ -198,7 +171,10 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white">
+            <div
+              id="reels"
+              className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white"
+            >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(246,188,83,0.35),transparent_24%),radial-gradient(circle_at_82%_16%,rgba(65,151,133,0.4),transparent_25%),linear-gradient(145deg,#131817_0%,#20332f_45%,#e4d0ad_100%)]" />
               <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:30px_30px]" />
               <div className="relative flex h-full min-h-[580px] flex-col justify-between">
@@ -215,8 +191,12 @@ export default function Home() {
                         index % 2 === 0 ? "translate-y-8" : ""
                       }`}
                     >
-                      <div
-                        className="reel-card group relative size-full overflow-hidden rounded-[20px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur transition duration-500 hover:-translate-y-2 hover:border-white/45 hover:shadow-[#f6bc53]/20"
+                      <a
+                        href={track.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Watch ${track.title}`}
+                        className="reel-card group relative block size-full overflow-hidden rounded-[20px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur transition duration-500 hover:-translate-y-2 hover:border-white/45 hover:shadow-[#f6bc53]/20"
                         style={{ animationDelay: `${index * 140}ms` }}
                       >
                         <Image
@@ -241,7 +221,7 @@ export default function Home() {
                             </span>
                           </span>
                         </div>
-                      </div>
+                      </a>
                     </div>
                   ))}
                 </div>
@@ -266,7 +246,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="reels" className="px-5 py-16 sm:px-8 lg:px-10">
+      <section id="about" className="px-5 py-16 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
             <div>
@@ -285,7 +265,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3" id="process">
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
             {principles.map((item) => (
               <article
                 key={item.title}
@@ -300,6 +280,67 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer className="px-5 pb-12 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl border-t border-[#141414]/10 pt-12">
+          <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="grid size-9 place-items-center overflow-hidden rounded-full bg-[#141414]">
+                  <Image
+                    src="/zencloudmedia-logo.png"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className="size-full object-cover"
+                  />
+                </span>
+                <span className="font-semibold">ZenCloudMedia</span>
+              </div>
+              <p className="mt-3 max-w-xs text-sm leading-6 text-[#5b534a]">
+                AI-assisted short-form reels for news, markets, science, and
+                everything in motion.
+              </p>
+            </div>
+
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a]">
+                Find me on
+              </p>
+              <div className="flex gap-3">
+                {socialLinks.map(({ name, href, Icon, accent }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className={`grid size-9 place-items-center rounded-full text-white transition hover:opacity-80 ${accent}`}
+                  >
+                    <Icon className="size-4" aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a]">
+                Contact
+              </p>
+              <a
+                href={`mailto:${contactEmail}`}
+                className="text-sm font-medium text-[#141414] transition hover:text-[#236b5d]"
+              >
+                {contactEmail}
+              </a>
+            </div>
+          </div>
+
+          <p className="mt-12 text-sm text-[#5b534a]">
+            © {new Date().getFullYear()} ZenCloudMedia. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

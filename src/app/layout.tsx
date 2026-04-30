@@ -12,10 +12,36 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://zencloudmedia.vercel.app";
+const description =
+  "Short-form news reels for AI, markets, science, space, world events, and oil prices. Clear sourced explainers built for the scroll.";
+
 export const metadata: Metadata = {
-  title: "ZenCloudMedia | Remotion Reels Studio",
-  description:
-    "A Remotion-powered reels hub for AI news, science, space, world events, oil markets, and short-form explainers.",
+  metadataBase: new URL(siteUrl),
+  title: "ZenCloudMedia | Short-Form News Reels",
+  description,
+  openGraph: {
+    title: "ZenCloudMedia | Short-Form News Reels",
+    description,
+    url: "/",
+    siteName: "ZenCloudMedia",
+    images: [
+      {
+        url: "/zencloudmedia-logo.png",
+        width: 2048,
+        height: 2048,
+        alt: "ZenCloudMedia",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ZenCloudMedia | Short-Form News Reels",
+    description,
+    images: ["/zencloudmedia-logo.png"],
+  },
 };
 
 export default function RootLayout({
