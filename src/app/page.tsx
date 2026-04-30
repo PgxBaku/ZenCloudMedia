@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Play, Radio, Sparkles, Waves } from "lucide-react";
+import { ArrowUpRight, Play, Radio, Sparkles } from "lucide-react";
 import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
 
 const socialLinks = [
@@ -60,8 +61,15 @@ export default function Home() {
         <div className="relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-7xl flex-col rounded-[28px] border border-[#141414]/10 bg-[#fbf7ef]/88 shadow-2xl shadow-[#24170b]/10 backdrop-blur">
           <nav className="flex items-center justify-between border-b border-[#141414]/10 px-5 py-4 sm:px-7">
             <Link href="/" className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-full bg-[#141414] text-[#f3efe6]">
-                <Waves className="size-5" aria-hidden="true" />
+              <span className="grid size-12 place-items-center overflow-hidden rounded-full border border-[#141414]/10 bg-[#141414] shadow-sm">
+                <Image
+                  src="/zencloudmedia-logo.png"
+                  alt="ZenCloudMedia logo"
+                  width={48}
+                  height={48}
+                  priority
+                  className="size-full object-cover"
+                />
               </span>
               <span className="text-lg font-semibold tracking-tight">
                 ZenCloudMedia
