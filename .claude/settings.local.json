@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm run *)",
       "Bash(git config *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(ffprobe *)",
+      "Bash(ffmpeg *)"
     ]
   }
 }

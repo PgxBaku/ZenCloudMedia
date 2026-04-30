@@ -5,12 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
-const contactEmail = "zen1cloud1@gmail.com";
+import { contactEmail } from "@/app/lib/constants";
 
 const navLinks = [
-  { label: "Reels", href: "#reels" },
-  { label: "Socials", href: "#socials" },
-  { label: "About", href: "#about" },
+  { label: "Reels", href: "#reels", mobileOnly: true },
+  { label: "Socials", href: "#socials", mobileOnly: false },
+  { label: "About", href: "#about", mobileOnly: false },
 ];
 
 export default function NavBar() {
@@ -36,7 +36,7 @@ export default function NavBar() {
         </Link>
 
         <div className="hidden items-center gap-6 text-sm font-medium text-[#4d463e] dark:text-[#b8b0a6] sm:flex">
-          {navLinks.map(({ label, href }) => (
+          {navLinks.filter((l) => !l.mobileOnly).map(({ label, href }) => (
             <a
               key={label}
               href={href}

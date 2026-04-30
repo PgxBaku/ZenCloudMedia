@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Play, Radio, Sparkles } from "lucide-react";
 import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
 import NavBar from "./components/NavBar";
+import { contactEmail } from "@/app/lib/constants";
 
 const socialLinks = [
   {
@@ -26,8 +27,6 @@ const socialLinks = [
     accent: "bg-[#111111] dark:bg-[#3d3d3d]",
   },
 ];
-
-const contactEmail = "zen1cloud1@gmail.com";
 
 const heroPhrases = [
   "Fast stories, clear reels, receipts included.",
@@ -175,7 +174,19 @@ export default function Home() {
               id="reels"
               className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white dark:bg-[#0d1210]"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(246,188,83,0.35),transparent_24%),radial-gradient(circle_at_82%_16%,rgba(65,151,133,0.4),transparent_25%),linear-gradient(145deg,#131817_0%,#20332f_45%,#e4d0ad_100%)]" />
+              {/* Drop hero-loop.mp4 into /public/reels/ to activate. Poster shows until then. */}
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/reels/world-conflict-smoke.jpg"
+                aria-hidden="true"
+                className="absolute inset-0 size-full object-cover opacity-40 motion-reduce:hidden"
+              >
+                <source src="/reels/hero-loop.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(246,188,83,0.35),transparent_24%),radial-gradient(circle_at_82%_16%,rgba(65,151,133,0.4),transparent_25%),linear-gradient(145deg,rgba(19,24,23,0.88)_0%,rgba(32,51,47,0.82)_45%,rgba(228,208,173,0.45)_100%)]" />
               <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:30px_30px]" />
               <div className="relative flex h-full min-h-[580px] flex-col justify-between">
                 <div className="flex items-center justify-between text-sm text-white/70">
