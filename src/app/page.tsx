@@ -30,12 +30,36 @@ const socialLinks = [
 const contactEmail = "zen1cloud1@gmail.com";
 
 const reelTracks = [
-  "AI News",
-  "Science",
-  "Space",
-  "World",
-  "Trump News",
-  "Oil Price Pulse",
+  {
+    title: "Oil Price Pulse",
+    tag: "Markets",
+    image: "/reels/oil-price-pulse-cover.jpeg",
+  },
+  {
+    title: "Three Pressures",
+    tag: "Energy",
+    image: "/reels/oil-price-pulse-pressures.jpeg",
+  },
+  {
+    title: "Hormuz Routes",
+    tag: "Geopolitics",
+    image: "/reels/oil-price-pulse-routes.jpeg",
+  },
+  {
+    title: "Night Briefing",
+    tag: "World",
+    image: "/reels/world-night-police.jpg",
+  },
+  {
+    title: "Conflict Watch",
+    tag: "Dispatch",
+    image: "/reels/world-conflict-smoke.jpg",
+  },
+  {
+    title: "Harbor Smoke",
+    tag: "Global",
+    image: "/reels/news-harbor-smoke.jpg",
+  },
 ];
 
 const principles = [
@@ -166,18 +190,30 @@ export default function Home() {
                 <div className="mx-auto grid w-full max-w-md grid-cols-3 gap-3">
                   {reelTracks.map((track, index) => (
                     <div
-                      key={track}
-                      className={`relative aspect-[9/16] overflow-hidden rounded-[20px] border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur ${
+                      key={track.title}
+                      className={`relative aspect-[9/16] overflow-hidden rounded-[20px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur ${
                         index % 2 === 0 ? "translate-y-8" : ""
                       }`}
                     >
-                      <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.28),transparent_42%),radial-gradient(circle_at_50%_30%,rgba(247,193,94,0.5),transparent_28%)]" />
-                      <div className="relative flex h-full flex-col justify-between">
-                        <span className="w-fit rounded-full bg-black/30 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]">
-                          {String(index + 1).padStart(2, "0")}
+                      <Image
+                        src={track.image}
+                        alt={`${track.title} reel still`}
+                        fill
+                        sizes="(min-width: 1024px) 140px, 28vw"
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.18)_42%,rgba(0,0,0,0.78))]" />
+                      <div className="relative flex h-full flex-col justify-between p-3">
+                        <span className="w-fit rounded-full bg-black/45 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur">
+                          {track.tag}
                         </span>
-                        <span className="text-sm font-semibold leading-tight">
-                          {track}
+                        <span>
+                          <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f6bc53]">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <span className="block text-sm font-semibold leading-tight text-white drop-shadow">
+                            {track.title}
+                          </span>
                         </span>
                       </div>
                     </div>
