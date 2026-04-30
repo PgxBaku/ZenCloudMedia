@@ -26,6 +26,8 @@ const socialLinks = [
   },
 ];
 
+const contactEmail = "zen1cloud1@gmail.com";
+
 const reelTracks = [
   "AI News",
   "Science",
@@ -74,6 +76,12 @@ export default function Home() {
               </a>
               <a href="#process" className="transition hover:text-[#141414]">
                 Process
+              </a>
+              <a
+                href={`mailto:${contactEmail}`}
+                className="rounded-full bg-[#141414] px-4 py-2 text-[#f3efe6] transition hover:bg-[#2f3f3a]"
+              >
+                Contact
               </a>
             </div>
           </nav>
@@ -125,6 +133,17 @@ export default function Home() {
                   </a>
                 ))}
               </div>
+
+              <a
+                href={`mailto:${contactEmail}`}
+                className="group flex w-fit items-center gap-3 rounded-full border border-[#141414]/10 bg-[#141414] px-5 py-3 text-sm font-semibold text-[#f3efe6] transition hover:bg-[#2f3f3a]"
+              >
+                Contact: {contactEmail}
+                <ArrowUpRight
+                  className="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </a>
             </div>
 
             <div className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white">

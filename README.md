@@ -2,6 +2,8 @@
 
 Standalone Next.js website prepared for GitHub and Vercel deployment.
 
+Contact: `zen1cloud1@gmail.com`
+
 ## Getting Started
 
 Install dependencies, then run the development server:
