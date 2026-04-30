@@ -23,7 +23,7 @@ const socialLinks = [
     label: "Catch the vertical cuts",
     href: "https://www.tiktok.com/@baku_retsu",
     Icon: FaTiktok,
-    accent: "bg-[#111111]",
+    accent: "bg-[#111111] dark:bg-[#3d3d3d]",
   },
 ];
 
@@ -98,16 +98,16 @@ const principles = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#f3efe6] text-[#141414]">
+    <main className="min-h-screen overflow-hidden bg-[#f3efe6] text-[#141414] dark:bg-[#111210] dark:text-[#f0ece4]">
       <section className="relative min-h-screen px-5 py-5 sm:px-8 lg:px-10">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.055)_1px,transparent_1px),linear-gradient(180deg,rgba(20,20,20,0.045)_1px,transparent_1px)] bg-[size:44px_44px]" />
-        <div className="relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-7xl flex-col rounded-[28px] border border-[#141414]/10 bg-[#fbf7ef]/88 shadow-2xl shadow-[#24170b]/10 backdrop-blur">
+        <div className="hero-grid absolute inset-0" />
+        <div className="relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-7xl flex-col rounded-[28px] border border-[#141414]/10 bg-[#fbf7ef]/88 shadow-2xl shadow-[#24170b]/10 backdrop-blur dark:border-[#f0ece4]/10 dark:bg-[#1c1a16]/88 dark:shadow-black/30">
           <NavBar />
 
           <div className="grid flex-1 gap-8 p-5 sm:p-7 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
             <div className="flex flex-col justify-between gap-12 py-0 lg:py-0">
               <div>
-                <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#236b5d]/25 bg-[#e3f0ea] px-4 py-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#236b5d]">
+                <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#236b5d]/25 bg-[#e3f0ea] px-4 py-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#236b5d] dark:border-[#4eb89f]/25 dark:bg-[#162420] dark:text-[#4eb89f]">
                   <Sparkles className="size-4" aria-hidden="true" />
                   Short-form news reels
                 </p>
@@ -122,7 +122,7 @@ export default function Home() {
                     </span>
                   ))}
                 </h1>
-                <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5b534a] sm:text-xl">
+                <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5b534a] dark:text-[#9e968c] sm:text-xl">
                   ZenCloudMedia is my publishing studio for AI-assisted news
                   reels, market explainers, science updates, and motion-lab
                   experiments built from a Remotion video pipeline.
@@ -136,7 +136,7 @@ export default function Home() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex min-h-28 flex-col justify-between rounded-2xl border border-[#141414]/10 bg-white/72 p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#141414]/25 hover:bg-white"
+                    className="group flex min-h-28 flex-col justify-between rounded-2xl border border-[#141414]/10 bg-white/72 p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#141414]/25 hover:bg-white dark:border-[#f0ece4]/10 dark:bg-[#2a2622] dark:hover:border-[#f0ece4]/25 dark:hover:bg-[#322e2a]"
                   >
                     <span
                       className={`grid size-11 place-items-center rounded-full text-white ${accent}`}
@@ -151,7 +151,7 @@ export default function Home() {
                           aria-hidden="true"
                         />
                       </span>
-                      <span className="mt-1 block text-sm leading-5 text-[#685f55]">
+                      <span className="mt-1 block text-sm leading-5 text-[#685f55] dark:text-[#9e968c]">
                         {label}
                       </span>
                     </span>
@@ -161,7 +161,7 @@ export default function Home() {
 
               <a
                 href={`mailto:${contactEmail}`}
-                className="group flex w-fit items-center gap-3 rounded-full border border-[#141414]/10 bg-[#141414] px-5 py-3 text-sm font-semibold text-[#f3efe6] transition hover:bg-[#2f3f3a]"
+                className="group flex w-fit items-center gap-3 rounded-full border border-[#141414]/10 bg-[#141414] px-5 py-3 text-sm font-semibold text-[#f3efe6] transition hover:bg-[#2f3f3a] dark:border-[#f0ece4]/10 dark:bg-[#f0ece4] dark:text-[#141414] dark:hover:bg-[#d9d5cc]"
               >
                 Contact: {contactEmail}
                 <ArrowUpRight
@@ -173,7 +173,7 @@ export default function Home() {
 
             <div
               id="reels"
-              className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white"
+              className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white dark:bg-[#0d1210]"
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(246,188,83,0.35),transparent_24%),radial-gradient(circle_at_82%_16%,rgba(65,151,133,0.4),transparent_25%),linear-gradient(145deg,#131817_0%,#20332f_45%,#e4d0ad_100%)]" />
               <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:30px_30px]" />
@@ -250,7 +250,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
             <div>
-              <p className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#236b5d]">
+              <p className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#236b5d] dark:text-[#4eb89f]">
                 <Radio className="size-4" aria-hidden="true" />
                 What the brand is about
               </p>
@@ -258,7 +258,7 @@ export default function Home() {
                 Clear reels for noisy topics.
               </h2>
             </div>
-            <p className="max-w-3xl text-lg leading-8 text-[#5b534a]">
+            <p className="max-w-3xl text-lg leading-8 text-[#5b534a] dark:text-[#9e968c]">
               ZenCloudMedia turns fast-moving material into short explainers
               that respect the viewer: direct framing, readable visuals, source
               awareness, and a repeatable motion identity across every channel.
@@ -269,10 +269,10 @@ export default function Home() {
             {principles.map((item) => (
               <article
                 key={item.title}
-                className="rounded-3xl border border-[#141414]/10 bg-[#fffaf1] p-6 shadow-sm"
+                className="rounded-3xl border border-[#141414]/10 bg-[#fffaf1] p-6 shadow-sm dark:border-[#f0ece4]/10 dark:bg-[#191612]"
               >
                 <h3 className="text-2xl font-semibold">{item.title}</h3>
-                <p className="mt-4 text-base leading-7 text-[#62594f]">
+                <p className="mt-4 text-base leading-7 text-[#62594f] dark:text-[#9e968c]">
                   {item.body}
                 </p>
               </article>
@@ -282,7 +282,7 @@ export default function Home() {
       </section>
 
       <footer className="px-5 pb-12 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-7xl border-t border-[#141414]/10 pt-12">
+        <div className="mx-auto max-w-7xl border-t border-[#141414]/10 pt-12 dark:border-[#f0ece4]/10">
           <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="flex items-center gap-3">
@@ -297,14 +297,14 @@ export default function Home() {
                 </span>
                 <span className="font-semibold">ZenCloudMedia</span>
               </div>
-              <p className="mt-3 max-w-xs text-sm leading-6 text-[#5b534a]">
+              <p className="mt-3 max-w-xs text-sm leading-6 text-[#5b534a] dark:text-[#9e968c]">
                 AI-assisted short-form reels for news, markets, science, and
                 everything in motion.
               </p>
             </div>
 
             <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a]">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a] dark:text-[#9e968c]">
                 Find me on
               </p>
               <div className="flex gap-3">
@@ -324,19 +324,19 @@ export default function Home() {
             </div>
 
             <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a]">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a] dark:text-[#9e968c]">
                 Contact
               </p>
               <a
                 href={`mailto:${contactEmail}`}
-                className="text-sm font-medium text-[#141414] transition hover:text-[#236b5d]"
+                className="text-sm font-medium text-[#141414] transition hover:text-[#236b5d] dark:text-[#f0ece4] dark:hover:text-[#4eb89f]"
               >
                 {contactEmail}
               </a>
             </div>
           </div>
 
-          <p className="mt-12 text-sm text-[#5b534a]">
+          <p className="mt-12 text-sm text-[#5b534a] dark:text-[#9e968c]">
             © {new Date().getFullYear()} ZenCloudMedia. All rights reserved.
           </p>
         </div>

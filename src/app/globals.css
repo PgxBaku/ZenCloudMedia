@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f3efe6;
+  --foreground: #141414;
+  --zcm-quote: #9a6b21;
 }
 
 @theme inline {
@@ -14,8 +15,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #111210;
+    --foreground: #f0ece4;
+    --zcm-quote: #c4943e;
   }
 }
 
@@ -23,6 +25,21 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(90deg, rgba(20, 20, 20, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(20, 20, 20, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-grid {
+    background-image:
+      linear-gradient(90deg, rgba(240, 236, 228, 0.07) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(240, 236, 228, 0.06) 1px, transparent 1px);
+  }
 }
 
 .hero-rotator {
@@ -33,7 +50,7 @@ body {
 
 .hero-rotator::before,
 .hero-rotator::after {
-  color: #9a6b21;
+  color: var(--zcm-quote);
   font-size: 0.95em;
   font-style: normal;
   font-weight: 700;
