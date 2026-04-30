@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ZenCloudMedia",
+  title: "ZenCloudMedia | Remotion Reels Studio",
   description:
-    "Strategy, content operations, and Vercel-ready websites for modern media teams.",
+    "A Remotion-powered reels hub for AI news, science, space, world events, oil markets, and short-form explainers.",
 };
 
 export default function RootLayout({
