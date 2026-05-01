@@ -1,0 +1,40 @@
+{
+  "id": "d5c39d2561ca",
+  "key": "pattern_zencloudmedia_build_bash_d5c39d",
+  "name": "pattern_zencloudmedia_build_bash_d5c39d",
+  "claim": "Ran: cd C:/git/ZenCloudMedia && npx tsc --noEmit 2>&1 && npm run build 2>&1 | tail -20",
+  "conditions": [
+    "bash",
+    "build",
+    "cmd",
+    "npm",
+    "out",
+    "ran",
+    "run",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-01T15:22:14.590626+00:00",
+    "2026-05-01T15:28:05.366924+00:00",
+    "2026-05-01T15:36:57.863426+00:00",
+    "2026-05-01T19:24:03.013884+00:00",
+    "2026-05-01T19:47:34.689503+00:00"
+  ],
+  "cluster_size": 5,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-01T19:47:40.559278+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-01T19:47:40.559278+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T19:49:07.512125+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}
