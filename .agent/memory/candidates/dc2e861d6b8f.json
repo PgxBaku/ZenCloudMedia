@@ -1,0 +1,115 @@
+{
+  "id": "dc2e861d6b8f",
+  "key": "pattern_pythoncodeprojects_linear-gradient_border-radius_dc2e86",
+  "name": "pattern_pythoncodeprojects_linear-gradient_border-radius_dc2e86",
+  "claim": "Wrote C:\\git\\PythonCodeProjects\\documentation\\projects\\ClaudeWork\\index.md (266 lines)",
+  "conditions": [
+    "background",
+    "border-radius",
+    "color",
+    "content",
+    "deg",
+    "file_path",
+    "font-size",
+    "git",
+    "linear-gradient",
+    "lines",
+    "margin-bottom",
+    "margin-top",
+    "padding",
+    "pythoncodeprojects",
+    "style",
+    "toc_",
+    "tosp_",
+    "white",
+    "write",
+    "wrote"
+  ],
+  "evidence_ids": [
+    "2026-04-30T23:23:33.903027+00:00",
+    "2026-05-01T14:49:27.178591+00:00",
+    "2026-05-01T15:03:06.630519+00:00"
+  ],
+  "cluster_size": 3,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-01T14:50:26.056825+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-01T14:50:26.056825+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:51:18.167730+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:55:39.508491+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:56:56.719531+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:57:52.704317+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:58:37.291447+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:59:02.856720+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:03:33.105501+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:08:06.052964+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:22:24.179487+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:28:09.704448+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:29:51.382955+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:34:07.575970+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:37:03.305903+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:38:23.324945+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

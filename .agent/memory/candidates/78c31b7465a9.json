@@ -1,0 +1,76 @@
+{
+  "id": "78c31b7465a9",
+  "key": "pattern_file_path_content_claude_78c31b",
+  "name": "pattern_file_path_content_claude_78c31b",
+  "claim": "Wrote C:\\Users\\pgx\\.claude\\projects\\C--git-ZenCloudMedia\\memory\\reference_ado_wiki_tools.md (16 lines)",
+  "conditions": [
+    "ado",
+    "claude",
+    "content",
+    "file_path",
+    "lines",
+    "pgx",
+    "skill",
+    "users",
+    "wiki",
+    "write",
+    "wrote"
+  ],
+  "evidence_ids": [
+    "2026-05-01T14:50:11.642013+00:00",
+    "2026-05-01T14:50:21.070988+00:00",
+    "2026-05-01T14:58:59.569098+00:00"
+  ],
+  "cluster_size": 3,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-01T14:59:02.857744+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-01T14:59:02.857744+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:03:33.108471+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:08:06.053918+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:22:24.182810+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:28:09.706834+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:29:51.384721+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:34:07.579893+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:37:03.307072+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T15:38:23.325936+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

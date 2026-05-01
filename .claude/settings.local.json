@@ -20,7 +20,13 @@
       "PowerShell(cd C:\\\\tools\\\\agentic-stack; $env:PYTHONIOENCODING = \"utf-8\"; .\\\\install.ps1 add gemini C:\\\\git\\\\ZenCloudMedia 2>&1)",
       "WebFetch(domain:bakuretsu.visualstudio.com)",
       "WebFetch(domain:dev.azure.com)",
-      "PowerShell(az devops *)"
+      "PowerShell(az devops *)",
+      "PowerShell($env:PATH -split \";\" | Where-Object { $_ -match \"python\" -or $_ -match \"Python\" })",
+      "PowerShell(Get-Command *)",
+      "Bash(xargs grep *)",
+      "Read(//c/Users/pgx/.claude//**)",
+      "Read(//c/Users/pgx/.claude/**)",
+      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UCLRh6px-vaZhFrcpehyt6zQ\")"
     ]
   }
 }

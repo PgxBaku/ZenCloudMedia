@@ -1,0 +1,68 @@
+{
+  "id": "6d4cf46c5aa6",
+  "key": "pattern_reference_ado_wiki_tools_c--git-zencloudmedia_omegalantern_6d4cf4",
+  "name": "pattern_reference_ado_wiki_tools_c--git-zencloudmedia_omegalantern_6d4cf4",
+  "claim": "Wrote C:\\Users\\pgx\\.claude\\projects\\C--git-ZenCloudMedia\\memory\\reference_ado_wiki_tools.md (16 lines)",
+  "conditions": [
+    "ado",
+    "c--git-zencloudmedia",
+    "claude",
+    "content",
+    "file_path",
+    "lines",
+    "live",
+    "memory",
+    "omegalantern",
+    "pgx",
+    "projects",
+    "reference_ado_wiki_tools",
+    "skill",
+    "tools",
+    "upload",
+    "users",
+    "wiki",
+    "write",
+    "wrote"
+  ],
+  "evidence_ids": [
+    "2026-05-01T14:50:11.642013+00:00",
+    "2026-05-01T14:50:21.070988+00:00"
+  ],
+  "cluster_size": 2,
+  "canonical_salience": 9.0,
+  "staged_at": "2026-05-01T14:50:26.058820+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-01T14:50:26.058820+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:51:18.205728+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:55:39.510753+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:56:56.723379+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:57:52.705360+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T14:58:37.292691+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

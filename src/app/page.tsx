@@ -3,12 +3,14 @@ import { ArrowUpRight, Play, Radio, Sparkles } from "lucide-react";
 import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
 import NavBar from "./components/NavBar";
 import { contactEmail } from "@/app/lib/constants";
+import { reelTracks } from "@/app/lib/reels";
+import { fetchYouTubeVideos, findVideo } from "@/app/lib/fetchYouTubeVideos";
 
 const socialLinks = [
   {
     name: "YouTube",
     label: "Watch the Shorts archive",
-    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
+    href: "https://www.youtube.com/@ZenCloud1Media/shorts",
     Icon: FaYoutube,
     accent: "bg-[#ff0033]",
   },
@@ -41,56 +43,6 @@ const heroPhrases = [
   "Fast context for news, markets, science, and everything in motion.",
 ];
 
-const reelTracks = [
-  {
-    title: "Oil Price Pulse",
-    tag: "Markets",
-    image: "/reels/oil-price-pulse-cover.jpeg",
-    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
-    PlatformIcon: FaYoutube,
-    platformClass: "bg-[#ff0033] text-white",
-  },
-  {
-    title: "Three Pressures",
-    tag: "Energy",
-    image: "/reels/oil-price-pulse-pressures.jpeg",
-    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
-    PlatformIcon: FaYoutube,
-    platformClass: "bg-[#ff0033] text-white",
-  },
-  {
-    title: "Hormuz Routes",
-    tag: "Geopolitics",
-    image: "/reels/oil-price-pulse-routes.jpeg",
-    href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
-    PlatformIcon: FaYoutube,
-    platformClass: "bg-[#ff0033] text-white",
-  },
-  {
-    title: "Night Briefing",
-    tag: "World",
-    image: "/reels/world-night-police.jpg",
-    href: "https://www.tiktok.com/@baku_retsu",
-    PlatformIcon: FaTiktok,
-    platformClass: "bg-[#111111] text-white",
-  },
-  {
-    title: "Conflict Watch",
-    tag: "Dispatch",
-    image: "/reels/world-conflict-smoke.jpg",
-    href: "https://www.tiktok.com/@baku_retsu",
-    PlatformIcon: FaTiktok,
-    platformClass: "bg-[#111111] text-white",
-  },
-  {
-    title: "Harbor Smoke",
-    tag: "Global",
-    image: "/reels/news-harbor-smoke.jpg",
-    href: "https://www.facebook.com/61573241866709",
-    PlatformIcon: FaFacebookF,
-    platformClass: "bg-[#1877f2] text-white",
-  },
-];
 
 const principles = [
   {
@@ -107,7 +59,20 @@ const principles = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const youtubeVideos = await fetchYouTubeVideos();
+  const resolvedTracks = reelTracks.map((track) => {
+    if (track.source === "youtube") {
+      const match = findVideo(youtubeVideos, track.titleKeyword);
+      return {
+        ...track,
+        href: match?.url ?? "https://www.youtube.com/@ZenCloud1Media/shorts",
+        image: match?.thumbnail || track.fallbackImage,
+      };
+    }
+    return { ...track, href: track.videoUrl, image: track.image };
+  });
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#f3efe6] text-[#141414] dark:bg-[#111210] dark:text-[#f0ece4]">
       <section className="relative min-h-screen px-5 py-5 sm:px-8 lg:px-10">
@@ -210,7 +175,7 @@ export default function Home() {
                 </div>
 
                 <div className="mx-auto grid w-full max-w-md grid-cols-3 gap-3">
-                  {reelTracks.map((track, index) => (
+                  {resolvedTracks.map((track, index) => (
                     <div
                       key={track.title}
                       className={`relative aspect-[9/16] ${
