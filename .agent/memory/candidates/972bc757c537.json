@@ -1,0 +1,33 @@
+{
+  "id": "972bc757c537",
+  "key": "pattern_zencloudmedia_claude-code_command_972bc7",
+  "name": "pattern_zencloudmedia_claude-code_command_972bc7",
+  "claim": "FAILURE in claude-code: Command failed: cd C:/git/ZenCloudMedia && npm install 2>&1 | tail -5",
+  "conditions": [
+    "bash",
+    "claude-code",
+    "command",
+    "failed",
+    "failure",
+    "git",
+    "install",
+    "npm",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-01T20:36:55.006488+00:00",
+    "2026-05-01T20:37:01.462384+00:00"
+  ],
+  "cluster_size": 2,
+  "canonical_salience": 9.6,
+  "staged_at": "2026-05-01T20:39:09.047106+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-01T20:39:09.047106+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}
