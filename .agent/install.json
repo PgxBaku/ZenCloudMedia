@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "agentic_stack_version": "0.12.0",
+  "abs_target": "C:\\git\\ZenCloudMedia",
+  "installed_at": "2026-04-30T23:09:37Z",
+  "adapters": {
+    "claude-code": {
+      "installed_at": "2026-04-30T23:05:23Z",
+      "files_written": [
+        ".claude/settings.json"
+      ],
+      "files_overwritten": [
+        "CLAUDE.md"
+      ],
+      "files_alerted": [],
+      "file_results": [
+        {
+          "dst": "CLAUDE.md",
+          "result": "written_overwrite"
+        },
+        {
+          "dst": ".claude/settings.json",
+          "result": "written_new"
+        }
+      ],
+      "post_install_results": [],
+      "brain_root_primitive": "$CLAUDE_PROJECT_DIR"
+    },
+    "codex": {
+      "installed_at": "2026-04-30T23:05:33Z",
+      "files_written": [],
+      "files_overwritten": [],
+      "files_alerted": [
+        "AGENTS.md"
+      ],
+      "file_results": [
+        {
+          "dst": "AGENTS.md",
+          "result": "merge_alert"
+        }
+      ],
+      "post_install_results": [],
+      "skills_link": {
+        "target": ".agent/skills",
+        "dst": ".agents/skills",
+        "fallback": "rsync_with_delete"
+      },
+      "skills_link_pre_existed": false
+    },
+    "gemini": {
+      "installed_at": "2026-04-30T23:09:37Z",
+      "files_written": [],
+      "files_overwritten": [
+        "gemini.md"
+      ],
+      "files_alerted": [],
+      "file_results": [
+        {
+          "dst": "gemini.md",
+          "result": "written_overwrite"
+        }
+      ],
+      "post_install_results": [],
+      "skills_link": {
+        "target": ".agent/skills",
+        "dst": ".gemini/skills",
+        "fallback": "rsync_with_delete"
+      },
+      "skills_link_pre_existed": false
+    }
+  }
+}

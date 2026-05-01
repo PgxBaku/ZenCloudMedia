@@ -5,7 +5,22 @@
       "Bash(git config *)",
       "Bash(python3 -c ' *)",
       "Bash(ffprobe *)",
-      "Bash(ffmpeg *)"
+      "Bash(ffmpeg *)",
+      "PowerShell(npm list *)",
+      "Bash(pip install *)",
+      "PowerShell($env:HERMES_HOME = \"C:\\\\Users\\\\pgx\\\\AppData\\\\Local\\\\hermes\"; python \"C:\\\\Users\\\\pgx\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\hermes_cli\\\\main.py\" chat 2>&1 | Select-Object -First 40)",
+      "PowerShell($env:HERMES_HOME = \"C:\\\\Users\\\\pgx\\\\AppData\\\\Local\\\\hermes\"; $env:PYTHONIOENCODING = \"utf-8\"; python \"C:\\\\Users\\\\pgx\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\hermes_cli\\\\main.py\" chat 2>&1 | Select-Object -First 60)",
+      "PowerShell($env:HERMES_HOME = \"C:\\\\Users\\\\pgx\\\\AppData\\\\Local\\\\hermes\"; $env:PYTHONIOENCODING = \"utf-8\"; python \"C:\\\\Users\\\\pgx\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\hermes_cli\\\\main.py\" chat 2>&1 | Select-Object -Last 30)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "PowerShell(git clone *)",
+      "PowerShell(cd C:\\\\tools\\\\agentic-stack; $env:PYTHONIOENCODING = \"utf-8\"; python harness_manager/cli.py doctor C:\\\\git\\\\ZenCloudMedia 2>&1)",
+      "PowerShell(cd C:\\\\tools\\\\agentic-stack; $env:PYTHONIOENCODING = \"utf-8\"; python -m harness_manager.cli doctor C:\\\\git\\\\ZenCloudMedia 2>&1)",
+      "PowerShell(cd C:\\\\tools\\\\agentic-stack; $env:PYTHONIOENCODING = \"utf-8\"; .\\\\install.ps1 add gemini C:\\\\git\\\\ZenCloudMedia 2>&1)",
+      "WebFetch(domain:bakuretsu.visualstudio.com)",
+      "WebFetch(domain:dev.azure.com)",
+      "PowerShell(az devops *)"
     ]
   }
 }

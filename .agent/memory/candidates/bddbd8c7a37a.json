@@ -1,0 +1,54 @@
+{
+  "id": "bddbd8c7a37a",
+  "key": "pattern_agentic-stack_file_path_content_bddbd8",
+  "name": "pattern_agentic-stack_file_path_content_bddbd8",
+  "claim": "Wrote C:\\git\\ZenCloudMedia\\gemini.md (69 lines)",
+  "conditions": [
+    "agentic-stack",
+    "content",
+    "file_path",
+    "gemini",
+    "lines",
+    "write",
+    "wrote"
+  ],
+  "evidence_ids": [
+    "2026-04-30T23:07:00.953866+00:00",
+    "2026-04-30T23:09:08.210199+00:00",
+    "2026-04-30T23:08:51.578333+00:00",
+    "2026-04-30T23:09:12.897538+00:00",
+    "2026-04-30T23:15:46.032584+00:00"
+  ],
+  "cluster_size": 5,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-04-30T23:09:51.422075+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-04-30T23:09:51.422075+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-04-30T23:11:41.889984+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-04-30T23:12:20.424226+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-04-30T23:15:55.722809+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-04-30T23:20:54.543724+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

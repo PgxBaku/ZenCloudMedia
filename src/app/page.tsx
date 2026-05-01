@@ -47,36 +47,48 @@ const reelTracks = [
     tag: "Markets",
     image: "/reels/oil-price-pulse-cover.jpeg",
     href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
+    PlatformIcon: FaYoutube,
+    platformClass: "bg-[#ff0033] text-white",
   },
   {
     title: "Three Pressures",
     tag: "Energy",
     image: "/reels/oil-price-pulse-pressures.jpeg",
     href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
+    PlatformIcon: FaYoutube,
+    platformClass: "bg-[#ff0033] text-white",
   },
   {
     title: "Hormuz Routes",
     tag: "Geopolitics",
     image: "/reels/oil-price-pulse-routes.jpeg",
     href: "https://www.youtube.com/channel/UCLRh6px-vaZhFrcpehyt6zQ",
+    PlatformIcon: FaYoutube,
+    platformClass: "bg-[#ff0033] text-white",
   },
   {
     title: "Night Briefing",
     tag: "World",
     image: "/reels/world-night-police.jpg",
     href: "https://www.tiktok.com/@baku_retsu",
+    PlatformIcon: FaTiktok,
+    platformClass: "bg-[#111111] text-white",
   },
   {
     title: "Conflict Watch",
     tag: "Dispatch",
     image: "/reels/world-conflict-smoke.jpg",
     href: "https://www.tiktok.com/@baku_retsu",
+    PlatformIcon: FaTiktok,
+    platformClass: "bg-[#111111] text-white",
   },
   {
     title: "Harbor Smoke",
     tag: "Global",
     image: "/reels/news-harbor-smoke.jpg",
     href: "https://www.facebook.com/61573241866709",
+    PlatformIcon: FaFacebookF,
+    platformClass: "bg-[#1877f2] text-white",
   },
 ];
 
@@ -110,10 +122,14 @@ export default function Home() {
                   <Sparkles className="size-4" aria-hidden="true" />
                   Short-form news reels
                 </p>
-                <h1 className="hero-rotator max-w-4xl pl-7 pr-4 text-4xl font-medium italic leading-tight tracking-tight sm:pl-10 sm:text-6xl lg:text-7xl">
+                <h1
+                  aria-label="Fast stories, clear reels, receipts included."
+                  className="hero-rotator max-w-4xl pl-7 pr-4 text-4xl font-medium italic leading-tight tracking-tight sm:pl-10 sm:text-6xl lg:text-7xl"
+                >
                   {heroPhrases.map((phrase, index) => (
                     <span
                       key={phrase}
+                      aria-hidden="true"
                       className="hero-phrase"
                       style={{ animationDelay: `${index * 3}s` }}
                     >
@@ -174,7 +190,6 @@ export default function Home() {
               id="reels"
               className="relative min-h-[620px] overflow-hidden rounded-[26px] bg-[#131817] p-5 text-white dark:bg-[#0d1210]"
             >
-              {/* Drop hero-loop.mp4 into /public/reels/ to activate. Poster shows until then. */}
               <video
                 autoPlay
                 muted
@@ -220,8 +235,22 @@ export default function Home() {
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.18)_42%,rgba(0,0,0,0.78))] transition duration-500 group-hover:bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.1)_42%,rgba(0,0,0,0.66))]" />
                         <div className="reel-card-shine absolute inset-y-0 -left-1/2 w-1/2 rotate-12 bg-white/18 blur-xl" />
                         <div className="relative flex h-full flex-col justify-between p-3">
-                          <span className="w-fit rounded-full bg-black/45 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur transition duration-500 group-hover:bg-[#f6bc53] group-hover:text-[#141414]">
-                            {track.tag}
+                          <span className="flex items-start justify-between gap-2">
+                            <span className="w-fit rounded-full bg-black/45 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur transition duration-500 group-hover:bg-[#f6bc53] group-hover:text-[#141414]">
+                              {track.tag}
+                            </span>
+                            <span
+                              className={`grid size-7 place-items-center rounded-full opacity-95 shadow-sm ring-1 ring-white/40 transition duration-500 group-hover:scale-110 group-hover:opacity-100 ${track.platformClass}`}
+                            >
+                              <track.PlatformIcon
+                                className="size-3.5"
+                                aria-hidden="true"
+                              />
+                              <ArrowUpRight
+                                className="absolute -right-0.5 -top-0.5 size-3 rounded-full bg-[#141414] p-0.5 text-white transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                aria-hidden="true"
+                              />
+                            </span>
                           </span>
                           <span>
                             <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f6bc53] transition duration-500 group-hover:text-white">

@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/zencloudmedia-logo.png",
-        width: 2048,
-        height: 2048,
+        width: 256,
+        height: 256,
         alt: "ZenCloudMedia",
       },
     ],
