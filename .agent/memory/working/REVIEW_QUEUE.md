@@ -10,7 +10,7 @@ Run `python .agent/tools/list_candidates.py` for detail, then:
 
 ## Priority order (top 10)
 
-- **436cd121700a** (priority=715.50, size=53, rejections=0) — Ran: find /c/git/PythonCodeProjects/_Credentials -type f 2>/dev/null; find /c/gi
+- **436cd121700a** (priority=756.00, size=56, rejections=0) — Ran: find /c/git/PythonCodeProjects/_Credentials -type f 2>/dev/null; find /c/gi
 - **ad99d04eae22** (priority=324.00, size=24, rejections=0) — Ran: find /c/git/PythonCodeProjects/_Credentials -type f 2>/dev/null; find /c/gi
 - **10d7a9a04f53** (priority=148.50, size=11, rejections=0) — Edited C:\git\ZenCloudMedia\.agent\memory\personal\PREFERENCES.md: replaced '# P
 - **2516fc14abe5** (priority=108.00, size=8, rejections=0) — Edited C:\Users\pgx\.claude\projects\c--git-PythonCodeProjects\memory\project_wi
