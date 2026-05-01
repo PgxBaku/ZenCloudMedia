@@ -1,17 +1,14 @@
-import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
-import type { IconType } from "react-icons";
-
 type BaseTrack = {
   title: string;
   tag: string;
-  PlatformIcon: IconType;
+  platform: "youtube" | "tiktok" | "facebook";
   platformClass: string;
 };
 
 export type ResolvedTrack = {
   title: string;
   tag: string;
-  PlatformIcon: IconType;
+  platform: "youtube" | "tiktok" | "facebook";
   platformClass: string;
   href: string;
   image: string;
@@ -28,7 +25,7 @@ export const reelTracks: ReelTrack[] = [
     source: "youtube",
     titleKeyword: "Trump",
     fallbackImage: "/reels/world-conflict-smoke.jpg",
-    PlatformIcon: FaYoutube,
+    platform: "youtube",
     platformClass: "bg-[#ff0033] text-white",
   },
   {
@@ -37,7 +34,7 @@ export const reelTracks: ReelTrack[] = [
     source: "youtube",
     titleKeyword: "Science",
     fallbackImage: "/reels/world-night-police.jpg",
-    PlatformIcon: FaYoutube,
+    platform: "youtube",
     platformClass: "bg-[#ff0033] text-white",
   },
   {
@@ -46,7 +43,7 @@ export const reelTracks: ReelTrack[] = [
     source: "youtube",
     titleKeyword: "AI",
     fallbackImage: "/reels/oil-price-pulse-cover.jpeg",
-    PlatformIcon: FaYoutube,
+    platform: "youtube",
     platformClass: "bg-[#ff0033] text-white",
   },
   {
@@ -55,7 +52,7 @@ export const reelTracks: ReelTrack[] = [
     source: "youtube",
     titleKeyword: "Gaming",
     fallbackImage: "/reels/oil-price-pulse-pressures.jpeg",
-    PlatformIcon: FaYoutube,
+    platform: "youtube",
     platformClass: "bg-[#ff0033] text-white",
   },
   {
@@ -64,7 +61,7 @@ export const reelTracks: ReelTrack[] = [
     source: "youtube",
     titleKeyword: "World",
     fallbackImage: "/reels/news-harbor-smoke.jpg",
-    PlatformIcon: FaYoutube,
+    platform: "youtube",
     platformClass: "bg-[#ff0033] text-white",
   },
   {
@@ -73,7 +70,7 @@ export const reelTracks: ReelTrack[] = [
     source: "manual",
     videoUrl: "https://www.youtube.com/@ZenCloud1Media/shorts",
     image: "/reels/oil-price-pulse-cover.jpeg",
-    PlatformIcon: FaYoutube,
+    platform: "youtube",
     platformClass: "bg-[#ff0033] text-white",
   },
 ];

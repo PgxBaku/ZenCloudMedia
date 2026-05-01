@@ -26,7 +26,13 @@
       "Bash(xargs grep *)",
       "Read(//c/Users/pgx/.claude//**)",
       "Read(//c/Users/pgx/.claude/**)",
-      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UCLRh6px-vaZhFrcpehyt6zQ\")"
+      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UCLRh6px-vaZhFrcpehyt6zQ\")",
+      "Bash(npx tsc *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git rm *)",
+      "Bash(npx eslint *)"
     ]
   }
 }

@@ -1,0 +1,42 @@
+{
+  "id": "10d7a9a04f53",
+  "key": "pattern_untitled_10d7a9",
+  "name": "pattern_untitled_10d7a9",
+  "claim": "Edited C:\\git\\ZenCloudMedia\\.agent\\memory\\personal\\PREFERENCES.md: replaced '# Personal Preferences\\n\\n> **Th' with '# Personal Preferences\\n\\n## Who'",
+  "conditions": [],
+  "evidence_ids": [
+    "2026-04-30T23:11:39.433763+00:00",
+    "2026-05-01T19:20:46.801713+00:00",
+    "2026-05-01T14:55:35.143971+00:00",
+    "2026-05-01T19:17:50.495277+00:00",
+    "2026-05-01T19:17:43.148771+00:00",
+    "2026-05-01T19:18:32.436775+00:00",
+    "2026-05-01T19:17:59.871889+00:00",
+    "2026-05-01T15:01:42.728015+00:00",
+    "2026-05-01T19:18:36.278174+00:00",
+    "2026-05-01T19:18:41.322556+00:00",
+    "2026-05-01T19:20:53.607283+00:00"
+  ],
+  "cluster_size": 11,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-01T19:21:00.987006+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-01T19:21:00.987006+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T19:22:28.704815+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T19:24:08.230253+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}
