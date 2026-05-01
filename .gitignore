@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# agent episodic memory — local runtime log, not needed across machines
+.agent/memory/episodic/
