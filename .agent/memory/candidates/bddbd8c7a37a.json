@@ -20,7 +20,7 @@
     "2026-04-30T23:15:46.032584+00:00"
   ],
   "cluster_size": 5,
-  "canonical_salience": 13.5,
+  "canonical_salience": 13.095,
   "staged_at": "2026-04-30T23:09:51.422075+00:00",
   "status": "staged",
   "decisions": [
@@ -351,6 +351,76 @@
     },
     {
       "ts": "2026-05-01T22:07:53.729046+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T22:42:45.320411+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-01T22:52:29.032415+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T13:58:47.534298+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T14:01:42.895408+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T14:09:53.224172+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T14:13:25.624948+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T14:32:57.307567+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T14:46:09.564890+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T14:54:02.015296+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T15:07:31.377581+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T15:07:43.838243+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T19:03:52.211354+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T19:07:42.173748+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T19:09:02.050426+00:00",
       "action": "staged",
       "reviewer": "auto_dream"
     }

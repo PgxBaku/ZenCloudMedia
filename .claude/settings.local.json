@@ -33,7 +33,14 @@
       "Bash(git push *)",
       "Bash(git rm *)",
       "Bash(npx eslint *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(curl *)",
+      "WebSearch",
+      "WebFetch(domain:www.mdpi.com)",
+      "WebFetch(domain:learnuake.org)",
+      "WebFetch(domain:www.hmongembroidery.org)",
+      "WebFetch(domain:diversityforum.wisc.edu)",
+      "WebFetch(domain:hmongmuseummn.org)"
     ]
   }
 }
