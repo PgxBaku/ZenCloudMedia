@@ -40,7 +40,9 @@
       "WebFetch(domain:learnuake.org)",
       "WebFetch(domain:www.hmongembroidery.org)",
       "WebFetch(domain:diversityforum.wisc.edu)",
-      "WebFetch(domain:hmongmuseummn.org)"
+      "WebFetch(domain:hmongmuseummn.org)",
+      "Bash(node -e \"require\\('@supabase/supabase-js'\\)\")",
+      "Bash(node *)"
     ]
   }
 }

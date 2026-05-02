@@ -1,0 +1,60 @@
+{
+  "id": "b7e990ebb6d1",
+  "key": "pattern_ilbmixmkmdshxdxsyege_create-table_claude-code_b7e990",
+  "name": "pattern_ilbmixmkmdshxdxsyege_create-table_claude-code_b7e990",
+  "claim": "FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST \"https://api.supabase.com/v1/projects/ilbmixmkmdshxdxsyege/database/query\" \\ | THIS SKILL HAS FAILED 3 TIMES IN 14d. Flag for rewrite.",
+  "conditions": [
+    "api",
+    "bash",
+    "claude-code",
+    "com",
+    "create-table",
+    "curl",
+    "datab",
+    "database",
+    "failed",
+    "failure",
+    "flag",
+    "high-stakes",
+    "https",
+    "ilbmixmkmdshxdxsyege",
+    "post",
+    "projects",
+    "query",
+    "rewrite",
+    "skill",
+    "supabase",
+    "times"
+  ],
+  "evidence_ids": [
+    "2026-05-02T19:46:48.929764+00:00",
+    "2026-05-02T19:52:44.271990+00:00"
+  ],
+  "cluster_size": 2,
+  "canonical_salience": 18.0,
+  "staged_at": "2026-05-02T19:53:02.949626+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-02T19:53:02.949626+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T19:53:40.993850+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T19:56:08.769173+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-02T19:57:43.664135+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

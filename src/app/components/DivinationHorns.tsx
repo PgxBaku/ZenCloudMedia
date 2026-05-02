@@ -10,6 +10,8 @@ import {
   SEVERITY_COLOR,
   type Outcome,
 } from "@/app/lib/divination";
+import { recordThrow } from "@/app/divination/actions";
+import DivinationGate from "./DivinationGate";
 
 // ── Local types ───────────────────────────────────────────────────────────
 
@@ -231,13 +233,21 @@ export default function DivinationHorns() {
   const [current,    setCurrent]    = useState<ThrowResult | null>(null);
   const [history,    setHistory]    = useState<ThrowResult[]>([]);
   const [throwCount, setThrowCount] = useState(0);
+  const [showGate,   setShowGate]   = useState(false);
   const [landPos,    setLandPos]    = useState<{ h1: LandPos; h2: LandPos }>({
     h1: { cx: 105, cy:  95, rot: -13, z: 1 },
     h2: { cx: 225, cy: 165, rot:   9, z: 2 },
   });
 
-  const throwHorns = useCallback(() => {
+  const throwHorns = useCallback(async () => {
     if (throwState === "throwing") return;
+
+    const { allowed } = await recordThrow();
+    if (!allowed) {
+      setShowGate(true);
+      return;
+    }
+
     const result = randomOutcome();
     setThrowCount((c) => c + 1);
     setThrowState("throwing");
@@ -264,6 +274,7 @@ export default function DivinationHorns() {
     f === "inside" ? "Inside" : f === "outside" ? "Outside" : f === "edge" ? "Standing" : "";
 
   return (
+    <>
     <div className="flex flex-col items-center gap-6 max-w-3xl mx-auto w-full">
 
       {/* Header */}
@@ -374,41 +385,32 @@ export default function DivinationHorns() {
       {/* Full-width separator — fixed position, always aligned */}
       <StepBand opacity={0.35} className="w-full" />
 
-      {/* Stats scoreboard — visible after first throw */}
-      {total > 0 && (
-        <div className="w-full grid grid-cols-4 gap-px border border-current/10">
-          {[
-            { count: positive, label: "Positive", color: "text-[var(--zcm-quote)]" },
-            { count: caution,  label: "Caution",  color: "text-amber-400"          },
-            { count: serious,  label: "Serious",  color: "text-rose-500"           },
-            { count: neutral,  label: "Neutral",  color: "text-zinc-400"           },
-          ].map(({ count, label, color }) => (
-            <div key={label} className="flex flex-col items-center gap-1 py-4 bg-current/[0.02]">
-              <span className={`text-3xl font-bold tabular-nums ${color}`}>{count}</span>
-              <span className="text-[10px] uppercase tracking-widest opacity-40">{label}</span>
-            </div>
-          ))}
-          <div className="col-span-4 flex justify-between items-center px-4 py-2 border-t border-current/10">
-            <span className="text-[10px] uppercase tracking-widest opacity-25">{total} throws</span>
-            <Link
-              href="/divination/dictionary"
-              className="text-[10px] uppercase tracking-widest opacity-25 hover:opacity-55 transition-opacity"
-            >
-              Condition Dictionary →
-            </Link>
+      {/* Stats scoreboard — always present to prevent layout shift */}
+      <div className="w-full grid grid-cols-4 gap-px border border-current/10">
+        {[
+          { count: positive, label: "Positive", color: "text-[var(--zcm-quote)]" },
+          { count: caution,  label: "Caution",  color: "text-amber-400"          },
+          { count: serious,  label: "Serious",  color: "text-rose-500"           },
+          { count: neutral,  label: "Neutral",  color: "text-zinc-400"           },
+        ].map(({ count, label, color }) => (
+          <div key={label} className="flex flex-col items-center gap-1 py-4 bg-current/[0.02]">
+            <span className={`text-3xl font-bold tabular-nums ${color}`}>{count}</span>
+            <span className="text-[10px] uppercase tracking-widest opacity-40">{label}</span>
           </div>
+        ))}
+        <div className="col-span-4 flex justify-between items-center px-4 py-2 border-t border-current/10">
+          <span className="text-[10px] uppercase tracking-widest opacity-25">{total} throws</span>
+          <Link
+            href="/divination/dictionary"
+            className="text-[10px] uppercase tracking-widest opacity-25 hover:opacity-55 transition-opacity"
+          >
+            Condition Dictionary →
+          </Link>
         </div>
-      )}
-
-      {/* Dictionary link before first throw */}
-      {total === 0 && (
-        <Link
-          href="/divination/dictionary"
-          className="text-[10px] uppercase tracking-widest opacity-25 hover:opacity-55 transition-opacity"
-        >
-          Condition Dictionary →
-        </Link>
-      )}
+      </div>
     </div>
+
+    {showGate && <DivinationGate onUnlock={() => setShowGate(false)} />}
+    </>
   );
 }
