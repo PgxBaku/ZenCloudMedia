@@ -42,7 +42,12 @@
       "WebFetch(domain:diversityforum.wisc.edu)",
       "WebFetch(domain:hmongmuseummn.org)",
       "Bash(node -e \"require\\('@supabase/supabase-js'\\)\")",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(python C:/git/PythonCodeProjects/documentation/uploader.py --help)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('path',''\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({**d.get\\('dependencies',{}\\), **d.get\\('devDependencies',{}\\)}, indent=2\\)\\)\")",
+      "Bash(npx supabase *)"
     ]
   }
 }

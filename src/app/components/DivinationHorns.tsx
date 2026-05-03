@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { DiamondBand, StepBand, SpiralPair, SnailSpiral } from "./PajNtaubDecor";
 import {
@@ -10,7 +10,7 @@ import {
   SEVERITY_COLOR,
   type Outcome,
 } from "@/app/lib/divination";
-import { recordThrow } from "@/app/divination/actions";
+import { recordThrow, redeemCode, lookupCode, type GateConfig, type SessionStatus } from "@/app/divination/actions";
 import DivinationGate from "./DivinationGate";
 
 // ── Local types ───────────────────────────────────────────────────────────
@@ -228,12 +228,124 @@ function AnatomyPrimer() {
 
 // ── Component ─────────────────────────────────────────────────────────────
 
-export default function DivinationHorns() {
-  const [throwState, setThrowState] = useState<ThrowState>("idle");
-  const [current,    setCurrent]    = useState<ThrowResult | null>(null);
-  const [history,    setHistory]    = useState<ThrowResult[]>([]);
-  const [throwCount, setThrowCount] = useState(0);
-  const [showGate,   setShowGate]   = useState(false);
+const SESSION_KEY = "divination-session";
+
+export default function DivinationHorns({
+  gateConfig,
+  sessionStatus: initialStatus,
+}: {
+  gateConfig:    GateConfig;
+  sessionStatus: SessionStatus;
+}) {
+  const [throwState,       setThrowState]       = useState<ThrowState>(() => {
+    if (typeof window === "undefined") return "idle";
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { history: ThrowResult[]; current: ThrowResult | null };
+        if (Array.isArray(saved.history) && saved.history.length > 0 && saved.current) return "landed";
+      }
+    } catch {}
+    return "idle";
+  });
+  const [current,          setCurrent]          = useState<ThrowResult | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { history: ThrowResult[]; current: ThrowResult | null };
+        return saved.current ?? null;
+      }
+    } catch {}
+    return null;
+  });
+  const [history,          setHistory]          = useState<ThrowResult[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { history: ThrowResult[]; current: ThrowResult | null };
+        if (Array.isArray(saved.history)) return saved.history;
+      }
+    } catch {}
+    return [];
+  });
+  const [throwCount,       setThrowCount]       = useState(() => {
+    if (typeof window === "undefined") return 0;
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { history: ThrowResult[] };
+        if (Array.isArray(saved.history)) return saved.history.length;
+      }
+    } catch {}
+    return 0;
+  });
+  const [showGate,         setShowGate]         = useState(false);
+  const sessionStatus                           = initialStatus;
+  const [serverThrowCount, setServerThrowCount] = useState(initialStatus.throwsToday);
+
+  // Corner code entry
+  const [codeOpen,     setCodeOpen]     = useState(false);
+  const [codeInput,    setCodeInput]    = useState("");
+  const [codeApplying, setCodeApplying] = useState(false);
+  const [codeChecking, setCodeChecking] = useState(false);
+  const [codeMsg,      setCodeMsg]      = useState<{ ok: boolean; text: string } | null>(null);
+
+  async function checkCornerCode() {
+    if (!codeInput.trim() || codeChecking) return;
+    setCodeChecking(true);
+    setCodeMsg(null);
+    const result = await lookupCode(codeInput);
+    setCodeChecking(false);
+    if (!result.found) {
+      setCodeMsg({ ok: false, text: "Code not found." });
+      return;
+    }
+    if (result.expired) {
+      setCodeMsg({ ok: false, text: "Expired." });
+      return;
+    }
+    if (!result.active) {
+      setCodeMsg({ ok: false, text: "Inactive." });
+      return;
+    }
+    if (result.spent) {
+      setCodeMsg({ ok: false, text: `Spent — ${result.useCount}/${result.maxUses} uses.` });
+      return;
+    }
+    const uses  = result.maxUses !== null ? `${result.useCount}/${result.maxUses} uses` : "unlimited uses";
+    const grant = result.tokenType === "throws"
+      ? `+${result.grantThrows} throws`
+      : `${result.grantDays}-day access`;
+    const exp   = result.expiresAt
+      ? `expires ${new Date(result.expiresAt).toLocaleDateString()}`
+      : "no expiry";
+    setCodeMsg({ ok: true, text: `Active · ${grant} · ${uses} · ${exp}` });
+  }
+
+  async function applyCornerCode() {
+    if (!codeInput.trim() || codeApplying) return;
+    setCodeApplying(true);
+    setCodeMsg(null);
+    const { success, message } = await redeemCode(codeInput);
+    setCodeMsg({ ok: success, text: message });
+    setCodeApplying(false);
+    if (success) {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.reload();
+      return;
+    }
+  }
+
+  // Persist after every throw
+  useEffect(() => {
+    if (history.length === 0) return;
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ history, current }));
+    } catch {}
+  }, [history, current]);
+
   const [landPos,    setLandPos]    = useState<{ h1: LandPos; h2: LandPos }>({
     h1: { cx: 105, cy:  95, rot: -13, z: 1 },
     h2: { cx: 225, cy: 165, rot:   9, z: 2 },
@@ -242,11 +354,12 @@ export default function DivinationHorns() {
   const throwHorns = useCallback(async () => {
     if (throwState === "throwing") return;
 
-    const { allowed } = await recordThrow();
+    const { allowed, count } = await recordThrow();
     if (!allowed) {
       setShowGate(true);
       return;
     }
+    setServerThrowCount(count);
 
     const result = randomOutcome();
     setThrowCount((c) => c + 1);
@@ -318,7 +431,7 @@ export default function DivinationHorns() {
                     <HornSVG face={face} uid={id} />
                   </div>
                   <div className="text-center mt-1">
-                    <span className="text-[10px] uppercase tracking-widest opacity-40">
+                    <span className="text-[10px] uppercase tracking-widest opacity-70">
                       {faceLabel(face)}
                     </span>
                   </div>
@@ -387,8 +500,51 @@ export default function DivinationHorns() {
 
       {/* Stats scoreboard — always present to prevent layout shift */}
       <div className="w-full grid grid-cols-4 gap-px border border-current/10">
+
+        {/* ── Session status row ── */}
+        {(() => {
+          const liveLeft =
+            sessionStatus.throwsLeft === null
+              ? null
+              : Math.max(0, (sessionStatus.throwsLimit ?? 0) - serverThrowCount);
+
+          const { lastCode, lastCodeType, accessDaysLeft, bonusThrowsToday } = sessionStatus;
+          const modeLabel = sessionStatus.mode === "bypass"
+            ? "Admin"
+            : [
+                lastCode ?? (sessionStatus.mode === "free" ? "Free" : null),
+                lastCodeType === "throws" && bonusThrowsToday > 0
+                  ? `+${bonusThrowsToday} throws`
+                  : null,
+                sessionStatus.mode === "access" && lastCodeType === "throws" && accessDaysLeft != null
+                  ? `access ${accessDaysLeft}d left`
+                  : sessionStatus.mode === "access" && lastCodeType === "access" && accessDaysLeft != null
+                  ? `${accessDaysLeft} day${accessDaysLeft !== 1 ? "s" : ""} left`
+                  : null,
+              ].filter(Boolean).join(" · ");
+
+          const throwsLimit = sessionStatus.throwsLimit ?? 0;
+          const throwsLabel =
+            liveLeft === null
+              ? "Unlimited"
+              : sessionStatus.bonusThrowsToday > 0 && sessionStatus.mode !== "access"
+              ? `${liveLeft} of ${throwsLimit} left today`
+              : `${liveLeft} throw${liveLeft !== 1 ? "s" : ""} left today`;
+
+          return (
+            <div className="col-span-4 flex justify-between items-center px-4 py-2.5 border-b border-current/10 bg-current/[0.015]">
+              <span className="text-[10px] uppercase tracking-widest opacity-40 font-mono">
+                {modeLabel}
+              </span>
+              <span className="text-[10px] uppercase tracking-widest opacity-30">
+                {throwsLabel}
+              </span>
+            </div>
+          );
+        })()}
+
         {[
-          { count: positive, label: "Positive", color: "text-[var(--zcm-quote)]" },
+          { count: positive, label: "Positive", color: "text-emerald-400"        },
           { count: caution,  label: "Caution",  color: "text-amber-400"          },
           { count: serious,  label: "Serious",  color: "text-rose-500"           },
           { count: neutral,  label: "Neutral",  color: "text-zinc-400"           },
@@ -410,7 +566,58 @@ export default function DivinationHorns() {
       </div>
     </div>
 
-    {showGate && <DivinationGate onUnlock={() => setShowGate(false)} />}
+    {/* ── Corner code entry ─────────────────────────────────────────────── */}
+    <div className="fixed top-4 right-4 z-40 flex flex-col items-end gap-2">
+      <button
+        onClick={() => { setCodeOpen((v) => !v); setCodeMsg(null); }}
+        className="text-[10px] uppercase tracking-widest opacity-50 hover:opacity-80 transition-opacity border border-current/40 px-3 py-1.5 bg-[var(--background)]"
+      >
+        {codeOpen ? "✕" : "↵ Code"}
+      </button>
+
+      {codeOpen && (
+        <div className="flex flex-col gap-2 border border-current/20 bg-[var(--background)] p-3 w-64 shadow-lg">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={codeInput}
+              onChange={(e) => { setCodeInput(e.target.value.toUpperCase()); setCodeMsg(null); }}
+              onKeyDown={(e) => e.key === "Enter" && applyCornerCode()}
+              placeholder="ZCM-XXXXXX"
+              spellCheck={false}
+              autoFocus
+              className="flex-1 min-w-0 bg-transparent border border-current/25 px-2 py-1.5 text-xs font-mono uppercase tracking-widest placeholder:opacity-25 focus:outline-none focus:border-[var(--zcm-quote)]/50"
+            />
+            <button
+              onClick={checkCornerCode}
+              disabled={!codeInput.trim() || codeChecking || codeApplying}
+              className="border border-current/20 px-2 py-1.5 text-[10px] uppercase tracking-widest opacity-60 hover:opacity-90 transition-opacity disabled:opacity-20 shrink-0"
+            >
+              {codeChecking ? "…" : "?"}
+            </button>
+            <button
+              onClick={applyCornerCode}
+              disabled={!codeInput.trim() || codeApplying || codeChecking}
+              className="border border-current/30 px-3 py-1.5 text-[10px] uppercase tracking-widest hover:opacity-70 transition-opacity disabled:opacity-25 shrink-0"
+            >
+              {codeApplying ? "…" : "Apply"}
+            </button>
+          </div>
+          {codeMsg && (
+            <p className={`text-[10px] leading-snug ${codeMsg.ok ? "text-emerald-400" : "text-rose-400"}`}>
+              {codeMsg.text}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+
+    {showGate && (
+      <DivinationGate
+        onUnlock={() => window.location.reload()}
+        config={gateConfig}
+      />
+    )}
     </>
   );
 }
