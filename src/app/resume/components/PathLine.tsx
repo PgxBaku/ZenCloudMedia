@@ -11,7 +11,7 @@ const PATH_DURATION =
 
 export default function PathLine() {
   return (
-    <svg
+    <motion.svg
       className="absolute left-0 z-[5] overflow-visible"
       style={{ width: 2600, height: 4, bottom: 148 }}
       viewBox="0 0 2600 4"
@@ -30,6 +30,6 @@ export default function PathLine() {
           ease: 'linear',
         }}
       />
-    </svg>
+    </motion.svg>
   )
 }

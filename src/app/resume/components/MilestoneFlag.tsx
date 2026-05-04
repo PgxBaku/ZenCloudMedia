@@ -1,7 +1,7 @@
 // src/app/resume/components/MilestoneFlag.tsx
 'use client'
 import { motion } from 'framer-motion'
-import { Milestone } from '../data/resume'
+import { Milestone, FlagStyle } from '../data/resume'
 
 type FlagTheme = {
   poleBg: string
@@ -15,7 +15,7 @@ type FlagTheme = {
   fontSize?: number
 }
 
-const THEMES: Record<string, FlagTheme> = {
+const THEMES: Record<FlagStyle, FlagTheme> = {
   slate: {
     poleBg: 'rgba(60,60,100,0.45)',
     flagBg: 'rgba(71,85,105,0.9)', flagText: '#e2e8f0',
