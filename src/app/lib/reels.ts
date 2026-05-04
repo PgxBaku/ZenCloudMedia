@@ -16,6 +16,7 @@ export type ResolvedTrack = {
 
 export type ReelTrack =
   | (BaseTrack & { source: "youtube"; titleKeyword: string; fallbackImage: string })
+  | (BaseTrack & { source: "tiktok"; fallbackImage: string })
   | (BaseTrack & { source: "manual"; videoUrl: string; image: string });
 
 export const reelTracks: ReelTrack[] = [
@@ -49,11 +50,11 @@ export const reelTracks: ReelTrack[] = [
   {
     title: "Gaming",
     tag: "Gaming",
-    source: "youtube",
-    titleKeyword: "Gaming",
-    fallbackImage: "/reels/oil-price-pulse-pressures.jpeg",
-    platform: "youtube",
-    platformClass: "bg-[#ff0033] text-white",
+    source: "manual",
+    videoUrl: "https://www.facebook.com/61573241866709",
+    image: "/reels/oil-price-pulse-pressures.jpeg",
+    platform: "facebook",
+    platformClass: "bg-[#1877f2] text-white",
   },
   {
     title: "World News",
@@ -67,10 +68,9 @@ export const reelTracks: ReelTrack[] = [
   {
     title: "Oil Price Pulse",
     tag: "Markets",
-    source: "manual",
-    videoUrl: "https://www.youtube.com/@ZenCloud1Media/shorts",
-    image: "/reels/oil-price-pulse-cover.jpeg",
-    platform: "youtube",
-    platformClass: "bg-[#ff0033] text-white",
+    source: "tiktok",
+    fallbackImage: "/reels/oil-price-pulse-cover.jpeg",
+    platform: "tiktok",
+    platformClass: "bg-[#111111] text-white",
   },
 ];

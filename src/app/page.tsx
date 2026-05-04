@@ -5,7 +5,8 @@ import NavBar from "./components/NavBar";
 import ReelCardsGrid from "./components/ReelCardsGrid";
 import { contactEmail } from "@/app/lib/constants";
 import { reelTracks } from "@/app/lib/reels";
-import { fetchYouTubeVideos, findVideo } from "@/app/lib/fetchYouTubeVideos";
+import { fetchYouTubeVideos } from "@/app/lib/fetchYouTubeVideos";
+import { fetchTikTokVideos } from "@/app/lib/fetchTikTokVideos";
 
 const socialLinks = [
   {
@@ -60,19 +61,55 @@ const principles = [
   },
 ];
 
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export default async function Home() {
-  const youtubeVideos = await fetchYouTubeVideos();
-  const resolvedTracks = reelTracks.map((track) => {
+  const [youtubeVideos, tiktokVideos] = await Promise.all([
+    fetchYouTubeVideos(),
+    fetchTikTokVideos(),
+  ]);
+
+  // Resolve each track and record how recent its match is (lower index = newer).
+  // Manual tracks and misses get matchIndex -1.
+  const withIndex = reelTracks.map((track) => {
     if (track.source === "youtube") {
-      const match = findVideo(youtubeVideos, track.titleKeyword);
+      const lower = track.titleKeyword.toLowerCase();
+      const matchIndex = youtubeVideos.findIndex((e) =>
+        e.title.toLowerCase().includes(lower)
+      );
+      const match = matchIndex >= 0 ? youtubeVideos[matchIndex] : undefined;
       return {
         ...track,
         href: match?.url ?? "https://www.youtube.com/@ZenCloud1Media/shorts",
         image: match?.thumbnail || track.fallbackImage,
+        matchIndex,
       };
     }
-    return { ...track, href: track.videoUrl, image: track.image };
+    if (track.source === "tiktok") {
+      const latest = tiktokVideos[0];
+      return {
+        ...track,
+        href: latest?.url ?? "https://www.tiktok.com/@baku_retsu",
+        image: latest?.thumbnail || track.fallbackImage,
+        matchIndex: latest ? 0 : -1,
+      };
+    }
+    return { ...track, href: track.videoUrl, image: track.image, matchIndex: -1 };
   });
+
+  // Recent matches first (ascending index = newest → oldest), then shuffle the rest.
+  const matched = [...withIndex.filter((t) => t.matchIndex >= 0)].sort(
+    (a, b) => a.matchIndex - b.matchIndex
+  );
+  const unmatched = shuffle(withIndex.filter((t) => t.matchIndex === -1));
+  const resolvedTracks = [...matched, ...unmatched];
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#f3efe6] text-[#141414] dark:bg-[#111210] dark:text-[#f0ece4]">

@@ -1,0 +1,39 @@
+{
+  "id": "fea108681e1b",
+  "key": "pattern_agentic-stack_file_path_content_fea108",
+  "name": "pattern_agentic-stack_file_path_content_fea108",
+  "claim": "Wrote C:\\tools\\agentic-stack\\adapters\\gemini\\gemini.md (64 lines)",
+  "conditions": [
+    "agentic-stack",
+    "content",
+    "file_path",
+    "gemini",
+    "lines",
+    "write",
+    "wrote"
+  ],
+  "evidence_ids": [
+    "2026-04-30T23:07:00.953866+00:00",
+    "2026-04-30T23:09:08.210199+00:00",
+    "2026-04-30T23:08:51.578333+00:00",
+    "2026-04-30T23:09:12.897538+00:00",
+    "2026-04-30T23:15:46.032584+00:00"
+  ],
+  "cluster_size": 5,
+  "canonical_salience": 12.690000000000001,
+  "staged_at": "2026-05-03T23:07:16.600854+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-03T23:07:16.600854+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-03T23:07:38.520591+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

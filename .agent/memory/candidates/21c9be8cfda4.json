@@ -1,0 +1,52 @@
+{
+  "id": "21c9be8cfda4",
+  "key": "pattern_pythoncodeprojects_documentation_zencloudmedia_21c9be",
+  "name": "pattern_pythoncodeprojects_documentation_zencloudmedia_21c9be",
+  "claim": "Edited C:\\git\\PythonCodeProjects\\documentation\\projects\\ZenCloudMedia\\divination-overview.md: replaced '### <span style=\"color:darksla' with '### <span style=\"color:darksla'",
+  "conditions": [
+    "color",
+    "documentation",
+    "edit",
+    "edited",
+    "file_path",
+    "git",
+    "old_string",
+    "projects",
+    "pythoncodeprojects",
+    "replaced",
+    "span",
+    "style",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-03T16:34:11.514792+00:00",
+    "2026-05-03T16:34:18.552508+00:00"
+  ],
+  "cluster_size": 2,
+  "canonical_salience": 9.0,
+  "staged_at": "2026-05-03T16:34:35.524205+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-03T16:34:35.524205+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-03T16:35:54.417891+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-03T16:36:14.131311+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-03T16:36:34.853240+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

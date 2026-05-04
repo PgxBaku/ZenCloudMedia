@@ -48,14 +48,22 @@ export default async function AdminPage() {
           <p className="text-[10px] uppercase tracking-widest opacity-40">ZenCloudMedia</p>
           <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
         </div>
-        <form action={adminLogout}>
-          <button
-            type="submit"
+        <div className="flex items-center gap-3">
+          <a
+            href="/divination?gate=1"
             className="text-xs uppercase tracking-widest border border-current/30 px-4 py-2 hover:opacity-70 transition-opacity"
           >
-            Logout
-          </button>
-        </form>
+            Divination
+          </a>
+          <form action={adminLogout}>
+            <button
+              type="submit"
+              className="text-xs uppercase tracking-widest border border-current/30 px-4 py-2 hover:opacity-70 transition-opacity"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* ── Configuration ───────────────────────────────────── */}
@@ -231,7 +239,7 @@ export default async function AdminPage() {
                     <td className="py-2 pr-4 whitespace-nowrap">
                       {t.token_type === "access"
                         ? `${t.grant_days ?? "—"}d`
-                        : `+${t.grant_throws ?? "—"} throws`}
+                        : t.grant_throws != null ? `+${t.grant_throws} throws` : "+default throws"}
                     </td>
                     <td className="py-2 pr-4 whitespace-nowrap">
                       {t.use_count}{t.max_uses != null ? `/${t.max_uses}` : ""}

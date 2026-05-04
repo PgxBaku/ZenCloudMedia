@@ -233,9 +233,11 @@ const SESSION_KEY = "divination-session";
 export default function DivinationHorns({
   gateConfig,
   sessionStatus: initialStatus,
+  forceGate = false,
 }: {
   gateConfig:    GateConfig;
   sessionStatus: SessionStatus;
+  forceGate?:    boolean;
 }) {
   const [throwState,       setThrowState]       = useState<ThrowState>(() => {
     if (typeof window === "undefined") return "idle";
@@ -281,7 +283,7 @@ export default function DivinationHorns({
     } catch {}
     return 0;
   });
-  const [showGate,         setShowGate]         = useState(false);
+  const [showGate,         setShowGate]         = useState(forceGate);
   const sessionStatus                           = initialStatus;
   const [serverThrowCount, setServerThrowCount] = useState(initialStatus.throwsToday);
 
@@ -407,7 +409,7 @@ export default function DivinationHorns({
 
         {/* Left — throw stage */}
         <div className="flex flex-col items-center gap-5 py-4 md:pr-8">
-          <div className="relative w-[340px] h-[210px] mx-auto">
+          <div className="relative w-[340px] h-[210px] mx-auto overflow-visible">
             {(["h1", "h2"] as const).map((id) => {
               const pos  = landPos[id];
               const face = id === "h1" ? h1Face : h2Face;
@@ -576,7 +578,7 @@ export default function DivinationHorns({
       </button>
 
       {codeOpen && (
-        <div className="flex flex-col gap-2 border border-current/20 bg-[var(--background)] p-3 w-64 shadow-lg">
+        <div className="flex flex-col gap-2 border border-current/20 bg-[var(--background)] p-3 w-64 max-w-[calc(100vw-32px)] shadow-lg">
           <div className="flex gap-2">
             <input
               type="text"
@@ -615,6 +617,7 @@ export default function DivinationHorns({
     {showGate && (
       <DivinationGate
         onUnlock={() => window.location.reload()}
+        onClose={() => forceGate ? window.history.back() : setShowGate(false)}
         config={gateConfig}
       />
     )}

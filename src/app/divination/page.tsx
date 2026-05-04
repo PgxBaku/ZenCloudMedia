@@ -8,14 +8,23 @@ export const metadata: Metadata = {
     "Virtual Hmong ritual horn divination. Throw a split pair of buffalo horns and receive the spirits' answer.",
 };
 
-export default async function DivinationPage() {
-  const [gateConfig, sessionStatus] = await Promise.all([
+export default async function DivinationPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ gate?: string }>;
+}) {
+  const [gateConfig, sessionStatus, params] = await Promise.all([
     getGateConfig(),
     getSessionStatus(),
+    searchParams,
   ]);
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16">
-      <DivinationHorns gateConfig={gateConfig} sessionStatus={sessionStatus} />
+    <main className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-16 overflow-x-hidden">
+      <DivinationHorns
+        gateConfig={gateConfig}
+        sessionStatus={sessionStatus}
+        forceGate={params.gate === "1"}
+      />
     </main>
   );
 }

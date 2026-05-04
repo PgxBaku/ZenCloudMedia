@@ -32,9 +32,11 @@ type ActionState = "idle" | "loading" | "code-ready";
 
 export default function DivinationGate({
   onUnlock,
+  onClose,
   config,
 }: {
   onUnlock: () => void;
+  onClose?: () => void;
   config:   GateConfig;
 }) {
   const [videoExpanded, setVideoExpanded] = useState(false);
@@ -109,7 +111,19 @@ export default function DivinationGate({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-8 overflow-y-auto">
-      <div className="max-w-sm w-full flex flex-col gap-5 border border-current/20 bg-[var(--background)] p-8 my-auto">
+      <div className="max-w-sm w-full flex flex-col gap-5 border border-current/20 bg-[var(--background)] p-5 sm:p-8 my-auto">
+
+        {/* Close button */}
+        {onClose && (
+          <div className="flex justify-end -mb-2">
+            <button
+              onClick={onClose}
+              className="text-[10px] uppercase tracking-widest opacity-30 hover:opacity-70 transition-opacity"
+            >
+              ✕ Close
+            </button>
+          </div>
+        )}
 
         {/* Header */}
         <div className="flex flex-col items-center gap-3 text-center">
@@ -194,7 +208,7 @@ export default function DivinationGate({
                   key={keyword}
                   onClick={() => handleVideo(keyword)}
                   disabled={busy || loadingCat !== null}
-                  className="text-[11px] uppercase tracking-widest border border-current/25 px-3 py-1.5 hover:border-[var(--zcm-quote)]/60 hover:text-[var(--zcm-quote)] transition-colors disabled:opacity-30 min-w-[60px] text-center"
+                  className="text-[11px] uppercase tracking-widest border border-current/25 px-3 py-2.5 sm:py-1.5 hover:border-[var(--zcm-quote)]/60 hover:text-[var(--zcm-quote)] transition-colors disabled:opacity-30 min-w-[60px] text-center"
                 >
                   {loadingCat === keyword ? "…" : label}
                 </button>
@@ -214,7 +228,7 @@ export default function DivinationGate({
               </p>
             </div>
           </div>
-          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] uppercase tracking-widest border border-current/25 px-2 py-0.5">
+          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-widest border border-current/25 px-2 py-0.5">
             Coming Soon
           </span>
         </div>

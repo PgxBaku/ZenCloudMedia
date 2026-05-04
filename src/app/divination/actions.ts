@@ -3,7 +3,7 @@
 import { headers, cookies } from "next/headers";
 import { createServerClient } from "@/app/lib/supabase-server";
 import { fetchYouTubeVideos, findVideo } from "@/app/lib/fetchYouTubeVideos";
-import { sendDivinationCode, sendThrowsCode } from "@/app/lib/email";
+import { sendDivinationCode, sendThrowsCode, sendErrorAlert } from "@/app/lib/email";
 
 const CHANNEL_FALLBACK = "https://www.youtube.com/@ZenCloud1Media/shorts";
 
@@ -250,34 +250,39 @@ export async function recordThrow(): Promise<{
 }> {
   if (await hasBypass()) return { allowed: true, count: 0 };
 
-  const ip           = await getClientIP();
-  const db           = createServerClient();
-  const config       = await getGateConfig();
-  const date         = today();
-  const isAccessUser = await hasMultiDayAccess(ip);
+  const ip = await getClientIP();
+  try {
+    const db           = createServerClient();
+    const config       = await getGateConfig();
+    const date         = today();
+    const isAccessUser = await hasMultiDayAccess(ip);
 
-  const { data } = await db
-    .from("divination_throws")
-    .select("count, unlocked, bonus")
-    .eq("ip", ip)
-    .eq("throw_date", date)
-    .maybeSingle();
+    const { data } = await db
+      .from("divination_throws")
+      .select("count, unlocked, bonus")
+      .eq("ip", ip)
+      .eq("throw_date", date)
+      .maybeSingle();
 
-  const count    = data?.count    ?? 0;
-  const unlocked = data?.unlocked ?? false;
-  const bonus    = data?.bonus    ?? 0;
-  const limit    = isAccessUser ? config.accessDailyLimit : (config.dailyLimit + bonus);
+    const count    = data?.count    ?? 0;
+    const unlocked = data?.unlocked ?? false;
+    const bonus    = data?.bonus    ?? 0;
+    const limit    = isAccessUser ? config.accessDailyLimit : (config.dailyLimit + bonus);
 
-  if (count >= limit && !unlocked) {
-    return { allowed: false, count };
+    if (count >= limit && !unlocked) {
+      return { allowed: false, count };
+    }
+
+    const newCount = count + 1;
+    await db.from("divination_throws").upsert(
+      { ip, throw_date: date, count: newCount, unlocked, bonus },
+      { onConflict: "ip,throw_date" },
+    );
+    return { allowed: true, count: newCount };
+  } catch (err) {
+    await sendErrorAlert(err, { fn: "recordThrow", ip, extra: { date: today() } });
+    return { allowed: false, count: 0 };
   }
-
-  const newCount = count + 1;
-  await db.from("divination_throws").upsert(
-    { ip, throw_date: date, count: newCount, unlocked, bonus },
-    { onConflict: "ip,throw_date" },
-  );
-  return { allowed: true, count: newCount };
 }
 
 // ── Token generation (one per action click) ───────────────────────────────
@@ -286,49 +291,60 @@ export async function generateActionToken(
   action: "donate" | "video" | "shirt",
   email?: string,
 ): Promise<string> {
-  const config = await getGateConfig();
-  const db     = createServerClient();
+  try {
+    const config = await getGateConfig();
+    const db     = createServerClient();
 
-  const isThrows  = action === "video";
-  const grantDays = !isThrows
-    ? (action === "shirt" ? config.shirtAccessDays : config.donateAccessDays)
-    : null;
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 7); // 7 days to redeem
+    const isThrows  = action === "video";
+    const grantDays = !isThrows
+      ? (action === "shirt" ? config.shirtAccessDays : config.donateAccessDays)
+      : null;
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
 
-  let code = generateCode();
-  const { data: existing } = await db
-    .from("divination_tokens")
-    .select("id")
-    .eq("code", code)
-    .maybeSingle();
-  if (existing) code = generateCode();
+    let code = generateCode();
+    const { data: existing } = await db
+      .from("divination_tokens")
+      .select("id")
+      .eq("code", code)
+      .maybeSingle();
+    if (existing) code = generateCode();
 
-  await db.from("divination_tokens").insert({
-    code,
-    label:        `Auto: ${action}`,
-    max_uses:     1,
-    token_type:   isThrows ? "throws" : "access",
-    grant_throws: isThrows ? config.videoBonusThrows : null,
-    grant_days:   grantDays,
-    expires_at:   expiresAt.toISOString(),
-    active:       true,
-    email:        email ?? null,
-  });
+    await db.from("divination_tokens").insert({
+      code,
+      label:        `Auto: ${action}`,
+      max_uses:     1,
+      token_type:   isThrows ? "throws" : "access",
+      grant_throws: isThrows ? config.videoBonusThrows : null,
+      grant_days:   grantDays,
+      expires_at:   expiresAt.toISOString(),
+      active:       true,
+      email:        email ?? null,
+    });
 
-  if (email) {
-    try {
-      if (isThrows) {
-        await sendThrowsCode(email, code, config.videoBonusThrows);
-      } else if (grantDays) {
-        await sendDivinationCode(email, code, grantDays);
+    if (email) {
+      try {
+        if (isThrows) {
+          await sendThrowsCode(email, code, config.videoBonusThrows);
+        } else if (grantDays) {
+          await sendDivinationCode(email, code, grantDays);
+        }
+      } catch (err) {
+        await sendErrorAlert(err, {
+          fn: "generateActionToken", action,
+          extra: { emailProvided: !!email, code, grantDays, isThrows },
+        });
       }
-    } catch (err) {
-      console.error("Failed to send code email:", err);
     }
-  }
 
-  return code;
+    return code;
+  } catch (err) {
+    await sendErrorAlert(err, {
+      fn: "generateActionToken", action,
+      extra: { emailProvided: !!email },
+    });
+    throw err;
+  }
 }
 
 // ── Code redemption ───────────────────────────────────────────────────────
@@ -338,69 +354,74 @@ export async function redeemCode(
 ): Promise<{ success: boolean; message: string }> {
   if (await hasBypass()) return { success: true, message: "Already unlocked." };
 
-  const ip     = await getClientIP();
-  const db     = createServerClient();
-  const config = await getGateConfig();
+  const ip = await getClientIP();
+  try {
+    const db     = createServerClient();
+    const config = await getGateConfig();
 
-  const { data: token } = await db
-    .from("divination_tokens")
-    .select("id, active, max_uses, use_count, expires_at, token_type, grant_days, grant_throws")
-    .eq("code", code.toUpperCase().trim())
-    .maybeSingle();
-
-  if (!token)                    return { success: false, message: "Invalid code." };
-  if (!token.active)             return { success: false, message: "This code is no longer active." };
-  if (token.expires_at && new Date(token.expires_at) < new Date())
-                                 return { success: false, message: "This code has expired." };
-  if (token.max_uses !== null && token.use_count >= token.max_uses)
-                                 return { success: false, message: "This code has already been used." };
-
-  const { data: alreadyUsed } = await db
-    .from("divination_token_uses")
-    .select("ip")
-    .eq("token_id", token.id)
-    .eq("ip", ip)
-    .maybeSingle();
-  if (alreadyUsed) return { success: false, message: "You have already redeemed this code." };
-
-  // Record use + increment count
-  await db.from("divination_token_uses").insert({ token_id: token.id, ip });
-  await db.from("divination_tokens")
-    .update({ use_count: token.use_count + 1 })
-    .eq("id", token.id);
-
-  if (token.token_type === "throws") {
-    // Grant bonus throws today
-    const date  = today();
-    const { data: row } = await db
-      .from("divination_throws")
-      .select("count, unlocked, bonus")
-      .eq("ip", ip)
-      .eq("throw_date", date)
+    const { data: token } = await db
+      .from("divination_tokens")
+      .select("id, active, max_uses, use_count, expires_at, token_type, grant_days, grant_throws")
+      .eq("code", code.toUpperCase().trim())
       .maybeSingle();
 
-    const bonus = (row?.bonus ?? 0) + (token.grant_throws ?? config.videoBonusThrows);
-    await db.from("divination_throws").upsert(
-      { ip, throw_date: date, count: row?.count ?? 0, unlocked: row?.unlocked ?? false, bonus },
-      { onConflict: "ip,throw_date" },
-    );
-    return {
-      success: true,
-      message: `+${token.grant_throws ?? config.videoBonusThrows} throws added — continue your reading.`,
-    };
-  } else {
-    // Grant multi-day access
-    const days      = token.grant_days ?? config.donateAccessDays;
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + days);
-    await db.from("divination_access").upsert(
-      { ip, expires_at: expiresAt.toISOString(), tier: "token" },
-      { onConflict: "ip" },
-    );
-    return {
-      success: true,
-      message: `Access granted for ${days} day${days !== 1 ? "s" : ""} — continue your reading.`,
-    };
+    if (!token)                    return { success: false, message: "Invalid code." };
+    if (!token.active)             return { success: false, message: "This code is no longer active." };
+    if (token.expires_at && new Date(token.expires_at) < new Date())
+                                   return { success: false, message: "This code has expired." };
+    if (token.max_uses !== null && token.use_count >= token.max_uses)
+                                   return { success: false, message: "This code has already been used." };
+
+    const { data: alreadyUsed } = await db
+      .from("divination_token_uses")
+      .select("ip")
+      .eq("token_id", token.id)
+      .eq("ip", ip)
+      .maybeSingle();
+    if (alreadyUsed) return { success: false, message: "You have already redeemed this code." };
+
+    await db.from("divination_token_uses").insert({ token_id: token.id, ip });
+    await db.from("divination_tokens")
+      .update({ use_count: token.use_count + 1 })
+      .eq("id", token.id);
+
+    if (token.token_type === "throws") {
+      const date  = today();
+      const { data: row } = await db
+        .from("divination_throws")
+        .select("count, unlocked, bonus")
+        .eq("ip", ip)
+        .eq("throw_date", date)
+        .maybeSingle();
+
+      const bonus = (row?.bonus ?? 0) + (token.grant_throws ?? config.videoBonusThrows);
+      await db.from("divination_throws").upsert(
+        { ip, throw_date: date, count: row?.count ?? 0, unlocked: row?.unlocked ?? false, bonus },
+        { onConflict: "ip,throw_date" },
+      );
+      return {
+        success: true,
+        message: `+${token.grant_throws ?? config.videoBonusThrows} throws added — continue your reading.`,
+      };
+    } else {
+      const days      = token.grant_days ?? config.donateAccessDays;
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + days);
+      await db.from("divination_access").upsert(
+        { ip, expires_at: expiresAt.toISOString(), tier: "token" },
+        { onConflict: "ip" },
+      );
+      return {
+        success: true,
+        message: `Access granted for ${days} day${days !== 1 ? "s" : ""} — continue your reading.`,
+      };
+    }
+  } catch (err) {
+    await sendErrorAlert(err, {
+      fn: "redeemCode", ip, code,
+      extra: { date: today() },
+    });
+    return { success: false, message: "Something went wrong. Please try again." };
   }
 }
 

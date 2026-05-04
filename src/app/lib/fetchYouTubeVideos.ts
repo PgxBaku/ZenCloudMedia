@@ -9,7 +9,11 @@ export type YouTubeEntry = {
 
 export async function fetchYouTubeVideos(): Promise<YouTubeEntry[]> {
   try {
-    const res = await fetch(CHANNEL_RSS, { next: { revalidate: 3600 } });
+    const fetchOpts =
+      process.env.NODE_ENV === "development"
+        ? { cache: "no-store" as const }
+        : { next: { revalidate: 300 } };
+    const res = await fetch(CHANNEL_RSS, fetchOpts);
     if (!res.ok) return [];
     const xml = await res.text();
 

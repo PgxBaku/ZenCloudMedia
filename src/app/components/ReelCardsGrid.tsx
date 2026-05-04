@@ -69,7 +69,7 @@ export default function ReelCardsGrid({ tracks }: { tracks: ResolvedTrack[] }) {
   }, [phase, tracks]);
 
   return (
-    <div className="mx-auto grid w-full max-w-md grid-cols-3 gap-3">
+    <div className="mx-auto grid w-full grid-cols-3 gap-3">
       {tracks.map((track, index) => {
         const isIntro = phase === "intro" && index === 0;
         const isSpotlit = activeIndex === index;
@@ -111,11 +111,11 @@ export default function ReelCardsGrid({ tracks }: { tracks: ResolvedTrack[] }) {
               <div className="reel-card-shine absolute inset-y-0 -left-1/2 w-1/2 rotate-12 bg-white/18 blur-xl" />
               <div className="relative flex h-full flex-col justify-between p-3">
                 <span className="flex items-start justify-between gap-2">
-                  <span className="w-fit rounded-full bg-black/45 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur transition duration-500 group-hover:bg-[#f6bc53] group-hover:text-[#141414]">
+                  <span className="min-w-0 truncate rounded-full bg-black/45 px-1 py-1 text-[10px] font-semibold uppercase tracking-normal text-white/90 backdrop-blur transition duration-500 group-hover:bg-[#f6bc53] group-hover:text-[#141414]">
                     {track.tag}
                   </span>
                   <span
-                    className={`grid size-7 place-items-center rounded-full opacity-95 shadow-sm ring-1 ring-white/40 transition duration-500 group-hover:scale-110 group-hover:opacity-100 ${track.platformClass}`}
+                    className={`grid shrink-0 size-7 place-items-center rounded-full opacity-95 shadow-sm ring-1 ring-white/40 transition duration-500 group-hover:scale-110 group-hover:opacity-100 ${track.platformClass}`}
                   >
                     <PlatformIcon className="size-3.5" aria-hidden="true" />
                     <ArrowUpRight
@@ -124,7 +124,7 @@ export default function ReelCardsGrid({ tracks }: { tracks: ResolvedTrack[] }) {
                     />
                   </span>
                 </span>
-                <span>
+                <span className="mb-[5px]">
                   <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f6bc53] transition duration-500 group-hover:text-white">
                     {String(index + 1).padStart(2, "0")}
                   </span>

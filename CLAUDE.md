@@ -99,6 +99,61 @@ python3 .agent/tools/memory_reflect.py \
 | 5–6 | Refactor, significant bug fix, API contract change |
 | 3–4 | Routine edit, file creation, test run |
 
+## Documentation
+
+When the user says "update the documentation", "update the docs", or "add this to the docs":
+
+### What exists
+
+Full documentation for the Divination feature lives in two places:
+
+| Location | Purpose |
+|----------|---------|
+| **ADO Wiki** — live, canonical | `https://bakuretsu.visualstudio.com/OmegaLantern/_wiki/wikis/OmegaLantern.wiki/375/Documentation` |
+| **Local source files** — edit these, then upload | `C:\git\PythonCodeProjects\documentation\projects\ZenCloudMedia\` |
+
+### Pages
+
+| **Local file** | **Wiki page** |
+|---------------|--------------|
+| `divination-overview.md` | Overview (root) |
+| `divination-user-flow.md` | User-Flow |
+| `divination-token-system.md` | Token-System |
+| `divination-admin-dashboard.md` | Admin-Dashboard |
+| `divination-architecture.md` | Architecture |
+| `divination-operations.md` | Operations |
+
+### How to update
+
+1. Edit the relevant `.md` file(s) in `C:\git\PythonCodeProjects\documentation\projects\ZenCloudMedia\`
+2. Follow the ADO Wiki styling rules in `C:\git\PythonCodeProjects\.claude\skills\wiki-doc\SKILL.md`
+   - No emojis, CSS named colors only, no `> [!NOTE]` blocks
+   - Internal links: spaces → `-`, hyphens → `%2D` (e.g. `User%2DFlow`)
+   - Mermaid diagrams use `::: mermaid` fences
+3. Upload by running the upload script from `C:\git\PythonCodeProjects`:
+   ```bash
+   python documentation/projects/ZenCloudMedia/upload_divination_docs.py
+   ```
+4. To upload a single page only, edit the `PAGES` list in the upload script to include just that file, or add a `--page` filter if one is added later.
+
+### When to update docs
+
+- After any new feature is added to the divination page
+- After any schema change (add the table/column to Architecture)
+- After any new env var or config key (add to Operations)
+- After any admin dashboard change (update Admin-Dashboard)
+- After any error alerting or monitoring change (update Operations)
+
+### Adding new pages
+
+1. Create a new `.md` file in the local folder with the correct styled headers
+2. Add it to the `PAGES` list in `upload_divination_docs.py` with the full wiki path
+3. Internal wiki path format: `/Wiki/Projects/ZenCloudMedia/Divination Site/Documentation/Page%2DName`
+
+### Samples and examples
+
+Large samples or examples belong on a dedicated **subpage** under the page that describes the feature — not inline and not at the Documentation root level. Example: a sample error alert email lives at `Operations/Sample-Error-Alert`, not at `Documentation/Sample-Error-Alert`. The parent page gets a short `See [Sample ...]` link pointing to it. Name subpages with `Sample-` or `Example-` prefix.
+
 ## Rules that override all defaults
 - Never force push to `main`, `production`, or `staging`.
 - Never delete episodic or semantic memory entries — archive them.
