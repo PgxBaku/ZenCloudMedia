@@ -5,12 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
-import { contactEmail } from "@/app/lib/constants";
-
 const navLinks = [
-  { label: "Reels", href: "#reels", mobileOnly: true },
-  { label: "Socials", href: "#socials", mobileOnly: false },
-  { label: "About", href: "#about", mobileOnly: false },
+  { label: "Reels", href: "/reels", mobileOnly: false },
+  { label: "About", href: "/about", mobileOnly: false },
+  { label: "Editorial", href: "/editorial-policy", mobileOnly: false },
 ];
 
 export default function NavBar() {
@@ -45,12 +43,12 @@ export default function NavBar() {
               {label}
             </a>
           ))}
-          <a
-            href={`mailto:${contactEmail}`}
+          <Link
+            href="/contact"
             className="rounded-full bg-[#141414] px-4 py-2 text-[#f3efe6] transition hover:bg-[#2f3f3a] dark:bg-[#f0ece4] dark:text-[#141414] dark:hover:bg-[#d9d5cc]"
           >
             Contact
-          </a>
+          </Link>
         </div>
 
         <button
@@ -79,12 +77,12 @@ export default function NavBar() {
               {label}
             </a>
           ))}
-          <a
-            href={`mailto:${contactEmail}`}
+          <Link
+            href="/contact"
             className="mt-2 rounded-full bg-[#141414] px-4 py-3 text-center text-sm font-semibold text-[#f3efe6] transition hover:bg-[#2f3f3a] dark:bg-[#f0ece4] dark:text-[#141414] dark:hover:bg-[#d9d5cc]"
           >
             Contact
-          </a>
+          </Link>
         </div>
       )}
     </nav>

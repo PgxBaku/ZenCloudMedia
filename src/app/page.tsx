@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Play, Radio, Sparkles } from "lucide-react";
 import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
 import NavBar from "./components/NavBar";
@@ -321,6 +322,29 @@ export default async function Home() {
               >
                 {contactEmail}
               </a>
+            </div>
+
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#5b534a] dark:text-[#9e968c]">
+                Site
+              </p>
+              <div className="grid gap-2 text-sm text-[#5b534a] dark:text-[#9e968c]">
+                <Link href="/about" className="hover:text-[#236b5d] dark:hover:text-[#4eb89f]">
+                  About
+                </Link>
+                <Link href="/reels" className="hover:text-[#236b5d] dark:hover:text-[#4eb89f]">
+                  Reels archive
+                </Link>
+                <Link href="/editorial-policy" className="hover:text-[#236b5d] dark:hover:text-[#4eb89f]">
+                  Editorial policy
+                </Link>
+                <Link href="/privacy" className="hover:text-[#236b5d] dark:hover:text-[#4eb89f]">
+                  Privacy
+                </Link>
+                <Link href="/terms" className="hover:text-[#236b5d] dark:hover:text-[#4eb89f]">
+                  Terms
+                </Link>
+              </div>
             </div>
           </div>
 
