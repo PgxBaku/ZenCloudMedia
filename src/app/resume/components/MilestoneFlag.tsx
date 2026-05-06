@@ -70,12 +70,13 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay, ease: 'easeOut' }}
+      tabIndex={0}
     >
-      {/* Detail card — visible when active, after sequence, or on hover */}
+      {/* Detail card — visible when active, after sequence, or on hover/focus */}
       <div
         onClick={onClick}
         className={`absolute bottom-full mb-3 w-56 z-20 transition-all duration-200
-          ${cardVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto'}`}
+          ${cardVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto'}`}
         style={{
           background: 'rgba(8,10,24,0.96)',
           backdropFilter: 'blur(16px)',

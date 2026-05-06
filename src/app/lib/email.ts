@@ -5,8 +5,10 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM     = "ZenCloudMedia <codes@zencloudweb.com>";
-const ALERT_TO = "zen1cloud1@gmail.com";
-const BASE_URL = "https://zencloudweb.com/divination";
+const ALERT_TO = process.env.ALERT_EMAIL || "zen1cloud1@gmail.com";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL
+  ? `${process.env.NEXT_PUBLIC_SITE_URL}/divination`
+  : "https://zencloudweb.com/divination";
 
 // ── Shared helpers ────────────────────────────────────────────────────────────
 

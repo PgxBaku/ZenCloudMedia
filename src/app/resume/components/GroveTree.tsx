@@ -308,7 +308,7 @@ export default function GroveTree({ left, bottom, w, h, fill, stroke, grown, sho
           return (
             <motion.div
               key={b.tech}
-              className="absolute"
+              className="absolute rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
               style={{
                 left: b.x - (b.size ?? 32) / 2,
                 top: b.y - (b.size ?? 32) / 2,
@@ -326,8 +326,11 @@ export default function GroveTree({ left, bottom, w, h, fill, stroke, grown, sho
                   ? { duration: 1.2, delay: i * 0.08 + 0.2, times: [0, 0.25, 1], ease: 'easeOut' }
                   : { duration: 0.2 }
               }
+              tabIndex={showLabels ? 0 : -1}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
+              onFocus={() => setHoveredIdx(i)}
+              onBlur={() => setHoveredIdx(null)}
             >
               <TechBadge tech={b.tech} size={b.size ?? 32} isHovered={hovered} />
             </motion.div>

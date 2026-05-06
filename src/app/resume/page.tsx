@@ -1,37 +1,25 @@
-// src/app/resume/page.tsx
-'use client'
-import { useState, useRef, useCallback } from 'react'
-import TerrainScene from './components/TerrainScene'
-import PaperResume from './components/PaperResume'
-import ResumeHeader from './components/ResumeHeader'
+import type { Metadata } from 'next'
+import ResumeClient from './ResumeClient'
+
+export const metadata: Metadata = {
+  title: 'Resume — Paul P. Xiong | ZenCloudMedia',
+  description:
+    'Engineering Manager with deep AI capability. 15+ years across .NET, Python, MuleSoft, Next.js, and AI/Copilot. Former Sr Engineer at Mercy, now building ZenCloudMedia.',
+  openGraph: {
+    title: 'Resume — Paul P. Xiong | Engineering Manager',
+    description:
+      'Career journey: Sr Engineer → Solutions Architect → Lead Architect → Dev Manager → ZenCloudMedia founder.',
+    images: ['/zencloudmedia-logo.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Resume — Paul P. Xiong',
+    description:
+      'Engineering Manager with deep AI capability. Interactive career timeline.',
+    images: ['/zencloudmedia-logo.png'],
+  },
+}
 
 export default function ResumePage() {
-  const [progress, setProgress] = useState(0)
-  const [label, setLabel] = useState('2017')
-  const [revealed, setRevealed] = useState(false)
-  const paperRef = useRef<HTMLDivElement>(null)
-
-  const handleProgress = useCallback((pct: number, lbl: string) => {
-    setProgress(pct)
-    setLabel(lbl)
-  }, [])
-
-  const handleResumeReveal = useCallback(() => {
-    setRevealed(true)
-    setTimeout(() => {
-      paperRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 200)
-  }, [])
-
-  return (
-    <>
-      <ResumeHeader progress={progress} label={label} />
-      <main>
-        <TerrainScene onResumeReveal={handleResumeReveal} onProgress={handleProgress} />
-        <div ref={paperRef}>
-          {revealed ? <PaperResume /> : null}
-        </div>
-      </main>
-    </>
-  )
+  return <ResumeClient />
 }

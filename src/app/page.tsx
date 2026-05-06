@@ -1,13 +1,11 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Play, Radio, Sparkles } from "lucide-react";
+import { ArrowUpRight, Radio, Sparkles } from "lucide-react";
 import { FaFacebookF, FaTiktok, FaYoutube } from "react-icons/fa6";
 import NavBar from "./components/NavBar";
-import ReelCardsGrid from "./components/ReelCardsGrid";
+import ReelSection from "./components/ReelSection";
 import { contactEmail } from "@/app/lib/constants";
-import { reelTracks } from "@/app/lib/reels";
-import { fetchYouTubeVideos } from "@/app/lib/fetchYouTubeVideos";
-import { fetchTikTokVideos } from "@/app/lib/fetchTikTokVideos";
 
 const socialLinks = [
   {
@@ -62,56 +60,7 @@ const principles = [
   },
 ];
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-export default async function Home() {
-  const [youtubeVideos, tiktokVideos] = await Promise.all([
-    fetchYouTubeVideos(),
-    fetchTikTokVideos(),
-  ]);
-
-  // Resolve each track and record how recent its match is (lower index = newer).
-  // Manual tracks and misses get matchIndex -1.
-  const withIndex = reelTracks.map((track) => {
-    if (track.source === "youtube") {
-      const lower = track.titleKeyword.toLowerCase();
-      const matchIndex = youtubeVideos.findIndex((e) =>
-        e.title.toLowerCase().includes(lower)
-      );
-      const match = matchIndex >= 0 ? youtubeVideos[matchIndex] : undefined;
-      return {
-        ...track,
-        href: match?.url ?? "https://www.youtube.com/@ZenCloud1Media/shorts",
-        image: match?.thumbnail || track.fallbackImage,
-        matchIndex,
-      };
-    }
-    if (track.source === "tiktok") {
-      const latest = tiktokVideos[0];
-      return {
-        ...track,
-        href: latest?.url ?? "https://www.tiktok.com/@baku_retsu",
-        image: latest?.thumbnail || track.fallbackImage,
-        matchIndex: latest ? 0 : -1,
-      };
-    }
-    return { ...track, href: track.videoUrl, image: track.image, matchIndex: -1 };
-  });
-
-  // Recent matches first (ascending index = newest → oldest), then shuffle the rest.
-  const matched = [...withIndex.filter((t) => t.matchIndex >= 0)].sort(
-    (a, b) => a.matchIndex - b.matchIndex
-  );
-  const unmatched = shuffle(withIndex.filter((t) => t.matchIndex === -1));
-  const resolvedTracks = [...matched, ...unmatched];
-
+export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#f3efe6] text-[#141414] dark:bg-[#111210] dark:text-[#f0ece4]">
       <section className="relative min-h-screen px-5 py-5 sm:px-8 lg:px-10">
@@ -207,29 +156,40 @@ export default async function Home() {
               </video>
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(246,188,83,0.35),transparent_24%),radial-gradient(circle_at_82%_16%,rgba(65,151,133,0.4),transparent_25%),linear-gradient(145deg,rgba(19,24,23,0.88)_0%,rgba(32,51,47,0.82)_45%,rgba(228,208,173,0.45)_100%)]" />
               <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:30px_30px]" />
-              <div className="relative flex h-full min-h-[580px] flex-col justify-between">
-                <div className="flex items-center justify-between text-sm text-white/70">
-                  <span>Vertical reel system</span>
-                  <span>9:16 / sourced / captioned</span>
-                </div>
-
-                <ReelCardsGrid tracks={resolvedTracks} />
-
-                <div className="grid gap-4 rounded-3xl border border-white/20 bg-black/28 p-5 backdrop-blur-md sm:grid-cols-[auto_1fr]">
-                  <span className="grid size-14 place-items-center rounded-full bg-[#f6bc53] text-[#141414]">
-                    <Play className="size-7 fill-current" aria-hidden="true" />
-                  </span>
-                  <div>
-                    <p className="text-2xl font-semibold leading-tight">
-                      A living archive for the reels I publish across the web.
-                    </p>
-                    <p className="mt-3 text-sm leading-6 text-white/68">
-                      Newsroom energy, creator speed, and software-driven
-                      consistency in one public home.
-                    </p>
+              <Suspense
+                fallback={
+                  <div className="relative flex h-full min-h-[580px] flex-col justify-between">
+                    <div className="flex items-center justify-between text-sm text-white/70">
+                      <span>Vertical reel system</span>
+                      <span>9:16 / sourced / captioned</span>
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                      <div className="flex gap-2">
+                        {[0, 1, 2].map((i) => (
+                          <div
+                            key={i}
+                            className="w-28 h-40 rounded-xl bg-white/10 animate-pulse"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid gap-4 rounded-3xl border border-white/20 bg-black/28 p-5 backdrop-blur-md sm:grid-cols-[auto_1fr]">
+                      <span className="grid size-14 place-items-center rounded-full bg-[#f6bc53] text-[#141414]" />
+                      <div>
+                        <p className="text-2xl font-semibold leading-tight">
+                          A living archive for the reels I publish across the web.
+                        </p>
+                        <p className="mt-3 text-sm leading-6 text-white/68">
+                          Newsroom energy, creator speed, and software-driven
+                          consistency in one public home.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                }
+              >
+                <ReelSection />
+              </Suspense>
             </div>
           </div>
         </div>

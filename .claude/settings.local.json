@@ -85,7 +85,8 @@
       "Bash(Select-Object Id, ProcessName, StartTime)",
       "WebFetch(domain:gemini.google.com)",
       "Bash(Select-Object -First 30)",
-      "WebFetch(domain:cdn.jsdelivr.net)"
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(git *)"
     ]
   }
 }
