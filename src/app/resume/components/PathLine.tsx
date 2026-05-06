@@ -50,7 +50,7 @@ function buildPath(pts: Pt[], endX: number): string {
 const pts = getDotPositions()
 const pathD = buildPath(pts, 2400)
 
-export default function PathLine() {
+export default function PathLine({ instant }: { instant?: boolean }) {
   return (
     <svg
       className="absolute left-0 z-[5] overflow-visible pointer-events-none"
@@ -66,11 +66,11 @@ export default function PathLine() {
         strokeDasharray="8 5"
         strokeLinecap="round"
         pathLength={1}
-        initial={{ pathLength: 0 }}
+        initial={instant ? { pathLength: 1 } : { pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{
-          duration: PATH_DURATION,
-          delay: ANIMATION_CONFIG.pathStartDelay,
+          duration: instant ? 0 : PATH_DURATION,
+          delay: instant ? 0 : ANIMATION_CONFIG.pathStartDelay,
           ease: 'linear',
         }}
       />

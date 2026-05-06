@@ -303,7 +303,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
         })()}
 
         {/* Animated path */}
-        <PathLine />
+        <PathLine key={`path-${skipMode}`} instant={skipMode} />
 
 
         {/* Hero */}
