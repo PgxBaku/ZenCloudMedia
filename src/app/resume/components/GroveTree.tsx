@@ -55,6 +55,7 @@ interface Props {
   stroke: string
   grown: boolean
   showLabels: boolean
+  instant?: boolean
   badges: BadgeDef[]
 }
 
@@ -264,7 +265,7 @@ function Bubble({ tech, visible, delay = 0 }: { tech: string; visible: boolean; 
 
 // ── Component ──────────────────────────────────────────────────────────────
 
-export default function GroveTree({ left, bottom, w, h, fill, stroke, grown, showLabels, badges }: Props) {
+export default function GroveTree({ left, bottom, w, h, fill, stroke, grown, showLabels, instant, badges }: Props) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const [autoReveal, setAutoReveal] = useState(false)
 
@@ -313,11 +314,13 @@ export default function GroveTree({ left, bottom, w, h, fill, stroke, grown, sho
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={
                 showLabels
-                  ? { opacity: 1, scale: [0, 1.3, 1], rotate: [0, 180, 360] }
+                  ? instant
+                    ? { opacity: 1, scale: 1, rotate: 0 }
+                    : { opacity: 1, scale: [0, 1.3, 1], rotate: [0, 180, 360] }
                   : { opacity: 0, scale: 0, rotate: 0 }
               }
               transition={
-                showLabels
+                showLabels && !instant
                   ? { duration: 1.2, delay: i * 0.08 + 0.2, times: [0, 0.25, 1], ease: 'easeOut' }
                   : { duration: 0.2 }
               }

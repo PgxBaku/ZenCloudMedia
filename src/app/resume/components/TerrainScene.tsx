@@ -22,6 +22,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
   const [showAllCards, setShowAllCards] = useState(false)
   const [starVisible, setStarVisible] = useState(false)
   const [birdPhase, setBirdPhase] = useState<BirdPhase>('flying')
+  const [skipMode, setSkipMode] = useState(false)
   const [focusedMilestone, setFocusedMilestone] = useState<number | null>(null)
   const [scale, setScale] = useState(() =>
     typeof window === 'undefined' ? 1 : window.innerWidth / 2600
@@ -47,6 +48,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
     setZoomed(true)
     setStarVisible(true)
     setShowAllCards(true)
+    setSkipMode(true)
     onResumeReveal()
   }
 
@@ -294,6 +296,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
               stroke={t.stroke}
               grown={birdTargetIndex >= t.milestone}
               showLabels={activeIndex >= t.milestone}
+              instant={skipMode}
               badges={t.badges}
             />
           ))
