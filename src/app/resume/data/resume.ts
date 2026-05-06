@@ -172,13 +172,13 @@ export const SKILL_GROUPS: SkillGroup[] = [
 ]
 
 export const METRICS = [
-  { value: '50%+', label: 'Time-to-Prod Gain' },
-  { value: '90', label: 'Core Processes' },
+  { value: '50%+', label: 'Faster Delivery' },
+  { value: '100+', label: 'Integrations Built' },
   { value: '10+', label: 'Engineers Led' },
-  { value: '$2M', label: 'Annual Budget' },
+  { value: '$2M', label: 'Budget Managed' },
 ]
 
 export const PROJECTS = [
-  { name: 'Zen Cloud Media', desc: 'Automated AI video pipeline: Python, Remotion, Claude, Gemini — geopolitical news to MP4, end-to-end.' },
+  { name: 'Zen Cloud Media', desc: 'Automated AI video pipeline: Python, Remotion, Claude, Gemini — geopolitical news to MP4, end-to-end.', url: 'https://zencloudweb.com' },
   { name: '7pace + ADO KPI Dashboards', desc: 'Custom ADO widgets correlating time-tracking data with developer velocity metrics.' },
 ]

@@ -42,13 +42,13 @@ export default function PaperResume() {
             display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap',
             fontSize: 11, color: '#94a3b8', fontFamily: 'sans-serif',
           }}>
-            <ContactItem label="Saint Paul, MN" />
+            <ContactItem label="Orange County, CA · Twin Cities, MN" />
             <ContactItemSep />
-            <ContactItem label="bakuretsu@gmail.com" />
+            <ContactItem label="pgxiong@gmail.com" />
             <ContactItemSep />
-            <ContactItem label="Paul P. Xiong" />
+            <ContactItem label="LinkedIn" href="https://www.linkedin.com/in/p-xiong-ba3b822/" />
             <ContactItemSep />
-            <ContactItem label="zencloudweb.com/resume" />
+            <ContactItem label="zencloudweb.com" href="https://zencloudweb.com" />
           </div>
         </div>
 
@@ -78,11 +78,11 @@ export default function PaperResume() {
               fontSize: 12, color: '#334155', lineHeight: 1.7, fontFamily: 'sans-serif',
               marginBottom: 24,
             }}>
-              Engineering leader with a proven record of accelerating software delivery through
-              architecture, automation, and AI integration. Over ten years building middleware
-              frameworks, sunsetting legacy EDI systems, and managing global API teams.
-              Current focus: bringing AI-capable engineering management to organizations
-              undergoing infrastructure modernization.
+              Enterprise architect and engineering manager who bridges legacy .NET/MuleSoft
+              integration with modern AI pipelines. Cut time-to-production 50%+ across 100+
+              integrations. Currently leading a $2M, 10-engineer API team while shipping
+              AI-automated video production tooling. Most AI candidates lack enterprise
+              credibility; most enterprise architects lack hands-on AI — I have both.
             </p>
 
             <SectionTitle>Experience</SectionTitle>
@@ -138,6 +138,11 @@ export default function PaperResume() {
               <div key={p.name} style={{ marginBottom: 10 }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>{p.name}</div>
                 <div style={{ fontSize: 10, color: '#64748b', fontFamily: 'sans-serif', lineHeight: 1.5 }}>{p.desc}</div>
+                {'url' in p && p.url && (
+                  <a href={p.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color: '#1e40af', fontFamily: 'sans-serif', textDecoration: 'none' }}>
+                    {p.url.replace(/^https?:\/\//, '')}
+                  </a>
+                )}
               </div>
             ))}
 
@@ -156,7 +161,7 @@ export default function PaperResume() {
               padding: '8px 10px', background: 'rgba(30,64,175,0.05)', borderRadius: 3,
               border: '1px solid rgba(30,64,175,0.1)',
             }}>
-              Engineering / Dev Manager with AI capabilities.
+              AI Solutions Architect · Software Dev Manager, AI/Automation · LLMOps / Agentic Workflow Lead
             </div>
           </div>
         </div>
@@ -169,7 +174,7 @@ export default function PaperResume() {
           fontSize: 9, color: '#94a3b8', fontFamily: 'sans-serif', letterSpacing: 0.5,
         }}>
           <span>Orange County, CA · Twin Cities, MN</span>
-          <span>zencloudweb.com/resume</span>
+          <span>zencloudweb.com</span>
         </div>
       </motion.div>
     </motion.section>
@@ -189,7 +194,14 @@ function SectionTitle({ children }: { children: string }) {
   )
 }
 
-function ContactItem({ label }: { label: string }) {
+function ContactItem({ label, href }: { label: string; href?: string }) {
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>
+        {label}
+      </a>
+    )
+  }
   return <span>{label}</span>
 }
 

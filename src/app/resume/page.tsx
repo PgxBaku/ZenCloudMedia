@@ -4,11 +4,11 @@ import ResumeClient from './ResumeClient'
 export const metadata: Metadata = {
   title: 'Resume — Paul P. Xiong | ZenCloudMedia',
   description:
-    'Engineering Manager with deep AI capability. 15+ years across .NET, Python, MuleSoft, Next.js, and AI/Copilot. Former Sr Engineer at ConvergeOne, now building ZenCloudMedia.',
+    'Enterprise integration architect + hands-on AI builder. 10+ years in .NET, MuleSoft, Python, Next.js, and AI/Copilot. Led 100+ integrations, $2M budget, 10+ engineers at ConvergeOne.',
   openGraph: {
     title: 'Resume — Paul P. Xiong | Engineering Manager',
     description:
-      'Career journey: Sr Engineer → Solutions Architect → Lead Architect → Dev Manager → ZenCloudMedia founder.',
+      'Enterprise architect bridging legacy integration with modern AI — .NET, MuleSoft, Python, Next.js. Sr Engineer → Solutions Architect → Dev Manager → AI founder.',
     images: ['/zencloudmedia-logo.png'],
   },
   twitter: {
