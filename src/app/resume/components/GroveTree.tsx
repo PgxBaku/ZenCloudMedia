@@ -3,19 +3,17 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-// ── Simple Icons CDN (v14) slug map ───────────────────────────────────────
+// ── Simple Icons (vendored locally from simple-icons v14) ──────────────────
 
-const ICON_SLUGS: Record<string, string> = {
-  '.NET / C#': 'dotnet',
-  Python: 'python',
-  MuleSoft: 'mulesoft',
-  'Amazon Connect': 'amazonwebservices',
-  'Next.js': 'nextdotjs',
-  Ollama: 'ollama',
-  Claude: 'anthropic',
+const ICON_PATHS: Record<string, string> = {
+  '.NET / C#': '/icons/dotnet.svg',
+  Python: '/icons/python.svg',
+  MuleSoft: '/icons/mulesoft.svg',
+  'Amazon Connect': '/icons/amazonwebservices.svg',
+  'Next.js': '/icons/nextdotjs.svg',
+  Ollama: '/icons/ollama.svg',
+  Claude: '/icons/anthropic.svg',
 }
-
-const ICON_CDN = 'https://cdn.jsdelivr.net/npm/simple-icons@14/icons'
 
 // ── Text‑only badge abbreviations + colors ────────────────────────────────
 
@@ -123,12 +121,12 @@ function TreeShape({ w, h, fill, stroke }: { w: number; h: number; fill: string;
 // ── Tech badge (icon or text) ──────────────────────────────────────────────
 
 function TechBadge({ tech, size = 32, isHovered }: { tech: string; size?: number; isHovered: boolean }) {
-  const slug = ICON_SLUGS[tech]
+  const iconPath = ICON_PATHS[tech]
   const textBadge = TEXT_BADGES[tech]
 
   const s = isHovered ? size * 1.2 : size
 
-  if (slug) {
+  if (iconPath) {
     return (
       <motion.div
         animate={{ width: s, height: s }}
@@ -148,15 +146,11 @@ function TechBadge({ tech, size = 32, isHovered }: { tech: string; size?: number
         }}
       >
         <Image
-          src={`${ICON_CDN}/${slug}.svg`}
+          src={iconPath}
           alt={tech}
           width={Math.round(s * 0.55)}
           height={Math.round(s * 0.55)}
-          unoptimized
           style={{ objectFit: 'contain' }}
-          onError={(e) => {
-            ;(e.target as HTMLImageElement).style.display = 'none'
-          }}
         />
         <span
           style={{
