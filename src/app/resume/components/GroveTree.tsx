@@ -270,21 +270,21 @@ export default function GroveTree({ left, bottom, w, h, fill, stroke, grown, sho
   const [autoReveal, setAutoReveal] = useState(false)
 
   useEffect(() => {
-    if (showLabels) {
+    if (showLabels && !instant) {
       queueMicrotask(() => setAutoReveal(true))
       const t = setTimeout(() => setAutoReveal(false), 3000)
       return () => clearTimeout(t)
     }
     return undefined
-  }, [showLabels])
+  }, [showLabels, instant])
 
   return (
     <motion.div
       className="absolute z-[4]"
       style={{ left, bottom, width: w, height: h, transformOrigin: 'bottom center' }}
-      initial={{ scaleY: 0 }}
+      initial={instant ? { scaleY: 1 } : { scaleY: 0 }}
       animate={{ scaleY: grown ? 1 : 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: instant ? 0 : 0.6, ease: 'easeOut' }}
     >
       {/* Tree SVG */}
       <svg

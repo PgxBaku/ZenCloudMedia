@@ -56,10 +56,11 @@ type Props = {
   isActive: boolean
   seen: boolean
   showAll: boolean
+  instant?: boolean
   onClick?: () => void
 }
 
-export default function MilestoneFlag({ milestone, delay, isActive, seen, showAll, onClick }: Props) {
+export default function MilestoneFlag({ milestone, delay, isActive, seen, showAll, instant, onClick }: Props) {
   const theme = THEMES[milestone.flagStyle]
   const cardVisible = seen || isActive || showAll
 
@@ -67,9 +68,9 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
     <motion.div
       className="absolute flex flex-col items-center z-10 cursor-pointer group"
       style={{ left: milestone.flagLeft, bottom: milestone.aboveGround ?? 140 }}
-      initial={{ opacity: 0, y: 24 }}
+      initial={instant ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
+      transition={{ duration: instant ? 0 : 0.6, delay: instant ? 0 : delay, ease: 'easeOut' }}
     >
       {/* Detail card — visible when active, after sequence, or on hover/focus */}
       <button

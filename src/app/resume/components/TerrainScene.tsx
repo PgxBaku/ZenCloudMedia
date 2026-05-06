@@ -331,7 +331,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
 
         {/* Milestone flags */}
         {MILESTONES.map((m, i) => (
-          <MilestoneFlag key={m.id} milestone={m} delay={milestoneDelays[i]} isActive={activeIndex === i} seen={seenIndices.has(i)} showAll={showAllCards} onClick={() => setFocusedMilestone(i)} />
+          <MilestoneFlag key={`${m.id}-${skipMode}`} milestone={m} delay={milestoneDelays[i]} isActive={activeIndex === i} seen={seenIndices.has(i)} showAll={showAllCards} instant={skipMode} onClick={() => setFocusedMilestone(i)} />
         ))}
 
         {/* Bird — flies between milestones */}
