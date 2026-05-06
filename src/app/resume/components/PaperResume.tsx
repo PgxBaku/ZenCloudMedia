@@ -46,7 +46,7 @@ export default function PaperResume() {
             <ContactItemSep />
             <ContactItem label="pgxiong@gmail.com" />
             <ContactItemSep />
-            <ContactItem label="LinkedIn" href="https://www.linkedin.com/in/p-xiong-ba3b822/" />
+            <ContactItem label="LinkedIn" href="/resume/contact" />
             <ContactItemSep />
             <ContactItem label="zencloudweb.com" href="https://zencloudweb.com" />
           </div>
@@ -195,8 +195,13 @@ function SectionTitle({ children }: { children: string }) {
 
 function ContactItem({ label, href }: { label: string; href?: string }) {
   if (href) {
+    const external = href.startsWith('http')
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>
+      <a
+        href={href}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        style={{ color: '#94a3b8', textDecoration: 'none' }}
+      >
         {label}
       </a>
     )
