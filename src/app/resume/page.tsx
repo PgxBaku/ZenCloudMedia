@@ -4,7 +4,7 @@ import ResumeClient from './ResumeClient'
 export const metadata: Metadata = {
   title: 'Resume — Paul P. Xiong | ZenCloudMedia',
   description:
-    'Engineering Manager with deep AI capability. 15+ years across .NET, Python, MuleSoft, Next.js, and AI/Copilot. Former Sr Engineer at Mercy, now building ZenCloudMedia.',
+    'Engineering Manager with deep AI capability. 15+ years across .NET, Python, MuleSoft, Next.js, and AI/Copilot. Former Sr Engineer at ConvergeOne, now building ZenCloudMedia.',
   openGraph: {
     title: 'Resume — Paul P. Xiong | Engineering Manager',
     description:

@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { Milestone } from '../data/resume'
 
@@ -8,9 +9,46 @@ type Props = {
 }
 
 export default function CardModal({ milestone, onClose }: Props) {
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = dialogRef.current
+    if (!el) return
+
+    // Focus trap: first and last focusable elements
+    const focusable = el.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    )
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    first?.focus()
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last?.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first?.focus()
+        }
+      }
+    }
+
+    el.addEventListener('keydown', onKeyDown)
+    return () => el.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
+
   return (
     <motion.div
       className="fixed inset-0 z-[400] flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-label={milestone.role}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -22,6 +60,7 @@ export default function CardModal({ milestone, onClose }: Props) {
 
       {/* Card */}
       <motion.div
+        ref={dialogRef}
         className="relative max-w-lg w-[90vw] z-10"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -44,7 +83,7 @@ export default function CardModal({ milestone, onClose }: Props) {
           aria-label="Close"
           style={{ padding: 4, lineHeight: 0 }}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 5L15 15M15 5L5 15" stroke="rgba(255,255,255,0.55)" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>

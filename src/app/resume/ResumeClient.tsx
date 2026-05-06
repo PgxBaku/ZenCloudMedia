@@ -15,7 +15,6 @@ const PaperResume = dynamic(() => import('./components/PaperResume'), {
 export default function ResumeClient() {
   const [progress, setProgress] = useState(0)
   const [label, setLabel] = useState('2017')
-  const [revealed, setRevealed] = useState(false)
   const paperRef = useRef<HTMLDivElement>(null)
 
   const handleProgress = useCallback((pct: number, lbl: string) => {
@@ -24,7 +23,6 @@ export default function ResumeClient() {
   }, [])
 
   const handleResumeReveal = useCallback(() => {
-    setRevealed(true)
     setTimeout(() => {
       paperRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 200)
@@ -36,7 +34,7 @@ export default function ResumeClient() {
       <main>
         <TerrainScene onResumeReveal={handleResumeReveal} onProgress={handleProgress} />
         <div ref={paperRef}>
-          {revealed ? <PaperResume /> : null}
+          <PaperResume />
         </div>
       </main>
     </>

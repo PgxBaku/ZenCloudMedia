@@ -75,6 +75,9 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
       {/* Detail card — visible when active, after sequence, or on hover/focus */}
       <div
         onClick={onClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.() } }}
+        tabIndex={0}
+        role="button"
         className={`absolute bottom-full mb-3 w-56 z-20 transition-all duration-200
           ${cardVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto'}`}
         style={{

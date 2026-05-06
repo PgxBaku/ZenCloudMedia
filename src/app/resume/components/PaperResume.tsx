@@ -53,10 +53,9 @@ export default function PaperResume() {
         </div>
 
         {/* Metrics band */}
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4,1fr)',
-          borderBottom: '1px solid #e2e8f0',
-        }}>
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 border-b border-slate-200"
+        >
           {METRICS.map((m, i) => (
             <div key={m.label} style={{
               padding: '16px 12px', textAlign: 'center',
@@ -71,9 +70,9 @@ export default function PaperResume() {
         </div>
 
         {/* Body */}
-        <div style={{ display: 'flex', padding: '32px 40px', gap: 36 }}>
+        <div className="flex flex-col md:flex-row px-5 sm:px-8 md:px-10 py-8 gap-8 md:gap-9">
           {/* Main column */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="flex-1 min-w-0">
             <SectionTitle>Professional Summary</SectionTitle>
             <p style={{
               fontSize: 12, color: '#334155', lineHeight: 1.7, fontFamily: 'sans-serif',
@@ -113,7 +112,7 @@ export default function PaperResume() {
           </div>
 
           {/* Sidebar */}
-          <div style={{ width: 220, flexShrink: 0 }}>
+          <div className="w-full md:w-[220px] flex-shrink-0">
             <SectionTitle>Skills</SectionTitle>
             {SKILL_GROUPS.map(g => (
               <div key={g.name} style={{ marginBottom: 14 }}>
