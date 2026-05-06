@@ -325,7 +325,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
             <strong style={{ fontWeight: 700, color: '#1e40af' }}>Xiong</strong>
           </div>
           <div style={{ color: '#334155', fontSize: 12, fontFamily: 'sans-serif', letterSpacing: 0.5, maxWidth: 250, lineHeight: 1.5 }}>
-            Engineering Manager<br />with deep AI capability
+            Enterprise Architect<br />&amp; AI Engineering Leader
           </div>
         </motion.div>
 
