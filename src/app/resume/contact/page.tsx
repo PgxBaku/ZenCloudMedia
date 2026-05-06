@@ -156,7 +156,7 @@ export default function ContactPage() {
       {phase !== 'gone' && (
         <motion.div
           className="absolute z-40"
-          style={{ width: 40, height: 28 }}
+          style={{ width: 60, height: 44 }}
           animate={(() => {
             switch (phase) {
               case 'approaching':
@@ -218,25 +218,57 @@ export default function ContactPage() {
             }
           })()}
         >
-          {/* Crow SVG */}
-          <svg width="40" height="28" viewBox="0 0 40 28" fill="none">
-            {/* Body */}
-            <ellipse cx="19" cy="16" rx="11" ry="8" fill="#1a1a1a" />
-            {/* Head */}
-            <circle cx="31" cy="9" r="6.5" fill="#1a1a1a" />
-            {/* Beak */}
-            <polygon points="37,7 45,8 37,10" fill="#f59e0b" />
-            {/* Eye */}
-            <circle cx="33" cy="8" r="1.8" fill="white" />
-            <circle cx="33.5" cy="8" r="0.9" fill="#111" />
-            {/* Tail feathers */}
-            <polygon points="6,12 0,6 8,10" fill="#111" />
-            <polygon points="6,14 0,18 8,15" fill="#1a1a1a" />
-            {/* Wing */}
-            <path d="M12,14 Q19,8 28,12 Q20,10 12,14Z" fill="#2a2a2a" />
+          {/* Crow SVG — Angry Birds style */}
+          <svg width="60" height="44" viewBox="0 0 60 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Body — big round shape */}
+            <ellipse cx="26" cy="24" rx="18" ry="16" fill="#1e1e20" />
+            {/* Head — blends into body */}
+            <circle cx="40" cy="14" r="12" fill="#1e1e20" />
+
+            {/* Chest highlight */}
+            <ellipse cx="30" cy="28" rx="10" ry="10" fill="#2a2a2c" opacity="0.6" />
+
+            {/* White face patch — Angry Birds signature */}
+            <ellipse cx="42" cy="16" rx="7" ry="6" fill="#f5f5f0" />
+
+            {/* Eyes — white with angry pupils */}
+            <circle cx="44" cy="12" r="4.5" fill="white" />
+            <circle cx="44.5" cy="12" r="2.2" fill="#111" />
+            {/* Eye glint */}
+            <circle cx="45.5" cy="10.5" r="0.8" fill="white" />
+
+            {/* Angry eyebrows — thick, angled down */}
+            <line x1="37" y1="5" x2="48" y2="9" stroke="#8b1a1a" strokeWidth="3.5" strokeLinecap="round" />
+            <line x1="38" y1="5" x2="49" y2="9" stroke="#c41e1e" strokeWidth="2" strokeLinecap="round" />
+
+            {/* Head tuft / crest */}
+            <path d="M36,3 Q34,0 37,-2 Q35,1 38,4" fill="#c41e1e" />
+            <path d="M39,2 Q40,-3 42,-1 Q39,1 40,4" fill="#1a1a1a" />
+
+            {/* Beak — large, sharp, yellow-orange */}
+            <polygon points="51,12 58,14 51,17" fill="#f59e0b" />
+            <polygon points="51,12 58,14 51,14.5" fill="#fbbf24" />
+
+            {/* Tail feathers — fan shape */}
+            <path d="M8,20 L0,12 L5,18 L1,10 L7,17 L3,8 L10,16" fill="#1e1e20" stroke="#111" strokeWidth="0.5" />
+
+            {/* Wing — folded against body */}
+            <path
+              d="M16,18 Q14,12 22,10 Q28,8 30,14 Q28,22 22,26 Q16,28 16,18Z"
+              fill="#2d2d30"
+              stroke="#1a1a1a"
+              strokeWidth="0.5"
+            />
+            {/* Wing highlight lines */}
+            <path d="M19,14 Q23,11 27,13" stroke="#3a3a3d" strokeWidth="0.6" fill="none" />
+            <path d="M18,18 Q22,15 26,17" stroke="#3a3a3d" strokeWidth="0.6" fill="none" />
+
             {/* Legs */}
-            <line x1="16" y1="23" x2="15" y2="27" stroke="#333" strokeWidth="1" />
-            <line x1="22" y1="23" x2="23" y2="27" stroke="#333" strokeWidth="1" />
+            <line x1="22" y1="38" x2="20" y2="43" stroke="#e8890c" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="30" y1="38" x2="32" y2="43" stroke="#e8890c" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Claws */}
+            <path d="M17,43 L20,43 L23,43" stroke="#e8890c" strokeWidth="1" strokeLinecap="round" fill="none" />
+            <path d="M29,43 L32,43 L35,43" stroke="#e8890c" strokeWidth="1" strokeLinecap="round" fill="none" />
           </svg>
 
           {/* Impact stars */}
@@ -247,8 +279,8 @@ export default function ContactPage() {
                   key={i}
                   className="absolute"
                   style={{
-                    left: 20, top: 14,
-                    width: 6, height: 2,
+                    left: 30, top: 22,
+                    width: 8, height: 2.5,
                     background: '#fbbf24',
                     borderRadius: 1,
                     transformOrigin: '0 50%',
@@ -269,8 +301,8 @@ export default function ContactPage() {
                   key={i}
                   className="absolute"
                   style={{
-                    left: 10 + i * 6, top: 8 + i * 3,
-                    width: 4, height: 2,
+                    left: 15 + i * 6, top: 12 + i * 3,
+                    width: 5, height: 2.5,
                     background: '#333',
                     borderRadius: 1,
                   }}
@@ -299,7 +331,7 @@ export default function ContactPage() {
                   key={i}
                   className="absolute"
                   style={{
-                    left: 20, top: 14,
+                    left: 30, top: 22,
                     width: 8, height: 8,
                     color: '#fbbf24',
                     fontSize: 8,
