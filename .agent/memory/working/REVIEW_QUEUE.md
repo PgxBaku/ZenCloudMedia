@@ -10,6 +10,6 @@ Run `python .agent/tools/list_candidates.py` for detail, then:
 
 ## Priority order (top 10)
 
-- **f08719a07f19** (priority=26363.42, size=863, rejections=1) — FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST "h
+- **f08719a07f19** (priority=27860.30, size=912, rejections=1) — FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST "h
 - **c039b0b18cc6** (priority=19115.46, size=778, rejections=0) — FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST "h
-- **97f7c8f9b70d** (priority=189.00, size=14, rejections=1) — Tool Agent completed successfully
+- **97f7c8f9b70d** (priority=202.50, size=14, rejections=1) — Tool Agent completed successfully

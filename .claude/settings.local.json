@@ -86,7 +86,8 @@
       "WebFetch(domain:gemini.google.com)",
       "Bash(Select-Object -First 30)",
       "WebFetch(domain:cdn.jsdelivr.net)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "PowerShell(Get-Process *)"
     ]
   }
 }
