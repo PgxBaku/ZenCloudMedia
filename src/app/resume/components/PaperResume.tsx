@@ -81,8 +81,8 @@ export default function PaperResume() {
               Enterprise architect and engineering manager who bridges legacy .NET/MuleSoft
               integration with modern AI pipelines. Cut time-to-production 50%+ across 100+
               integrations. Currently leading a $2M, 10-engineer API team while shipping
-              AI-automated video production tooling. Most AI candidates lack enterprise
-              credibility; most enterprise architects lack hands-on AI — I have both.
+              AI-automated video production tooling. Rare blend: enterprise-scale
+              architecture credibility plus hands-on AI delivery.
             </p>
 
             <SectionTitle>Experience</SectionTitle>
@@ -148,11 +148,10 @@ export default function PaperResume() {
 
             <SectionTitle>Education</SectionTitle>
             <div style={{ fontSize: 11, fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>
-              University of St. Thomas
+              B.A. Computer Science — University of St. Thomas
             </div>
             <div style={{ fontSize: 10, color: '#64748b', fontFamily: 'sans-serif', lineHeight: 1.5, marginBottom: 10 }}>
-              Computer Science — Saint Paul, MN<br />
-              International study in China &amp; Japan
+              Saint Paul, MN · International study in China &amp; Japan
             </div>
 
             <SectionTitle>Target Roles</SectionTitle>

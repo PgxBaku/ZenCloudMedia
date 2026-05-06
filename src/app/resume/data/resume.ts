@@ -98,7 +98,7 @@ export const MILESTONES: Milestone[] = [
     id: 'zen-cloud',
     year: 'ZEN CLOUD',
     dateRange: 'Side Project · Ongoing',
-    role: 'Zen Cloud Media',
+    role: 'ZenCloudMedia',
     company: 'Founder & Lead Developer',
     tags: ['Remotion', 'Python', 'Claude', 'Codex', 'Ollama', 'DeepSeek', 'Next.js'],
     metric: '🎬 AI-automated video production pipeline',
@@ -179,6 +179,6 @@ export const METRICS = [
 ]
 
 export const PROJECTS = [
-  { name: 'Zen Cloud Media', desc: 'Automated AI video pipeline: Python, Remotion, Claude, Gemini — geopolitical news to MP4, end-to-end.', url: 'https://zencloudweb.com' },
+  { name: 'ZenCloudMedia', desc: 'Automated AI video pipeline: Python, Remotion, Claude, Gemini — geopolitical news to MP4, end-to-end.', url: 'https://zencloudweb.com' },
   { name: '7pace + ADO KPI Dashboards', desc: 'Custom ADO widgets correlating time-tracking data with developer velocity metrics.' },
 ]
