@@ -72,12 +72,10 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
       transition={{ duration: 0.6, delay, ease: 'easeOut' }}
     >
       {/* Detail card — visible when active, after sequence, or on hover/focus */}
-      <div
+      <button
+        type="button"
         onClick={onClick}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.() } }}
-        tabIndex={0}
-        role="button"
-        className={`absolute bottom-full mb-3 w-56 z-20 transition-all duration-200
+        className={`absolute bottom-full mb-3 w-56 z-20 transition-all duration-200 cursor-pointer
           ${cardVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto'}`}
         style={{
           background: 'rgba(8,10,24,0.96)',
@@ -86,6 +84,8 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
           borderRadius: 10,
           padding: 14,
           boxShadow: '0 12px 40px rgba(0,0,0,0.55)',
+          textAlign: 'left',
+          fontFamily: 'inherit',
         }}
       >
         <div style={{ color: '#6366f1', fontSize: 10, letterSpacing: 2, fontFamily: 'sans-serif', marginBottom: 4 }}>
@@ -118,7 +118,7 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
           borderWidth: 6, borderStyle: 'solid', borderColor: 'transparent',
           borderTopColor: 'rgba(99,102,241,0.35)',
         }} />
-      </div>
+      </button>
 
       {/* Pole */}
       <div style={{ width: 2, height: milestone.poleHeight, background: theme.poleBg }} />
