@@ -152,6 +152,7 @@ function TechBadge({ tech, size = 32, isHovered }: { tech: string; size?: number
           alt={tech}
           width={Math.round(s * 0.55)}
           height={Math.round(s * 0.55)}
+          unoptimized
           style={{ objectFit: 'contain' }}
           onError={(e) => {
             ;(e.target as HTMLImageElement).style.display = 'none'

@@ -168,7 +168,7 @@ export default function PaperResume() {
           display: 'flex', justifyContent: 'space-between',
           fontSize: 9, color: '#94a3b8', fontFamily: 'sans-serif', letterSpacing: 0.5,
         }}>
-          <span>Saint Paul, MN 55102 · U.S. Citizen</span>
+          <span>Orange County, CA · Twin Cities, MN</span>
           <span>zencloudweb.com/resume</span>
         </div>
       </motion.div>

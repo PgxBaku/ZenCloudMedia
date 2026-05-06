@@ -10,8 +10,10 @@ type Props = {
 
 export default function CardModal({ milestone, onClose }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<Element | null>(null)
 
   useEffect(() => {
+    triggerRef.current = document.activeElement
     const el = dialogRef.current
     if (!el) return
 
@@ -40,7 +42,10 @@ export default function CardModal({ milestone, onClose }: Props) {
     }
 
     el.addEventListener('keydown', onKeyDown)
-    return () => el.removeEventListener('keydown', onKeyDown)
+    return () => {
+      el.removeEventListener('keydown', onKeyDown)
+      ;(triggerRef.current as HTMLElement | null)?.focus()
+    }
   }, [onClose])
 
   return (

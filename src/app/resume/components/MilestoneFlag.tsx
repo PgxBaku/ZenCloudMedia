@@ -70,7 +70,6 @@ export default function MilestoneFlag({ milestone, delay, isActive, seen, showAl
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-      tabIndex={0}
     >
       {/* Detail card — visible when active, after sequence, or on hover/focus */}
       <div
