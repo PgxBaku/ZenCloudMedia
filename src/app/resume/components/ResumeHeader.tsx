@@ -11,7 +11,7 @@ export default function ResumeHeader({ progress, label }: Props) {
     <header className="fixed top-0 left-0 right-0 z-[300] flex items-center gap-6 px-8 py-2.5"
       style={{ background: 'rgba(10,10,20,0.88)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
       <div>
-        <div className="text-slate-200 text-sm font-light tracking-[3px] uppercase">Paul Xiong</div>
+        <div className="text-slate-200 text-sm font-light tracking-[3px] uppercase">Paul P. Xiong</div>
         <div className="text-slate-500 text-[10px] tracking-[2px] uppercase" style={{ fontFamily: 'sans-serif' }}>
           Engineering Manager · AI-Capable
         </div>

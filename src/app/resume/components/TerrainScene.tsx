@@ -7,7 +7,10 @@ import MilestoneFlag from './MilestoneFlag'
 import Bird, { type BirdPhase } from './Bird'
 import GroveTree from './GroveTree'
 import CardModal from './CardModal'
+import FixedHero from './FixedHero'
 import { ANIMATION_CONFIG, MILESTONES } from '../data/resume'
+
+const USE_FIXED_HERO = false // flip to true to use fixed-position hero
 
 type Props = {
   onResumeReveal: () => void
@@ -306,28 +309,30 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
         <PathLine key={`path-${skipMode}`} instant={skipMode} />
 
 
-        {/* Hero */}
-        <motion.div
-          className="absolute z-20"
-          style={{ left: 156, top: '25%', translateY: '-60%' }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, x: zoomed ? 0 : panTarget }}
-          transition={{
-            opacity: { duration: 1, delay: ANIMATION_CONFIG.heroFadeIn + 0.2 },
-            x: { duration: 1.5, ease: 'easeInOut' },
-          }}
-        >
-          <div style={{ color: '#1e3a5f', fontSize: 10, letterSpacing: 4, textTransform: 'uppercase', fontFamily: 'sans-serif', marginBottom: 8, opacity: 0.7 }}>
-            The Journey of
-          </div>
-          <div style={{ color: '#0f172a', fontSize: 40, fontWeight: 300, lineHeight: 1.05, marginBottom: 6 }}>
-            Paul P.<br />
-            <strong style={{ fontWeight: 700, color: '#1e40af' }}>Xiong</strong>
-          </div>
-          <div style={{ color: '#334155', fontSize: 12, fontFamily: 'sans-serif', letterSpacing: 0.5, maxWidth: 250, lineHeight: 1.5 }}>
-            Enterprise Architect<br />&amp; AI Engineering Leader
-          </div>
-        </motion.div>
+        {/* Hero — original (inside panned world) */}
+        {!USE_FIXED_HERO && (
+          <motion.div
+            className="absolute z-20"
+            style={{ left: 156, top: '25%', translateY: '-60%' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, x: zoomed ? 0 : panTarget }}
+            transition={{
+              opacity: { duration: 1, delay: ANIMATION_CONFIG.heroFadeIn + 0.2 },
+              x: { duration: 1.5, ease: 'easeInOut' },
+            }}
+          >
+            <div style={{ color: '#1e3a5f', fontSize: 10, letterSpacing: 4, textTransform: 'uppercase', fontFamily: 'sans-serif', marginBottom: 8, opacity: 0.7 }}>
+              The Journey of
+            </div>
+            <div style={{ color: '#0f172a', fontSize: 40, fontWeight: 300, lineHeight: 1.05, marginBottom: 6 }}>
+              Paul P.<br />
+              <strong style={{ fontWeight: 700, color: '#1e40af' }}>Xiong</strong>
+            </div>
+            <div style={{ color: '#334155', fontSize: 12, fontFamily: 'sans-serif', letterSpacing: 0.5, maxWidth: 250, lineHeight: 1.5 }}>
+              Enterprise Architect<br />&amp; AI Engineering Leader
+            </div>
+          </motion.div>
+        )}
 
         {/* Milestone flags */}
         {MILESTONES.map((m, i) => (
@@ -377,6 +382,9 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
           </div>
         </motion.div>
       </div>
+
+      {/* Fixed hero — sits outside the panned world, always visible */}
+      {USE_FIXED_HERO && <FixedHero zoomed={zoomed} />}
 
       {/* Skip arrow — bounce at bottom, click to jump to resume */}
       {!showAllCards && (
