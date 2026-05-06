@@ -1,0 +1,126 @@
+<h2>Resume Page — Layout & Node Structure</h2>
+<p class="subtitle">Section 1 of 2. Does this layout and node breakdown look right?</p>
+
+<div class="section">
+  <div class="label">Page Flow (top to bottom)</div>
+  <div class="mockup" style="margin-top:10px;">
+    <div class="mockup-header">zencloudweb.com/resume</div>
+    <div class="mockup-body" style="padding:0;background:#0a0a12;">
+
+      <!-- Zone 1: Remotion Intro -->
+      <div style="background:linear-gradient(135deg,#0d0015,#0d1a3a);padding:20px 24px;border-bottom:1px solid #1e1e3a;display:flex;align-items:center;gap:16px;">
+        <div style="width:40px;height:40px;border-radius:50%;background:rgba(139,92,246,0.3);border:1px solid rgba(139,92,246,0.5);display:flex;align-items:center;justify-content:center;">
+          <div style="width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:10px solid rgba(167,139,250,0.8);margin-left:2px;"></div>
+        </div>
+        <div>
+          <div style="color:rgba(167,139,250,0.5);font-size:9px;letter-spacing:3px;font-family:sans-serif;text-transform:uppercase;">Zone 1 — Remotion @Player</div>
+          <div style="color:#94a3b8;font-size:11px;font-family:sans-serif;margin-top:2px;">3-second cinematic boot sequence: name types in, nodes pulse into existence, edges draw</div>
+        </div>
+        <div style="margin-left:auto;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);padding:3px 10px;border-radius:4px;color:rgba(167,139,250,0.7);font-size:9px;font-family:sans-serif;">AUTO-PLAYS · SKIPPABLE</div>
+      </div>
+
+      <!-- Zone 2: Interactive Graph -->
+      <div style="padding:20px 24px;border-bottom:1px solid #1e1e3a;">
+        <div style="color:rgba(167,139,250,0.5);font-size:9px;letter-spacing:3px;font-family:sans-serif;text-transform:uppercase;margin-bottom:12px;">Zone 2 — React Flow Interactive Graph</div>
+
+        <!-- Mini graph mockup -->
+        <div style="position:relative;height:180px;background:#050508;border-radius:8px;border:1px solid #1e1e3a;overflow:hidden;">
+          <svg width="100%" height="100%" viewBox="0 0 500 180">
+            <!-- Edges from center -->
+            <line x1="250" y1="90" x2="100" y2="40" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="250" y1="90" x2="400" y2="40" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="250" y1="90" x2="80" y2="130" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="250" y1="90" x2="420" y2="130" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="250" y1="90" x2="180" y2="155" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="250" y1="90" x2="320" y2="155" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <!-- Center node -->
+            <circle cx="250" cy="90" r="28" fill="rgba(139,92,246,0.15)" stroke="rgba(139,92,246,0.7)" stroke-width="2"/>
+            <circle cx="250" cy="90" r="18" fill="rgba(139,92,246,0.3)"/>
+            <text x="250" y="86" text-anchor="middle" fill="white" font-size="8" font-family="sans-serif" font-weight="600">PAUL</text>
+            <text x="250" y="97" text-anchor="middle" fill="rgba(167,139,250,0.8)" font-size="7" font-family="sans-serif">XIONG</text>
+            <!-- Domain nodes -->
+            <circle cx="100" cy="40" r="20" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.6)" stroke-width="1.5"/>
+            <text x="100" y="36" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Enterprise</text>
+            <text x="100" y="46" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Integration</text>
+            <circle cx="400" cy="40" r="20" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.6)" stroke-width="1.5"/>
+            <text x="400" y="36" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Cloud</text>
+            <text x="400" y="46" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Architecture</text>
+            <circle cx="80" cy="130" r="20" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.6)" stroke-width="1.5"/>
+            <text x="80" y="126" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">AI /</text>
+            <text x="80" y="136" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Agentic</text>
+            <circle cx="420" cy="130" r="20" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.6)" stroke-width="1.5"/>
+            <text x="420" y="126" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Engineering</text>
+            <text x="420" y="136" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Leadership</text>
+            <circle cx="180" cy="155" r="18" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.6)" stroke-width="1.5"/>
+            <text x="180" y="151" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Full-Stack</text>
+            <text x="180" y="161" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Dev</text>
+            <circle cx="320" cy="155" r="18" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.6)" stroke-width="1.5"/>
+            <text x="320" y="151" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Video</text>
+            <text x="320" y="161" text-anchor="middle" fill="rgba(148,163,184,0.9)" font-size="6.5" font-family="sans-serif">Production</text>
+          </svg>
+          <div style="position:absolute;bottom:8px;right:10px;color:rgba(99,102,241,0.4);font-size:8px;font-family:sans-serif;letter-spacing:1px;">PAN · ZOOM · CLICK TO EXPAND</div>
+        </div>
+      </div>
+
+      <!-- Zone 3: Detail Panel -->
+      <div style="padding:16px 24px;background:#07070f;">
+        <div style="color:rgba(167,139,250,0.5);font-size:9px;letter-spacing:3px;font-family:sans-serif;text-transform:uppercase;margin-bottom:8px;">Zone 3 — Slide-in Detail Panel (on node click)</div>
+        <div style="background:#0f0f1a;border:1px solid #1e1e3a;border-left:2px solid rgba(139,92,246,0.6);border-radius:4px;padding:12px;display:flex;gap:16px;font-family:sans-serif;">
+          <div style="flex:1;">
+            <div style="color:#a78bfa;font-size:11px;font-weight:600;margin-bottom:4px;">AI / Agentic Systems</div>
+            <div style="color:#64748b;font-size:9px;letter-spacing:1px;margin-bottom:8px;">SKILLS · TOOLS · PROJECTS</div>
+            <div style="color:#94a3b8;font-size:10px;line-height:1.6;">Claude · Gemini · Copilot · Codex · LLMOps · Agentic Pipelines · GitHub Copilot CI/CD · Ollama</div>
+          </div>
+          <div style="width:90px;text-align:right;">
+            <div style="color:#475569;font-size:8px;letter-spacing:1px;margin-bottom:4px;">KEY PROJECT</div>
+            <div style="color:#a78bfa;font-size:9px;line-height:1.4;">Zen-Cloud News AI Video Pipeline</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">6 Domain Nodes (from your CV)</div>
+  <table style="width:100%;border-collapse:collapse;font-family:sans-serif;font-size:12px;margin-top:8px;">
+    <tr style="border-bottom:1px solid #1e1e3a;">
+      <th style="text-align:left;padding:8px;color:#a78bfa;">Node</th>
+      <th style="text-align:left;padding:8px;color:#a78bfa;">Key Skills</th>
+      <th style="text-align:left;padding:8px;color:#a78bfa;">Anchor Project</th>
+    </tr>
+    <tr style="border-bottom:1px solid #1a1a2e;">
+      <td style="padding:8px;color:#e2e8f0;">Enterprise Integration</td>
+      <td style="padding:8px;color:#94a3b8;">MuleSoft, BizTalk EDI, API design, MQ FIFO</td>
+      <td style="padding:8px;color:#64748b;">BizTalk → MuleSoft Transformation</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1a1a2e;">
+      <td style="padding:8px;color:#e2e8f0;">Cloud Architecture</td>
+      <td style="padding:8px;color:#94a3b8;">Azure Fabric, Amazon Connect, CloudHub 2.0</td>
+      <td style="padding:8px;color:#64748b;">Contact Center & Analytics Layer</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1a1a2e;">
+      <td style="padding:8px;color:#e2e8f0;">AI / Agentic</td>
+      <td style="padding:8px;color:#94a3b8;">Claude, Copilot, Gemini, LLMOps, pipelines</td>
+      <td style="padding:8px;color:#64748b;">Zen-Cloud News AI Video Pipeline</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1a1a2e;">
+      <td style="padding:8px;color:#e2e8f0;">Engineering Leadership</td>
+      <td style="padding:8px;color:#94a3b8;">10+ team US/India, $2M budget, C-suite roadmaps</td>
+      <td style="padding:8px;color:#64748b;">50%+ Time-to-Production gain</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1a1a2e;">
+      <td style="padding:8px;color:#e2e8f0;">Full-Stack Dev</td>
+      <td style="padding:8px;color:#94a3b8;">.NET/C#, Python, Next.js, Supabase, Remotion</td>
+      <td style="padding:8px;color:#64748b;">.NET Middle-Tier Framework</td>
+    </tr>
+    <tr>
+      <td style="padding:8px;color:#e2e8f0;">Video Production</td>
+      <td style="padding:8px;color:#94a3b8;">Remotion, Puppeteer, Python, AI synthesis</td>
+      <td style="padding:8px;color:#64748b;">Zen-Cloud News automated reels</td>
+    </tr>
+  </table>
+</div>
+
+<p style="color:#64748b;font-size:11px;font-family:sans-serif;margin-top:16px;">Does this layout and node breakdown look right? Any nodes to add, remove, or rename?</p>

@@ -1,0 +1,52 @@
+{
+  "id": "962f0c157f72",
+  "key": "pattern_zencloudmedia_superpowers_brainstorm_962f0c",
+  "name": "pattern_zencloudmedia_superpowers_brainstorm_962f0c",
+  "claim": "Wrote C:\\git\\ZenCloudMedia\\.superpowers\\brainstorm\\1075-1777858048\\content\\design-directions.html (128 lines)",
+  "conditions": [
+    "brainstorm",
+    "class",
+    "click",
+    "content",
+    "file_path",
+    "git",
+    "html",
+    "lines",
+    "select",
+    "subtitle",
+    "superpowers",
+    "u00e2",
+    "u201d",
+    "u20ac",
+    "write",
+    "wrote",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-04T01:28:35.746382+00:00",
+    "2026-05-04T01:36:22.120992+00:00"
+  ],
+  "cluster_size": 2,
+  "canonical_salience": 9.0,
+  "staged_at": "2026-05-04T01:36:29.422680+00:00",
+  "status": "rejected",
+  "decisions": [
+    {
+      "ts": "2026-05-04T01:36:29.422680+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-05T21:52:17.514682+00:00",
+      "action": "rejected",
+      "reviewer": "host-agent",
+      "notes": "Mechanical noise: raw tool-call clustering with no extractable principle",
+      "evidence_snapshot": [
+        "2026-05-04T01:28:35.746382+00:00",
+        "2026-05-04T01:36:22.120992+00:00"
+      ],
+      "lessons_sha": "cce215457d64"
+    }
+  ],
+  "rejection_count": 1
+}

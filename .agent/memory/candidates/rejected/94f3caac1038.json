@@ -1,0 +1,98 @@
+{
+  "id": "94f3caac1038",
+  "key": "pattern_zencloudmedia_superpowers_brainstorm_94f3ca",
+  "name": "pattern_zencloudmedia_superpowers_brainstorm_94f3ca",
+  "claim": "Wrote C:\\git\\ZenCloudMedia\\.superpowers\\brainstorm\\1075-1777858048\\content\\design-directions.html (128 lines)",
+  "conditions": [
+    "brainstorm",
+    "class",
+    "content",
+    "file_path",
+    "git",
+    "html",
+    "lines",
+    "subtitle",
+    "superpowers",
+    "write",
+    "wrote",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-04T01:28:35.746382+00:00",
+    "2026-05-04T01:36:22.120992+00:00",
+    "2026-05-04T01:38:05.960650+00:00",
+    "2026-05-04T01:50:43.406217+00:00",
+    "2026-05-04T01:56:04.986686+00:00"
+  ],
+  "cluster_size": 5,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-04T01:38:10.289321+00:00",
+  "status": "rejected",
+  "decisions": [
+    {
+      "ts": "2026-05-04T01:38:10.289321+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:38:34.516817+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:39:09.198934+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:41:27.445982+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:42:46.631197+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:46:43.918171+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:50:50.124194+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:56:11.263023+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T01:59:04.286384+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T02:05:27.820608+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-05T21:52:15.346528+00:00",
+      "action": "rejected",
+      "reviewer": "host-agent",
+      "notes": "Mechanical noise: raw tool-call clustering with no extractable principle",
+      "evidence_snapshot": [
+        "2026-05-04T01:28:35.746382+00:00",
+        "2026-05-04T01:36:22.120992+00:00",
+        "2026-05-04T01:38:05.960650+00:00",
+        "2026-05-04T01:50:43.406217+00:00",
+        "2026-05-04T01:56:04.986686+00:00"
+      ],
+      "lessons_sha": "cce215457d64"
+    }
+  ],
+  "rejection_count": 1
+}

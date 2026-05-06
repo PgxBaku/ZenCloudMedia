@@ -28,18 +28,31 @@ The goal is for a visitor to *feel* the arc of the career before reading the det
 ### Animation Sequence (auto-plays on page load)
 All timing is orchestrated with Framer Motion. No user interaction required.
 
-| Step | Timing | Action |
-|------|--------|--------|
-| 0s | — | Hero name fades in on the left |
-| 0.4s | — | Path line begins drawing left-to-right |
-| 0.5s | — | Milestone 1 (2017) rises up |
-| 1.4s | — | Milestone 2 (2020) rises up |
-| 2.3s | — | Milestone 3 (2022) rises up |
-| 3.2s | — | Milestone 4 (2025 peak) rises up |
-| 4.1s | — | Zen Cloud side-project marker appears above the 2025 flag |
-| 5.0s | — | Destination star glows in at the far right |
-| 5.9s | — | World zooms out (`scale` transform) to fit all milestones in viewport |
-| 7.3s | — | Page auto-scrolls down; paper resume fades in below |
+All durations are driven by a single config object in `src/app/resume/data/resume.ts` so they can be tuned without touching component code:
+
+```ts
+export const ANIMATION_CONFIG = {
+  heroFadeIn: 0,          // seconds: hero name appears
+  pathStartDelay: 0.4,    // seconds: path line begins drawing
+  milestoneInterval: 0.9, // seconds: gap between each flag rising
+  zoomOutDelay: 0.9,      // seconds after last flag before zoom-out
+  zoomOutDuration: 1.8,   // seconds: zoom transition
+  resumeRevealDelay: 1.4, // seconds after zoom-out before scroll+reveal
+};
+```
+
+| Step | Default timing | Action |
+|------|---------------|--------|
+| 0s | `heroFadeIn` | Hero name fades in on the left |
+| 0.4s | `pathStartDelay` | Path line begins drawing left-to-right |
+| 0.5s | `pathStartDelay + 0.1` | Milestone 1 (2017) rises up |
+| 1.4s | `+ milestoneInterval` | Milestone 2 (2020) rises up |
+| 2.3s | `+ milestoneInterval` | Milestone 3 (2022) rises up |
+| 3.2s | `+ milestoneInterval` | Milestone 4 (2025 peak) rises up |
+| 4.1s | `+ milestoneInterval` | Zen Cloud marker appears above 2025 flag |
+| 5.0s | `+ zoomOutDelay` | Destination star glows in; zoom-out begins |
+| 6.8s | `+ zoomOutDuration` | Zoom complete |
+| 8.2s | `+ resumeRevealDelay` | Page scrolls; paper resume fades in |
 
 ### Milestone Flags (5 total)
 Each flag rises from the terrain floor. Hovering reveals a detail card above.
@@ -53,7 +66,7 @@ Each flag rises from the terrain floor. Hovering reveals a detail card above.
 | ★ | Side project | Zen Cloud Media | AI-automated video pipeline |
 
 Milestone 4 (peak) has a glowing purple/blue gradient flag — visually the highest point.  
-The "Next Summit" destination marker shows the target AI roles (not a past role).
+The "Next Summit" destination marker shows the target role direction (not a past role): **Engineering / Dev Manager with deep AI capability** — not an individual-contributor AI role.
 
 ### Hover Cards
 Each flag has a card that appears on hover (opacity + translateY transition):
@@ -101,7 +114,7 @@ White card, max-width 820px, centered, with drop shadow (`box-shadow`). Two-colu
 - Skills (grouped: Integration & Cloud / AI & Engineering / Leadership)
 - Projects (Zen Cloud Media, 7pace ADO dashboards)
 - Education (University of St. Thomas, international study)
-- Target Roles + compensation range
+- Target Roles: Engineering / Dev Manager with AI capabilities (no individual-contributor AI roles; no compensation range)
 
 **Footer strip:**
 - Left: location + visa status

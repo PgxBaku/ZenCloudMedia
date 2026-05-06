@@ -3,10 +3,11 @@
 export const ANIMATION_CONFIG = {
   heroFadeIn: 0,
   pathStartDelay: 0.4,
-  milestoneInterval: 0.9,
-  zoomOutDelay: 0.9,
+  milestoneInterval: 3.5,
+  starAppearDelay: 0,
+  zoomOutDelay: 14.0,
   zoomOutDuration: 1.8,
-  resumeRevealDelay: 1.4,
+  resumeRevealDelay: 2.0,
 } as const
 
 export type FlagStyle = 'slate' | 'indigo' | 'violet' | 'peak' | 'amber'
@@ -52,6 +53,7 @@ export const MILESTONES: Milestone[] = [
     flagLeft: 520,
     poleHeight: 52,
     flagStyle: 'slate',
+    aboveGround: 140,
   },
   {
     id: 'solutions-architect',
@@ -64,6 +66,7 @@ export const MILESTONES: Milestone[] = [
     flagLeft: 920,
     poleHeight: 70,
     flagStyle: 'indigo',
+    aboveGround: 160,
   },
   {
     id: 'lead-architect',
@@ -76,6 +79,7 @@ export const MILESTONES: Milestone[] = [
     flagLeft: 1320,
     poleHeight: 90,
     flagStyle: 'violet',
+    aboveGround: 185,
   },
   {
     id: 'dev-manager',
@@ -88,6 +92,7 @@ export const MILESTONES: Milestone[] = [
     flagLeft: 1760,
     poleHeight: 114,
     flagStyle: 'peak',
+    aboveGround: 215,
   },
   {
     id: 'zen-cloud',
@@ -95,12 +100,12 @@ export const MILESTONES: Milestone[] = [
     dateRange: 'Side Project · Ongoing',
     role: 'Zen Cloud Media',
     company: 'Founder & Lead Developer',
-    tags: ['Remotion', 'Python', 'Claude', 'Next.js'],
+    tags: ['Remotion', 'Python', 'Claude', 'Codex', 'Ollama', 'DeepSeek', 'Next.js'],
     metric: '🎬 AI-automated video production pipeline',
-    flagLeft: 1760,
-    poleHeight: 18,
+    flagLeft: 2000,
+    poleHeight: 200,
     flagStyle: 'amber',
-    aboveGround: 280,
+    aboveGround: 235,
   },
 ]
 

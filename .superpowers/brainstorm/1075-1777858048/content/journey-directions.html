@@ -1,0 +1,164 @@
+<h2>Journey / Mountain Design — Directions</h2>
+<p class="subtitle">Your career as a climb. Three visual interpretations. Click to select.</p>
+
+<div class="cards">
+
+  <!-- Option A: Mountain Silhouette with winding path -->
+  <div class="card" data-choice="mountain-trail" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(180deg,#04040f 0%,#0a0520 40%,#12082a 70%,#1a0f1a 100%);padding:0;height:230px;position:relative;overflow:hidden;">
+      <svg width="100%" height="100%" viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice">
+        <!-- Stars -->
+        <circle cx="30" cy="15" r="1" fill="rgba(255,255,255,0.6)"/>
+        <circle cx="80" cy="8" r="1.2" fill="rgba(255,255,255,0.8)"/>
+        <circle cx="150" cy="20" r="0.8" fill="rgba(255,255,255,0.5)"/>
+        <circle cx="200" cy="10" r="1" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="270" cy="18" r="1.3" fill="rgba(255,255,255,0.6)"/>
+        <circle cx="320" cy="6" r="0.9" fill="rgba(255,255,255,0.8)"/>
+        <circle cx="340" cy="25" r="1" fill="rgba(255,255,255,0.5)"/>
+        <circle cx="60" cy="35" r="0.7" fill="rgba(255,255,255,0.4)"/>
+        <circle cx="240" cy="30" r="0.8" fill="rgba(255,255,255,0.5)"/>
+        <!-- Moon glow at peak -->
+        <circle cx="180" cy="30" r="30" fill="rgba(139,92,246,0.08)" filter="url(#moonGlow)"/>
+        <circle cx="180" cy="30" r="8" fill="rgba(167,139,250,0.7)"/>
+        <!-- Mountain silhouette -->
+        <polygon points="0,230 60,230 180,40 300,230 360,230" fill="#0d0d1a"/>
+        <polygon points="0,230 30,230 80,160 140,230" fill="#080812" opacity="0.8"/>
+        <polygon points="220,230 280,160 360,230" fill="#080812" opacity="0.7"/>
+        <!-- Snow cap -->
+        <polygon points="165,60 180,40 195,60 185,56 180,58 175,56" fill="rgba(220,220,255,0.6)"/>
+        <!-- Winding path up the mountain -->
+        <path d="M 40 220 C 60 210, 80 200, 95 185 C 110 170, 100 155, 115 145 C 130 135, 150 138, 155 125 C 160 112, 148 100, 158 88 C 165 80, 172 72, 180 62" stroke="rgba(167,139,250,0.7)" stroke-width="2" stroke-dasharray="5,3" fill="none"/>
+        <!-- Milestone markers -->
+        <!-- Base: Senior Engineer -->
+        <circle cx="40" cy="220" r="5" fill="#a78bfa" opacity="0.9"/>
+        <text x="50" y="217" fill="rgba(167,139,250,0.8)" font-size="7" font-family="sans-serif">Sr. Engineer · 2017</text>
+        <!-- Camp 1: Solutions Architect -->
+        <circle cx="95" cy="185" r="5" fill="#a78bfa" opacity="0.9"/>
+        <text x="106" y="182" fill="rgba(167,139,250,0.8)" font-size="7" font-family="sans-serif">Solutions Architect · 2020</text>
+        <!-- Camp 2: Lead Architect -->
+        <circle cx="115" cy="145" r="5" fill="#a78bfa" opacity="0.9"/>
+        <text x="126" y="142" fill="rgba(167,139,250,0.8)" font-size="7" font-family="sans-serif">Lead Architect · 2022</text>
+        <!-- Camp 3: Dev Manager -->
+        <circle cx="155" cy="122" r="6" fill="#c4b5fd" opacity="1"/>
+        <text x="107" y="117" fill="rgba(196,181,253,0.9)" font-size="7" font-family="sans-serif" font-weight="600">Dev Manager · 2025</text>
+        <!-- Summit star: AI future -->
+        <polygon points="180,54 182,60 188,60 183,64 185,70 180,66 175,70 177,64 172,60 178,60" fill="rgba(250,220,100,0.9)"/>
+        <text x="192" y="58" fill="rgba(250,220,100,0.8)" font-size="7" font-family="sans-serif">AI Future</text>
+        <defs>
+          <filter id="moonGlow"><feGaussianBlur stdDeviation="8"/></filter>
+        </defs>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>A — Mountain Trail</h3>
+      <p>Dark night-sky mountain with a glowing path that <em>draws itself</em> as you scroll. Career milestones are campsites. The summit glows — your AI future. Scroll-triggered Framer Motion path animation.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Horizontal terrain scroll -->
+  <div class="card" data-choice="terrain-scroll" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(180deg,#f0f4ff 0%,#e8edf8 60%,#d4dff7 100%);padding:0;height:230px;position:relative;overflow:hidden;font-family:sans-serif;">
+      <!-- Sky gradient -->
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,#dde8ff 0%,#eef3ff 100%);"></div>
+      <!-- Clouds -->
+      <div style="position:absolute;top:20px;left:20px;width:60px;height:20px;background:white;border-radius:20px;opacity:0.8;"></div>
+      <div style="position:absolute;top:15px;left:35px;width:40px;height:25px;background:white;border-radius:20px;opacity:0.8;"></div>
+      <div style="position:absolute;top:25px;right:40px;width:50px;height:18px;background:white;border-radius:20px;opacity:0.6;"></div>
+      <!-- Terrain SVG -->
+      <svg width="100%" height="100%" viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice" style="position:absolute;bottom:0;">
+        <!-- Far mountains (light) -->
+        <polygon points="0,160 50,100 100,130 150,80 200,120 250,85 300,110 360,90 360,230 0,230" fill="#c8d8f0" opacity="0.6"/>
+        <!-- Mid mountains -->
+        <polygon points="0,180 40,130 90,155 150,100 200,140 260,105 320,135 360,115 360,230 0,230" fill="#a0b4d8" opacity="0.7"/>
+        <!-- Near hills -->
+        <polygon points="0,200 60,170 120,185 180,160 240,180 300,165 360,175 360,230 0,230" fill="#7090b8"/>
+        <!-- Ground -->
+        <rect x="0" y="210" width="360" height="20" fill="#5a7aa0"/>
+        <!-- Path along the ground -->
+        <path d="M 0 208 Q 60 205, 120 207 Q 180 209, 240 206 Q 300 203, 360 205" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
+        <!-- Milestone flags -->
+        <line x1="30" y1="180" x2="30" y2="208" stroke="rgba(100,120,200,0.7)" stroke-width="1.5"/>
+        <polygon points="30,180 45,185 30,190" fill="rgba(100,120,200,0.8)"/>
+        <line x1="110" y1="165" x2="110" y2="208" stroke="rgba(100,120,200,0.7)" stroke-width="1.5"/>
+        <polygon points="110,165 125,170 110,175" fill="rgba(100,120,200,0.8)"/>
+        <line x1="200" y1="155" x2="200" y2="208" stroke="rgba(80,100,180,0.7)" stroke-width="1.5"/>
+        <polygon points="200,155 215,160 200,165" fill="rgba(80,100,180,0.8)"/>
+        <line x1="290" y1="145" x2="290" y2="208" stroke="rgba(60,80,160,0.9)" stroke-width="1.5"/>
+        <polygon points="290,145 305,150 290,155" fill="rgba(60,80,160,0.9)"/>
+        <!-- Labels -->
+        <text x="30" y="175" text-anchor="middle" fill="rgba(60,80,150,0.8)" font-size="7" font-family="sans-serif">2017</text>
+        <text x="110" y="160" text-anchor="middle" fill="rgba(60,80,150,0.8)" font-size="7" font-family="sans-serif">2020</text>
+        <text x="200" y="150" text-anchor="middle" fill="rgba(60,80,150,0.8)" font-size="7" font-family="sans-serif">2022</text>
+        <text x="290" y="140" text-anchor="middle" fill="rgba(40,60,140,0.9)" font-size="7" font-family="sans-serif">2025 →</text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>B — Illustrated Terrain Map</h3>
+      <p>Light, painterly landscape — like an illustrated map. Career milestones are flag markers along a rising trail. Horizontal scroll reveals the journey. More editorial, almost like a storybook or National Geographic layout.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Vertical elevation timeline -->
+  <div class="card" data-choice="elevation-timeline" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080c14;padding:20px;height:230px;position:relative;overflow:hidden;font-family:sans-serif;">
+      <!-- Contour lines background -->
+      <svg width="100%" height="100%" style="position:absolute;inset:0;" viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice">
+        <ellipse cx="180" cy="115" rx="160" ry="90" fill="none" stroke="rgba(99,102,241,0.07)" stroke-width="1"/>
+        <ellipse cx="180" cy="115" rx="130" ry="70" fill="none" stroke="rgba(99,102,241,0.07)" stroke-width="1"/>
+        <ellipse cx="180" cy="115" rx="100" ry="50" fill="none" stroke="rgba(99,102,241,0.08)" stroke-width="1"/>
+        <ellipse cx="180" cy="115" rx="70" ry="35" fill="none" stroke="rgba(99,102,241,0.1)" stroke-width="1"/>
+        <ellipse cx="180" cy="115" rx="40" ry="20" fill="none" stroke="rgba(99,102,241,0.12)" stroke-width="1"/>
+      </svg>
+      <!-- Elevation spine -->
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:0;">
+        <!-- Entry -->
+        <div style="display:flex;align-items:center;gap:12px;padding:6px 0;">
+          <div style="text-align:right;width:60px;color:#475569;font-size:9px;letter-spacing:1px;">2,400 ft</div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#4b5563;border:1.5px solid #6b7280;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="color:#94a3b8;font-size:10px;font-weight:500;">Senior Software Engineer</div>
+            <div style="color:#475569;font-size:9px;">.NET Framework · SQL · TFS · SDLC</div>
+          </div>
+        </div>
+        <!-- Mid 1 -->
+        <div style="display:flex;align-items:center;gap:12px;padding:6px 0;">
+          <div style="text-align:right;width:60px;color:#6366f1;font-size:9px;letter-spacing:1px;">5,800 ft</div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#6366f1;border:1.5px solid #818cf8;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="color:#c7d2fe;font-size:10px;font-weight:500;">Solutions Architect</div>
+            <div style="color:#6366f1;font-size:9px;">MuleSoft · CloudHub · ADO Migration</div>
+          </div>
+        </div>
+        <!-- Mid 2 -->
+        <div style="display:flex;align-items:center;gap:12px;padding:6px 0;">
+          <div style="text-align:right;width:60px;color:#7c3aed;font-size:9px;letter-spacing:1px;">9,100 ft</div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#7c3aed;border:1.5px solid #a78bfa;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="color:#ddd6fe;font-size:10px;font-weight:500;">Lead Architect & Dev Lead</div>
+            <div style="color:#7c3aed;font-size:9px;">EDI Transformation · 100+ processes · BizTalk sunset</div>
+          </div>
+        </div>
+        <!-- Summit -->
+        <div style="display:flex;align-items:center;gap:12px;padding:6px 0;background:rgba(139,92,246,0.08);border-radius:6px;padding:8px;">
+          <div style="text-align:right;width:60px;color:#a78bfa;font-size:9px;letter-spacing:1px;font-weight:700;">14,000 ft</div>
+          <div style="width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);border:2px solid #c4b5fd;flex-shrink:0;box-shadow:0 0 8px rgba(167,139,250,0.6);"></div>
+          <div style="flex:1;">
+            <div style="color:#fff;font-size:10px;font-weight:700;">Software Dev Manager · AI</div>
+            <div style="color:#a78bfa;font-size:9px;">$2M budget · 10+ team · Amazon Connect · Azure Fabric</div>
+          </div>
+        </div>
+        <!-- Horizon -->
+        <div style="display:flex;align-items:center;gap:12px;padding:6px 8px;margin-top:4px;border-top:1px dashed rgba(99,102,241,0.2);">
+          <div style="text-align:right;width:60px;color:#f59e0b;font-size:8px;letter-spacing:1px;">HORIZON</div>
+          <div style="width:10px;height:10px;border-radius:2px;background:rgba(245,158,11,0.3);border:1.5px solid rgba(245,158,11,0.6);flex-shrink:0;transform:rotate(45deg);"></div>
+          <div style="flex:1;color:#92400e;font-size:9px;font-style:italic;">AI Solutions Architect · LLMOps · Agentic Systems</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Elevation Timeline</h3>
+      <p>Your career as an altitude climb — each role has an elevation marker. Dark background with topographic contour rings. Scroll animates you rising up. Clean and readable but still deeply metaphorical. The summit glows.</p>
+    </div>
+  </div>
+
+</div>

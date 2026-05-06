@@ -41,22 +41,27 @@ const THEMES: Record<FlagStyle, FlagTheme> = {
     dotShadow: '0 0 10px rgba(167,139,250,0.7)',
   },
   amber: {
-    poleBg: 'rgba(245,158,11,0.35)',
-    flagBg: 'rgba(245,158,11,0.15)', flagText: '#fbbf24',
-    flagBorder: '1px solid rgba(245,158,11,0.4)',
+    poleBg: 'rgba(245,158,11,0.4)',
+    flagBg: 'rgba(30,20,5,0.85)', flagText: '#fbbf24',
+    flagBorder: '1px solid rgba(245,158,11,0.5)',
     dotBg: '#f59e0b', dotBorder: '#fbbf24',
     dotShadow: '0 0 8px rgba(245,158,11,0.5)',
-    fontSize: 9,
+    fontSize: 10,
   },
 }
 
 type Props = {
   milestone: Milestone
   delay: number
+  isActive: boolean
+  seen: boolean
+  showAll: boolean
+  onClick?: () => void
 }
 
-export default function MilestoneFlag({ milestone, delay }: Props) {
+export default function MilestoneFlag({ milestone, delay, isActive, seen, showAll, onClick }: Props) {
   const theme = THEMES[milestone.flagStyle]
+  const cardVisible = seen || isActive || showAll
 
   return (
     <motion.div
@@ -66,10 +71,11 @@ export default function MilestoneFlag({ milestone, delay }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay, ease: 'easeOut' }}
     >
-      {/* Hover card */}
+      {/* Detail card — visible when active, after sequence, or on hover */}
       <div
-        className="absolute bottom-full mb-3 w-56 opacity-0 translate-y-1.5 pointer-events-none z-20
-          group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200"
+        onClick={onClick}
+        className={`absolute bottom-full mb-3 w-56 z-20 transition-all duration-200
+          ${cardVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto'}`}
         style={{
           background: 'rgba(8,10,24,0.96)',
           backdropFilter: 'blur(16px)',

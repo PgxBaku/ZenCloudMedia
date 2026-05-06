@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume — Full Experience</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1117; font-family: 'Georgia', serif; overflow-y: scroll; overflow-x: hidden; }
+
+  /* ══ HEADER ══ */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+    background: rgba(10,10,20,0.88); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 10px 32px; display: flex; align-items: center; gap: 24px;
+  }
+  .header-name { color: #e2e8f0; font-size: 14px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; }
+  .header-title { color: #475569; font-size: 10px; letter-spacing: 2px; font-family: sans-serif; text-transform: uppercase; }
+  .progress-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.07); border-radius: 1px; overflow: hidden; }
+  .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #6366f1, #a78bfa); transition: width 0.4s; }
+  .progress-label { color: #475569; font-size: 10px; font-family: sans-serif; letter-spacing: 1px; }
+
+  /* ══ TERRAIN SCENE ══ */
+  .terrain-scene {
+    position: relative; height: 100vh; overflow: hidden;
+    background: linear-gradient(180deg, #bfdbfe 0%, #dbeafe 35%, #eff6ff 65%, #f0fdf4 85%, #dcfce7 100%);
+  }
+
+  .world-wrap {
+    width: 2600px; height: 100%;
+    transform-origin: left center;
+    transition: transform 1.8s cubic-bezier(0.77,0,0.175,1);
+    will-change: transform;
+    position: relative;
+  }
+
+  .sun {
+    position: absolute; right: 280px; top: 36px; width: 56px; height: 56px;
+    background: radial-gradient(circle, #fef3c7, #fde68a, #fbbf24); border-radius: 50%;
+    box-shadow: 0 0 40px rgba(251,191,36,0.5), 0 0 100px rgba(251,191,36,0.15);
+  }
+  .cloud { position: absolute; background: white; border-radius: 50px; }
+  .layer { position: absolute; bottom: 0; left: 0; width: 2600px; }
+
+  .path-svg { position: absolute; bottom: 148px; left: 0; width: 2600px; z-index: 5; overflow: visible; }
+  .path-line { stroke-dasharray: 2200; stroke-dashoffset: 2200; }
+
+  .chapter {
+    position: absolute; bottom: 140px; display: flex; flex-direction: column; align-items: center;
+    z-index: 10; opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease; cursor: pointer;
+  }
+  .chapter.visible { opacity: 1; transform: translateY(0); }
+  .chapter:hover .chapter-card { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+
+  .chapter-card {
+    position: absolute; bottom: calc(100% + 14px); width: 224px;
+    left: 50%; transform: translateX(-50%) translateY(6px);
+    background: rgba(8,10,24,0.96); backdrop-filter: blur(16px);
+    border: 1px solid rgba(99,102,241,0.35); border-radius: 10px;
+    padding: 14px; opacity: 0; transition: all 0.25s;
+    pointer-events: none; box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+  }
+  .chapter-card::after {
+    content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    border:6px solid transparent; border-top-color:rgba(99,102,241,0.35);
+  }
+  .card-year { color: #6366f1; font-size: 10px; letter-spacing: 2px; font-family: sans-serif; margin-bottom: 4px; }
+  .card-role { color: #f1f5f9; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .card-company { color: #94a3b8; font-size: 11px; font-family: sans-serif; margin-bottom: 8px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .tag { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); color: rgba(165,180,252,0.9); padding: 2px 7px; border-radius: 3px; font-size: 9px; font-family: sans-serif; }
+  .card-metric { color: #a78bfa; font-size: 10px; font-family: sans-serif; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  .flag-pole { width: 2px; background: rgba(60,60,100,0.45); }
+  .flag { padding: 4px 10px; border-radius: 3px; font-family: sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .flag-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 4px; }
+
+  .tree { position: absolute; z-index: 6; }
+
+  .hero-zone {
+    position: absolute; left: 56px; top: 50%; transform: translateY(-60%);
+    z-index: 20; opacity: 0; transition: opacity 1s ease 0.2s;
+  }
+  .hero-zone.visible { opacity: 1; }
+  .hero-intro { color: #1e3a5f; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; font-family: sans-serif; margin-bottom: 8px; opacity: 0.7; }
+  .hero-name { color: #0f172a; font-size: 40px; font-weight: 300; line-height: 1.05; margin-bottom: 6px; }
+  .hero-name strong { font-weight: 700; color: #1e40af; }
+  .hero-sub { color: #334155; font-size: 12px; font-family: sans-serif; letter-spacing: 0.5px; max-width: 250px; line-height: 1.5; }
+
+  .destination {
+    position: absolute; right: 90px; top: 38%; transform: translateY(-50%);
+    z-index: 20; text-align: center; opacity: 0; transition: opacity 0.8s;
+  }
+  .destination.visible { opacity: 1; }
+  .dest-glow { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle,rgba(251,191,36,0.35),transparent 70%); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
+  .dest-star { font-size: 28px; animation: glow 2s ease-in-out infinite; }
+  @keyframes glow { 0%,100%{text-shadow:0 0 8px rgba(251,191,36,0.6)} 50%{text-shadow:0 0 20px rgba(251,191,36,0.9)} }
+  .dest-label { color: #92400e; font-size: 10px; letter-spacing: 3px; font-family: sans-serif; text-transform: uppercase; }
+  .dest-role { color: #78350f; font-size: 12px; font-weight: 600; margin-top: 4px; line-height: 1.4; }
+
+  /* ══ SCROLL BRIDGE ══ */
+  .scroll-bridge {
+    background: linear-gradient(180deg, #dcfce7 0%, #f8f9fc 100%);
+    padding: 40px 0 60px; text-align: center;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .scroll-bridge.visible { opacity: 1; transform: translateY(0); }
+  .bridge-label { font-family: sans-serif; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #94a3b8; margin-bottom: 10px; }
+  .bridge-arrow { font-size: 22px; color: #6366f1; animation: bounce 1.4s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  /* ══ PAPER RESUME ══ */
+  .paper-wrap {
+    background: #f1f3f8; padding: 40px 0 80px;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .paper-wrap.visible { opacity: 1; transform: translateY(0); }
+
+  .paper {
+    max-width: 820px; margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 20px 60px rgba(0,0,0,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    font-size: 13px; line-height: 1.6; color: #1e293b;
+  }
+
+  /* Paper header band */
+  .paper-head {
+    background: linear-gradient(135deg, #1e40af 0%, #312e81 100%);
+    padding: 36px 48px 28px;
+    color: white;
+  }
+  .paper-head h1 { font-size: 32px; font-weight: 300; letter-spacing: 1px; margin-bottom: 4px; }
+  .paper-head h1 strong { font-weight: 700; }
+  .paper-head .title { font-size: 13px; font-family: sans-serif; letter-spacing: 2px; opacity: 0.85; margin-bottom: 16px; text-transform: uppercase; }
+  .paper-contact { display: flex; flex-wrap: wrap; gap: 20px; font-size: 11px; font-family: sans-serif; opacity: 0.8; }
+  .paper-contact span { display: flex; align-items: center; gap: 5px; }
+
+  /* Metrics band */
+  .paper-metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    background: #f8faff; border-bottom: 1px solid #e2e8f0;
+  }
+  .metric-cell {
+    padding: 18px 20px; text-align: center;
+    border-right: 1px solid #e2e8f0;
+  }
+  .metric-cell:last-child { border-right: none; }
+  .metric-value { font-size: 22px; font-weight: 700; color: #1e40af; display: block; }
+  .metric-label { font-size: 10px; font-family: sans-serif; color: #64748b; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+  /* Paper body */
+  .paper-body { display: grid; grid-template-columns: 1fr 260px; }
+
+  .paper-main { padding: 32px 36px; border-right: 1px solid #e2e8f0; }
+  .paper-side { padding: 32px 24px; background: #fafbff; }
+
+  .section-label {
+    font-family: sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: #1e40af; border-bottom: 2px solid #1e40af; padding-bottom: 6px; margin-bottom: 16px; font-weight: 700;
+  }
+
+  /* Experience entries */
+  .exp-entry { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #f1f5f9; }
+  .exp-entry:last-child { border-bottom: none; margin-bottom: 0; }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+  .exp-role { font-size: 14px; font-weight: 700; color: #0f172a; }
+  .exp-date { font-family: sans-serif; font-size: 10px; color: #94a3b8; letter-spacing: 1px; white-space: nowrap; margin-left: 12px; }
+  .exp-company { font-family: sans-serif; font-size: 11px; color: #6366f1; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .exp-bullets { padding-left: 0; list-style: none; }
+  .exp-bullets li { font-size: 12px; color: #374151; line-height: 1.65; padding-left: 14px; position: relative; margin-bottom: 4px; }
+  .exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: #6366f1; font-size: 10px; top: 2px; }
+
+  /* Side panel */
+  .side-section { margin-bottom: 28px; }
+  .skill-group { margin-bottom: 12px; }
+  .skill-group-name { font-family: sans-serif; font-size: 10px; font-weight: 700; color: #334155; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-pill { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 2px 9px; border-radius: 3px; font-size: 10px; font-family: sans-serif; }
+  .skill-pill.ai { background: #f5f3ff; border-color: #ddd6fe; color: #5b21b6; }
+  .skill-pill.infra { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+
+  .project-entry { margin-bottom: 14px; }
+  .project-name { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+  .project-desc { font-size: 11px; color: #64748b; font-family: sans-serif; line-height: 1.5; }
+
+  .edu-block { font-size: 12px; color: #374151; }
+  .edu-school { font-weight: 700; color: #0f172a; }
+  .edu-degree { color: #6366f1; font-family: sans-serif; font-size: 11px; }
+
+  /* Paper footer */
+  .paper-footer {
+    background: #f8faff; border-top: 1px solid #e2e8f0;
+    padding: 14px 48px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-note { font-family: sans-serif; font-size: 10px; color: #94a3b8; letter-spacing: 1px; }
+  .footer-url { font-family: sans-serif; font-size: 10px; color: #6366f1; letter-spacing: 1px; }
+
+  /* Phase label */
+  #phase-label {
+    position: fixed; top: 58px; left: 50%; transform: translateX(-50%);
+    font-family: sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(167,139,250,0.7); z-index: 400; opacity: 0; transition: opacity 0.4s;
+    background: rgba(10,10,20,0.75); padding: 4px 18px; border-radius: 99px;
+  }
+  #phase-label.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-name">Paul Xiong</div>
+    <div class="header-title">Strategic Software Dev Manager & AI Architect</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="pbar"></div></div>
+  <div class="progress-label" id="plabel">—</div>
+</div>
+
+<div id="phase-label">Tracing the journey...</div>
+
+<!-- ══ TERRAIN SCENE ══ -->
+<div class="terrain-scene">
+  <div class="world-wrap" id="world">
+
+    <div class="sun"></div>
+
+    <div class="cloud" style="width:88px;height:28px;top:65px;left:420px;opacity:0.75;"></div>
+    <div class="cloud" style="width:56px;height:20px;top:55px;left:462px;opacity:0.7;"></div>
+    <div class="cloud" style="width:72px;height:24px;top:80px;left:720px;opacity:0.5;"></div>
+    <div class="cloud" style="width:96px;height:30px;top:52px;left:1120px;opacity:0.6;"></div>
+    <div class="cloud" style="width:60px;height:22px;top:66px;left:1172px;opacity:0.55;"></div>
+    <div class="cloud" style="width:76px;height:26px;top:75px;left:1650px;opacity:0.4;"></div>
+    <div class="cloud" style="width:52px;height:18px;top:86px;left:1920px;opacity:0.45;"></div>
+
+    <svg class="layer" style="height:280px;bottom:118px;" viewBox="0 0 2600 280" preserveAspectRatio="none">
+      <polygon points="0,280 160,80 320,160 510,40 690,130 870,60 1060,150 1220,50 1400,120 1600,30 1770,100 1940,20 2100,90 2280,10 2450,70 2600,40 2600,280" fill="#c7d9f0" opacity="0.45"/>
+      <polygon points="0,280 210,120 400,180 580,90 740,160 950,80 1160,170 1320,70 1530,140 1680,50 1840,110 2010,40 2200,120 2400,60 2600,80 2600,280" fill="#b8cceb" opacity="0.35"/>
+    </svg>
+    <svg class="layer" style="height:210px;bottom:98px;" viewBox="0 0 2600 210" preserveAspectRatio="none">
+      <path d="M0,210 C110,210 160,120 270,132 S430,188 540,168 S700,92 840,104 S1020,168 1130,148 S1300,72 1470,84 S1640,148 1770,116 S1960,50 2130,64 S2300,128 2470,86 S2560,52 2600,64 L2600,210 Z" fill="#9ab8d8" opacity="0.55"/>
+      <path d="M0,210 C86,210 130,158 216,162 S378,210 486,194 S624,136 754,148 S928,210 1040,188 S1192,126 1326,138 S1504,190 1634,168 S1802,106 1950,118 S2120,168 2270,148 S2440,96 2600,108 L2600,210 Z" fill="#7a9ec4" opacity="0.45"/>
+    </svg>
+    <svg class="layer" style="height:190px;" viewBox="0 0 2600 190" preserveAspectRatio="none">
+      <path d="M0,190 L0,138 C86,132 162,148 258,136 S410,106 518,118 S648,152 776,138 S938,100 1076,112 S1240,148 1380,126 S1566,84 1730,100 S1920,142 2072,116 S2272,72 2440,90 S2550,106 2600,96 L2600,190 Z" fill="#5a8ab0"/>
+      <rect x="0" y="158" width="2600" height="32" fill="#4a7a9f"/>
+    </svg>
+
+    <svg class="path-svg" style="height:4px;" viewBox="0 0 2600 4" preserveAspectRatio="none">
+      <line class="path-line" id="pathLine" x1="310" y1="2" x2="2180" y2="2"
+        stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-dasharray="8,5"/>
+    </svg>
+
+    <!-- Trees -->
+    <div class="tree" style="left:560px;bottom:100px;"><svg width="16" height="32" viewBox="0 0 16 32"><polygon points="8,0 16,18 11,18 12,32 4,32 5,18 0,18" fill="#3d6b4f" opacity="0.7"/></svg></div>
+    <div class="tree" style="left:584px;bottom:101px;"><svg width="12" height="26" viewBox="0 0 12 26"><polygon points="6,0 12,14 8,14 9,26 3,26 4,14 0,14" fill="#3d6b4f" opacity="0.6"/></svg></div>
+    <div class="tree" style="left:900px;bottom:104px;"><svg width="18" height="36" viewBox="0 0 18 36"><polygon points="9,0 18,20 12,20 14,36 4,36 6,20 0,20" fill="#2d5b3f" opacity="0.7"/></svg></div>
+    <div class="tree" style="left:1280px;bottom:108px;"><svg width="20" height="40" viewBox="0 0 20 40"><polygon points="10,0 20,22 14,22 16,40 4,40 6,22 0,22" fill="#2d4a3e" opacity="0.8"/></svg></div>
+    <div class="tree" style="left:1310px;bottom:107px;"><svg width="14" height="28" viewBox="0 0 14 28"><polygon points="7,0 14,16 10,16 11,28 3,28 4,16 0,16" fill="#2d4a3e" opacity="0.6"/></svg></div>
+
+    <div class="hero-zone visible" id="hero">
+      <div class="hero-intro">The Journey of</div>
+      <div class="hero-name">Paul P.<br><strong>Xiong</strong></div>
+      <div class="hero-sub">Strategic Software Dev Manager<br>& AI Solutions Architect</div>
+    </div>
+
+    <!-- Chapters -->
+    <div class="chapter" id="ch1" style="left:520px;">
+      <div class="chapter-card" style="border-color:rgba(100,116,139,0.4);">
+        <div class="card-year" style="color:#94a3b8;">2017 — 2020</div>
+        <div class="card-role">Senior Software Engineer</div>
+        <div class="card-company">ConvergeOne · Minneapolis</div>
+        <div class="card-tags"><span class="tag">.NET / C#</span><span class="tag">SQL Server</span><span class="tag">TFS</span><span class="tag">CI/CD</span></div>
+        <div class="card-metric">⚡ Authored the core .NET Middle-Tier Framework</div>
+      </div>
+      <div class="flag-pole" style="height:52px;"></div>
+      <div class="flag" style="background:rgba(71,85,105,0.9);color:#e2e8f0;">2017</div>
+      <div class="flag-dot" style="background:#64748b;border:2px solid #94a3b8;"></div>
+    </div>
+
+    <div class="chapter" id="ch2" style="left:920px;">
+      <div class="chapter-card">
+        <div class="card-year">2020 — 2022</div>
+        <div class="card-role">Solutions Architect</div>
+        <div class="card-company">ConvergeOne</div>
+        <div class="card-tags"><span class="tag">MuleSoft</span><span class="tag">CloudHub 2.0</span><span class="tag">ADO</span></div>
+        <div class="card-metric">🗺️ Mapped 90 namespaces for CloudHub migration</div>
+      </div>
+      <div class="flag-pole" style="height:70px;"></div>
+      <div class="flag" style="background:rgba(79,70,229,0.9);color:#e0e7ff;">2020</div>
+      <div class="flag-dot" style="background:#6366f1;border:2px solid #818cf8;"></div>
+    </div>
+
+    <div class="chapter" id="ch3" style="left:1320px;">
+      <div class="chapter-card">
+        <div class="card-year">2022 — 2025</div>
+        <div class="card-role">Lead Architect & Developer</div>
+        <div class="card-company">ConvergeOne</div>
+        <div class="card-tags"><span class="tag">EDI / BizTalk</span><span class="tag">Partner Manager</span><span class="tag">MQ FIFO</span></div>
+        <div class="card-metric">🔄 BizTalk sunset · 100+ integrations</div>
+      </div>
+      <div class="flag-pole" style="height:90px;"></div>
+      <div class="flag" style="background:rgba(109,40,217,0.9);color:#ede9fe;">2022</div>
+      <div class="flag-dot" style="background:#7c3aed;border:2px solid #a78bfa;"></div>
+    </div>
+
+    <div class="chapter" id="ch4" style="left:1760px;">
+      <div class="chapter-card">
+        <div class="card-year">2025 — Present</div>
+        <div class="card-role">Software Dev Manager & API Manager</div>
+        <div class="card-company">ConvergeOne · $2M budget · 10+ team</div>
+        <div class="card-tags"><span class="tag">Amazon Connect</span><span class="tag">Azure Fabric</span><span class="tag">AI/Copilot</span></div>
+        <div class="card-metric">🏔️ 50%+ Time-to-Production improvement</div>
+      </div>
+      <div class="flag-pole" style="height:114px;"></div>
+      <div class="flag" style="background:linear-gradient(135deg,rgba(139,92,246,0.95),rgba(96,165,250,0.95));color:white;box-shadow:0 2px 14px rgba(139,92,246,0.4);">2025</div>
+      <div class="flag-dot" style="background:linear-gradient(135deg,#a78bfa,#60a5fa);border:2px solid #c4b5fd;box-shadow:0 0 10px rgba(167,139,250,0.7);"></div>
+    </div>
+
+    <div class="chapter" id="ch5" style="left:1760px;bottom:280px;">
+      <div class="chapter-card" style="border-color:rgba(245,158,11,0.35);">
+        <div class="card-year" style="color:#d97706;">Side Project · Ongoing</div>
+        <div class="card-role">Zen Cloud Media</div>
+        <div class="card-company">Founder & Lead Developer</div>
+        <div class="card-tags">
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Remotion</span>
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Python</span>
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Claude</span>
+        </div>
+        <div class="card-metric" style="color:#d97706;">🎬 AI-automated video production pipeline</div>
+      </div>
+      <div class="flag-pole" style="height:18px;background:rgba(245,158,11,0.35);"></div>
+      <div class="flag" style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);color:#fbbf24;font-size:9px;">ZEN CLOUD</div>
+      <div class="flag-dot" style="background:#f59e0b;border:2px solid #fbbf24;box-shadow:0 0 8px rgba(245,158,11,0.5);"></div>
+    </div>
+
+    <div class="destination" id="dest">
+      <div class="dest-glow"><div class="dest-star">★</div></div>
+      <div class="dest-label">Next Summit</div>
+      <div class="dest-role">AI Solutions Architect<br>LLMOps · Agentic Systems</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SCROLL BRIDGE ══ -->
+<div class="scroll-bridge" id="bridge">
+  <div class="bridge-label">The full picture</div>
+  <div class="bridge-arrow">↓</div>
+</div>
+
+<!-- ══ PAPER RESUME ══ -->
+<div class="paper-wrap" id="paperWrap">
+  <div class="paper">
+
+    <!-- Header band -->
+    <div class="paper-head">
+      <h1>Paul P. <strong>Xiong</strong></h1>
+      <div class="title">Strategic Software Development Manager & Solutions Architect</div>
+      <div class="paper-contact">
+        <span>📍 Minneapolis, MN</span>
+        <span>✉ pgxiong@gmail.com</span>
+        <span>📞 612-703-3200</span>
+        <span>🌐 zencloudweb.com</span>
+      </div>
+    </div>
+
+    <!-- Metrics band -->
+    <div class="paper-metrics">
+      <div class="metric-cell"><span class="metric-value">50%+</span><div class="metric-label">Time-to-Prod Gain</div></div>
+      <div class="metric-cell"><span class="metric-value">90</span><div class="metric-label">Core Processes</div></div>
+      <div class="metric-cell"><span class="metric-value">10+</span><div class="metric-label">Engineers Led</div></div>
+      <div class="metric-cell"><span class="metric-value">$2M</span><div class="metric-label">Annual Budget</div></div>
+    </div>
+
+    <!-- Body: main + sidebar -->
+    <div class="paper-body">
+
+      <!-- Main -->
+      <div class="paper-main">
+
+        <div class="section-label">Professional Summary</div>
+        <p style="margin-bottom:28px;color:#374151;font-size:12px;line-height:1.7;">
+          Strategic Software Development Manager and Solutions Architect with 8+ years at ConvergeOne delivering enterprise integration at scale — from authoring the .NET middle-tier framework to architecting the full BizTalk → MuleSoft EDI transformation. Now leading teams through AI adoption. Built Zen Cloud Media on the side: a fully automated AI video production pipeline. Targeting roles where AI is the core product.
+        </p>
+
+        <div class="section-label">Experience</div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Software Dev Manager & API Manager</div>
+            <div class="exp-date">Apr 2025 — Present</div>
+          </div>
+          <div class="exp-company">ConvergeOne</div>
+          <ul class="exp-bullets">
+            <li>Ultimate technical escalation point for global developers across US and India.</li>
+            <li>Orchestrates high-availability API layers connecting core systems to Amazon Connect and Azure Fabric.</li>
+            <li>Manages $2M annual budget; reports on infrastructure ROI and talent performance directly to C-suite.</li>
+            <li>Implementing GitHub Copilot and AI-driven CI/CD automated code reviews.</li>
+          </ul>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Solutions Architect & Lead Developer</div>
+            <div class="exp-date">Jun 2022 — Apr 2025</div>
+          </div>
+          <div class="exp-company">ConvergeOne</div>
+          <ul class="exp-bullets">
+            <li>Architected the complete sunset of BizTalk EDI, transitioning to MuleSoft Partner Manager.</li>
+            <li>Directed porting of 25 business processes into governed MuleSoft assets.</li>
+            <li>Architected and co-developed 100+ integration processes using proprietary middle-tier framework.</li>
+          </ul>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Solutions Architect</div>
+            <div class="exp-date">Mar 2020 — Jun 2022</div>
+          </div>
+          <div class="exp-company">ConvergeOne</div>
+          <ul class="exp-bullets">
+            <li>Established Priority/Complexity Matrix to group 90 namespaces for phased CloudHub 2.0 migration.</li>
+            <li>Founded the IT Development Wiki — maintained for 8+ years as primary technical database.</li>
+            <li>Migrated TFS to ADO and hired DevOps engineers.</li>
+          </ul>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Senior Software Engineer</div>
+            <div class="exp-date">Jun 2017 — Mar 2020</div>
+          </div>
+          <div class="exp-company">ConvergeOne</div>
+          <ul class="exp-bullets">
+            <li>Authored the core .NET Middle-Tier Framework (C#, MEF, Async Queues) — backbone of 50%+ Time-to-Production improvement.</li>
+            <li>Managed database reporting via SQL Server and SSRS.</li>
+            <li>Created and organized company SDLC and CI/CD process using TFS.</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="paper-side">
+
+        <div class="side-section">
+          <div class="section-label">Skills</div>
+          <div class="skill-group">
+            <div class="skill-group-name">Integration & Cloud</div>
+            <div class="skill-pills">
+              <span class="skill-pill">MuleSoft</span><span class="skill-pill">BizTalk EDI</span>
+              <span class="skill-pill infra">Azure Fabric</span><span class="skill-pill infra">Amazon Connect</span>
+              <span class="skill-pill">CloudHub 2.0</span><span class="skill-pill">MQ FIFO</span>
+            </div>
+          </div>
+          <div class="skill-group" style="margin-top:10px;">
+            <div class="skill-group-name">AI & Engineering</div>
+            <div class="skill-pills">
+              <span class="skill-pill ai">Claude</span><span class="skill-pill ai">Copilot</span>
+              <span class="skill-pill ai">Gemini</span><span class="skill-pill ai">LLMOps</span>
+              <span class="skill-pill">.NET / C#</span><span class="skill-pill">Python</span>
+              <span class="skill-pill">Next.js</span><span class="skill-pill">Supabase</span>
+            </div>
+          </div>
+          <div class="skill-group" style="margin-top:10px;">
+            <div class="skill-group-name">Leadership</div>
+            <div class="skill-pills">
+              <span class="skill-pill">C-Suite Roadmaps</span><span class="skill-pill">Budget Mgmt</span>
+              <span class="skill-pill">Talent Lifecycle</span><span class="skill-pill">ADO / KPI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-section">
+          <div class="section-label">Projects</div>
+          <div class="project-entry">
+            <div class="project-name">Zen Cloud Media</div>
+            <div class="project-desc">Automated AI video pipeline: Python, Remotion, Claude, Gemini — geopolitical news to MP4, end-to-end.</div>
+          </div>
+          <div class="project-entry">
+            <div class="project-name">7pace + ADO KPI Dashboards</div>
+            <div class="project-desc">Custom ADO widgets correlating time-tracking with developer velocity metrics.</div>
+          </div>
+        </div>
+
+        <div class="side-section">
+          <div class="section-label">Education</div>
+          <div class="edu-block">
+            <div class="edu-school">University of St. Thomas</div>
+            <div class="edu-degree">B.A. in Computer Science</div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:4px;font-family:sans-serif;">International study — China & Japan</div>
+          </div>
+        </div>
+
+        <div class="side-section">
+          <div class="section-label">Target Roles</div>
+          <div style="font-size:11px;color:#374151;line-height:1.7;font-family:sans-serif;">
+            AI Solutions Architect<br>
+            AI Platform / LLMOps Engineer<br>
+            Software Dev Manager — AI<br>
+            <span style="color:#94a3b8;">Remote · $160K–$220K</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="paper-footer">
+      <div class="footer-note">Minneapolis, MN · No sponsorship needed · CST</div>
+      <div class="footer-url">zencloudweb.com/resume</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const world = document.getElementById('world');
+const chapters = ['ch1','ch2','ch3','ch4','ch5'].map(id => document.getElementById(id));
+const pbar = document.getElementById('pbar');
+const plabel = document.getElementById('plabel');
+const dest = document.getElementById('dest');
+const bridge = document.getElementById('bridge');
+const paperWrap = document.getElementById('paperWrap');
+const phaseLabel = document.getElementById('phase-label');
+const pathLine = document.getElementById('pathLine');
+const years = ['2017','2020','2022','2025','Zen Cloud'];
+
+function drawPath(duration) {
+  pathLine.style.transition = `stroke-dashoffset ${duration}ms linear`;
+  requestAnimationFrame(() => requestAnimationFrame(() => { pathLine.style.strokeDashoffset = 0; }));
+}
+
+function runSequence() {
+  phaseLabel.classList.add('visible');
+  const per = 900;
+  setTimeout(() => drawPath(per * 4), 300);
+
+  chapters.forEach((ch, i) => {
+    setTimeout(() => {
+      ch.classList.add('visible');
+      pbar.style.width = ((i+1)/chapters.length*75)+'%';
+      plabel.textContent = years[i];
+    }, 400 + i * per);
+  });
+
+  const afterAll = 400 + chapters.length * per;
+
+  // Destination star
+  setTimeout(() => {
+    dest.classList.add('visible');
+    pbar.style.width = '90%';
+    plabel.textContent = 'Summit reached';
+    phaseLabel.textContent = 'Zooming out...';
+  }, afterAll);
+
+  // Zoom out to show full terrain
+  setTimeout(() => {
+    const scale = window.innerWidth / 2600;
+    world.style.transform = `scale(${scale})`;
+    phaseLabel.textContent = 'Revealing resume...';
+    pbar.style.width = '95%';
+  }, afterAll + 900);
+
+  // Scroll body down and reveal paper
+  setTimeout(() => {
+    phaseLabel.classList.remove('visible');
+    bridge.classList.add('visible');
+    // Smooth scroll to paper
+    window.scrollTo({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+    setTimeout(() => {
+      paperWrap.classList.add('visible');
+      pbar.style.width = '100%';
+      plabel.textContent = 'Full resume';
+    }, 400);
+  }, afterAll + 2400);
+
+  setTimeout(() => { phaseLabel.style.display = 'none'; }, afterAll + 3000);
+}
+
+setTimeout(runSequence, 500);
+</script>
+</body>
+</html>

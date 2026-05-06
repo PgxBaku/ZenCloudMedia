@@ -38,6 +38,12 @@ python scripts/checkin_deploy_vercel.py -m "Describe the change"
 
 The helper runs `npm run lint`, `npm run build`, stages changes, commits, pushes the current branch to `origin`, and runs `npx vercel deploy --prod` using the local Git/Vercel CLI sessions. Use `--preview` for a preview deployment, `--no-deploy` to stop after push, or `--dry-run` to print the commands.
 
+When the repo has unrelated local changes, pass explicit `--paths` so the helper only stages the files for the current task. For example:
+
+```bash
+python scripts/checkin_deploy_vercel.py -m "Describe the change" --paths src/app/page.tsx src/app/sitemap.ts public/ads.txt
+```
+
 Push this repo to GitHub, then import it into Vercel as a Next.js project.
 
 Suggested Vercel settings:

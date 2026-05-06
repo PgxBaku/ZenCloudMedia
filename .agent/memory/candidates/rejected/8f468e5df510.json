@@ -1,0 +1,82 @@
+{
+  "id": "8f468e5df510",
+  "key": "pattern_zencloudmedia_superpowers_brainstorm_8f468e",
+  "name": "pattern_zencloudmedia_superpowers_brainstorm_8f468e",
+  "claim": "Wrote C:\\git\\ZenCloudMedia\\.superpowers\\brainstorm\\1075-1777858048\\content\\design-directions.html (128 lines)",
+  "conditions": [
+    "brainstorm",
+    "content",
+    "file_path",
+    "git",
+    "html",
+    "lines",
+    "superpowers",
+    "write",
+    "wrote",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-04T01:28:35.746382+00:00",
+    "2026-05-04T01:36:22.120992+00:00",
+    "2026-05-04T01:38:05.960650+00:00",
+    "2026-05-04T01:50:43.406217+00:00",
+    "2026-05-04T01:56:04.986686+00:00",
+    "2026-05-04T02:08:08.117650+00:00",
+    "2026-05-04T01:58:55.740445+00:00",
+    "2026-05-04T02:05:20.474054+00:00"
+  ],
+  "cluster_size": 8,
+  "canonical_salience": 13.095,
+  "staged_at": "2026-05-04T14:45:29.976836+00:00",
+  "status": "rejected",
+  "decisions": [
+    {
+      "ts": "2026-05-04T14:45:29.976836+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T14:52:07.890046+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T15:03:24.284817+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T15:07:03.284181+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-04T15:36:32.219030+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-05T21:50:19.254690+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-05T21:52:15.075339+00:00",
+      "action": "rejected",
+      "reviewer": "host-agent",
+      "notes": "Mechanical noise: raw tool-call clustering with no extractable principle",
+      "evidence_snapshot": [
+        "2026-05-04T01:28:35.746382+00:00",
+        "2026-05-04T01:36:22.120992+00:00",
+        "2026-05-04T01:38:05.960650+00:00",
+        "2026-05-04T01:50:43.406217+00:00",
+        "2026-05-04T01:56:04.986686+00:00",
+        "2026-05-04T02:08:08.117650+00:00",
+        "2026-05-04T01:58:55.740445+00:00",
+        "2026-05-04T02:05:20.474054+00:00"
+      ],
+      "lessons_sha": "cce215457d64"
+    }
+  ],
+  "rejection_count": 1
+}

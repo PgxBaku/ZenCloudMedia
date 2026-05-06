@@ -1,0 +1,48 @@
+{
+  "id": "821ba215a6e8",
+  "key": "pattern_file_path_content_claude_821ba2",
+  "name": "pattern_file_path_content_claude_821ba2",
+  "claim": "Wrote C:\\Users\\pgx\\.claude\\CLAUDE.md (15 lines)",
+  "conditions": [
+    "ado",
+    "claude",
+    "content",
+    "file_path",
+    "lines",
+    "pgx",
+    "skill",
+    "users",
+    "wiki",
+    "write",
+    "wrote"
+  ],
+  "evidence_ids": [
+    "2026-05-01T14:50:11.642013+00:00",
+    "2026-05-01T14:50:21.070988+00:00",
+    "2026-05-01T14:58:59.569098+00:00"
+  ],
+  "cluster_size": 3,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-02T14:54:02.019707+00:00",
+  "status": "rejected",
+  "decisions": [
+    {
+      "ts": "2026-05-02T14:54:02.019707+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-05T21:52:16.258810+00:00",
+      "action": "rejected",
+      "reviewer": "host-agent",
+      "notes": "Mechanical noise: raw tool-call clustering with no extractable principle",
+      "evidence_snapshot": [
+        "2026-05-01T14:50:11.642013+00:00",
+        "2026-05-01T14:50:21.070988+00:00",
+        "2026-05-01T14:58:59.569098+00:00"
+      ],
+      "lessons_sha": "cce215457d64"
+    }
+  ],
+  "rejection_count": 1
+}

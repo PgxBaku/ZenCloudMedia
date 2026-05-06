@@ -51,3 +51,4 @@ This version has breaking changes â€” APIs, conventions, and file structure
 - Use `python scripts/checkin_deploy_vercel.py -m "Describe the change"` for the standard lint, build, commit, push, and Vercel production deploy flow.
 - The helper uses existing local Git and Vercel CLI authentication; do not add tokens or secrets to the script.
 - Use `--preview`, `--no-deploy`, `--skip-checks`, or `--dry-run` when intentionally narrowing the flow.
+- When the worktree contains unrelated changes, do not rely on the helper's default `--paths .`. Use explicit `--paths` for the files touched by the current task, or give the user a ready-to-run scoped command before asking them to publish.

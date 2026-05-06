@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terrain Journey — Animated</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a1a2e; font-family: 'Georgia', serif; overflow: hidden; }
+
+  /* ── Header ── */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(10,10,20,0.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 32px; display: flex; align-items: center; gap: 24px;
+  }
+  .header-name { color: #e2e8f0; font-size: 15px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; }
+  .header-title { color: #64748b; font-size: 10px; letter-spacing: 2px; font-family: sans-serif; text-transform: uppercase; }
+  .progress-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; }
+  .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #6366f1, #a78bfa); transition: width 0.4s ease; }
+  .progress-label { color: #475569; font-size: 10px; font-family: sans-serif; letter-spacing: 1px; }
+
+  /* ── Viewport ── */
+  .viewport {
+    position: fixed; top: 50px; left: 0; right: 0; bottom: 0;
+    overflow: hidden;
+  }
+
+  /* ── World (zooms & translates) ── */
+  .world-wrap {
+    width: 2600px; height: 100%;
+    transform-origin: left center;
+    transition: transform 1.6s cubic-bezier(0.77,0,0.175,1);
+    will-change: transform;
+  }
+
+  /* ── Sky ── */
+  .sky {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #bfdbfe 0%, #dbeafe 35%, #eff6ff 65%, #f0fdf4 85%, #dcfce7 100%);
+  }
+
+  /* ── Sun ── */
+  .sun {
+    position: absolute; right: 280px; top: 36px;
+    width: 56px; height: 56px;
+    background: radial-gradient(circle, #fef3c7, #fde68a, #fbbf24);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(251,191,36,0.5), 0 0 100px rgba(251,191,36,0.15);
+    transition: opacity 0.8s;
+  }
+
+  /* ── Mountains / Hills / Terrain (SVG layers) ── */
+  .layer { position: absolute; bottom: 0; left: 0; width: 2600px; }
+
+  /* ── Journey path ── */
+  .path-svg {
+    position: absolute; bottom: 148px; left: 0; width: 2600px; height: 6px; z-index: 5;
+    overflow: visible;
+  }
+  .path-line {
+    stroke-dasharray: 2200;
+    stroke-dashoffset: 2200;
+    transition: stroke-dashoffset 0s linear; /* controlled by JS */
+  }
+
+  /* ── Chapters ── */
+  .chapter {
+    position: absolute; bottom: 140px;
+    display: flex; flex-direction: column; align-items: center;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    cursor: pointer;
+  }
+  .chapter.visible { opacity: 1; transform: translateY(0); }
+
+  .flag-pole { width: 2px; background: rgba(60,60,100,0.5); }
+  .flag { padding: 4px 10px; border-radius: 3px; font-family: sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .flag-dot { width: 11px; height: 11px; border-radius: 50%; }
+
+  /* Chapter hover cards */
+  .chapter-card {
+    position: absolute; bottom: calc(100% + 14px);
+    width: 230px; left: 50%; transform: translateX(-50%) translateY(6px);
+    background: rgba(10,12,28,0.95); backdrop-filter: blur(16px);
+    border: 1px solid rgba(99,102,241,0.35); border-radius: 10px;
+    padding: 14px; opacity: 0;
+    transition: all 0.25s ease;
+    pointer-events: none;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .chapter:hover .chapter-card { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .chapter-card::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 6px solid transparent; border-top-color: rgba(99,102,241,0.35);
+  }
+  .card-year { color: #6366f1; font-size: 10px; letter-spacing: 2px; font-family: sans-serif; margin-bottom: 4px; }
+  .card-role { color: #f1f5f9; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .card-company { color: #94a3b8; font-size: 11px; font-family: sans-serif; margin-bottom: 8px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .tag { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); color: rgba(165,180,252,0.9); padding: 2px 7px; border-radius: 3px; font-size: 9px; font-family: sans-serif; }
+  .card-metric { color: #a78bfa; font-size: 10px; font-family: sans-serif; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  /* ── Clouds ── */
+  .cloud { position: absolute; background: white; border-radius: 50px; }
+
+  /* ── Hero ── */
+  .hero-zone {
+    position: absolute; left: 56px; top: 50%; transform: translateY(-60%);
+    z-index: 20; opacity: 0; transition: opacity 1s ease 0.3s;
+  }
+  .hero-zone.visible { opacity: 1; }
+  .hero-intro { color: #1e3a5f; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; font-family: sans-serif; margin-bottom: 8px; opacity: 0.7; }
+  .hero-name { color: #0f172a; font-size: 40px; font-weight: 300; line-height: 1.05; margin-bottom: 6px; }
+  .hero-name strong { font-weight: 700; color: #1e40af; }
+  .hero-sub { color: #334155; font-size: 12px; font-family: sans-serif; letter-spacing: 0.5px; max-width: 250px; line-height: 1.5; }
+  .scroll-hint { margin-top: 18px; color: #6366f1; font-size: 10px; font-family: sans-serif; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; opacity: 0; transition: opacity 0.5s; }
+  .scroll-hint.visible { opacity: 1; }
+  .arrow { display: inline-block; animation: nudge 1.5s ease-in-out infinite; }
+  @keyframes nudge { 0%,100%{transform:translateX(0)} 50%{transform:translateX(7px)} }
+
+  /* ── Destination ── */
+  .destination {
+    position: absolute; right: 90px; top: 38%; transform: translateY(-50%);
+    z-index: 20; text-align: center;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .destination.visible { opacity: 1; }
+  .dest-glow { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle, rgba(251,191,36,0.35), transparent 70%); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
+  .dest-star { font-size: 28px; animation: glow 2s ease-in-out infinite; }
+  @keyframes glow { 0%,100%{text-shadow:0 0 8px rgba(251,191,36,0.6)} 50%{text-shadow:0 0 20px rgba(251,191,36,0.9)} }
+  .dest-label { color: #92400e; font-size: 10px; letter-spacing: 3px; font-family: sans-serif; text-transform: uppercase; }
+  .dest-role { color: #78350f; font-size: 12px; font-weight: 600; margin-top: 4px; line-height: 1.4; }
+
+  /* ── Trees ── */
+  .tree { position: absolute; z-index: 6; }
+
+  /* ── Zoom-out overlay message ── */
+  .zoom-label {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(10,10,20,0.85); backdrop-filter: blur(8px);
+    border: 1px solid rgba(99,102,241,0.25); border-radius: 99px;
+    padding: 8px 22px; color: #94a3b8; font-size: 11px; font-family: sans-serif;
+    letter-spacing: 1px; z-index: 300; opacity: 0; transition: opacity 0.6s;
+    pointer-events: none;
+  }
+  .zoom-label.visible { opacity: 1; }
+
+  /* ── Phase labels ── */
+  #phase-label {
+    position: fixed; top: 58px; left: 50%; transform: translateX(-50%);
+    font-family: sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(167,139,250,0.6); z-index: 201; opacity: 0; transition: opacity 0.4s;
+    background: rgba(10,10,20,0.7); padding: 4px 16px; border-radius: 99px;
+  }
+  #phase-label.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-name">Paul Xiong</div>
+    <div class="header-title">Strategic Software Dev Manager & AI Architect</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="pbar"></div></div>
+  <div class="progress-label" id="plabel">—</div>
+</div>
+
+<div id="phase-label">Tracing the journey...</div>
+
+<div class="viewport">
+  <div class="world-wrap" id="world">
+
+    <div class="sky"></div>
+    <div class="sun" id="sun"></div>
+
+    <!-- Clouds -->
+    <div class="cloud" style="width:88px;height:28px;top:65px;left:420px;opacity:0.75;"></div>
+    <div class="cloud" style="width:56px;height:20px;top:55px;left:460px;opacity:0.7;"></div>
+    <div class="cloud" style="width:72px;height:24px;top:80px;left:720px;opacity:0.5;"></div>
+    <div class="cloud" style="width:96px;height:30px;top:52px;left:1120px;opacity:0.6;"></div>
+    <div class="cloud" style="width:60px;height:22px;top:66px;left:1170px;opacity:0.55;"></div>
+    <div class="cloud" style="width:76px;height:26px;top:75px;left:1650px;opacity:0.4;"></div>
+    <div class="cloud" style="width:52px;height:18px;top:86px;left:1920px;opacity:0.45;"></div>
+
+    <!-- Far mountains -->
+    <svg class="layer" style="height:280px;bottom:118px;" viewBox="0 0 2600 280" preserveAspectRatio="none">
+      <polygon points="0,280 160,80 320,160 510,40 690,130 870,60 1060,150 1220,50 1400,120 1600,30 1770,100 1940,20 2100,90 2280,10 2450,70 2600,40 2600,280" fill="#c7d9f0" opacity="0.45"/>
+      <polygon points="0,280 210,120 400,180 580,90 740,160 950,80 1160,170 1320,70 1530,140 1680,50 1840,110 2010,40 2200,120 2400,60 2600,80 2600,280" fill="#b8cceb" opacity="0.35"/>
+    </svg>
+
+    <!-- Mid hills -->
+    <svg class="layer" style="height:210px;bottom:98px;" viewBox="0 0 2600 210" preserveAspectRatio="none">
+      <path d="M0,210 C110,210 160,120 270,132 S430,188 540,168 S700,92 840,104 S1020,168 1130,148 S1300,72 1470,84 S1640,148 1770,116 S1960,50 2130,64 S2300,128 2470,86 S2560,52 2600,64 L2600,210 Z" fill="#9ab8d8" opacity="0.55"/>
+      <path d="M0,210 C86,210 130,158 216,162 S378,210 486,194 S624,136 754,148 S928,210 1040,188 S1192,126 1326,138 S1504,190 1634,168 S1802,106 1950,118 S2120,168 2270,148 S2440,96 2600,108 L2600,210 Z" fill="#7a9ec4" opacity="0.45"/>
+    </svg>
+
+    <!-- Near terrain -->
+    <svg class="layer" style="height:190px;" viewBox="0 0 2600 190" preserveAspectRatio="none">
+      <path d="M0,190 L0,138 C86,132 162,148 258,136 S410,106 518,118 S648,152 776,138 S938,100 1076,112 S1240,148 1380,126 S1566,84 1730,100 S1920,142 2072,116 S2272,72 2440,90 S2550,106 2600,96 L2600,190 Z" fill="#5a8ab0"/>
+      <rect x="0" y="158" width="2600" height="32" fill="#4a7a9f"/>
+    </svg>
+
+    <!-- Path line (draws during animation) -->
+    <svg class="path-svg" style="width:2600px;height:6px;bottom:148px;" viewBox="0 0 2600 6" preserveAspectRatio="none">
+      <line class="path-line" id="pathLine" x1="310" y1="3" x2="2180" y2="3"
+        stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-dasharray="8,5"/>
+    </svg>
+
+    <!-- Trees -->
+    <div class="tree" style="left:560px;bottom:100px;">
+      <svg width="16" height="32" viewBox="0 0 16 32"><polygon points="8,0 16,18 11,18 12,32 4,32 5,18 0,18" fill="#3d6b4f" opacity="0.7"/></svg>
+    </div>
+    <div class="tree" style="left:584px;bottom:101px;">
+      <svg width="12" height="26" viewBox="0 0 12 26"><polygon points="6,0 12,14 8,14 9,26 3,26 4,14 0,14" fill="#3d6b4f" opacity="0.6"/></svg>
+    </div>
+    <div class="tree" style="left:900px;bottom:104px;">
+      <svg width="18" height="36" viewBox="0 0 18 36"><polygon points="9,0 18,20 12,20 14,36 4,36 6,20 0,20" fill="#2d5b3f" opacity="0.7"/></svg>
+    </div>
+    <div class="tree" style="left:1280px;bottom:108px;">
+      <svg width="20" height="40" viewBox="0 0 20 40"><polygon points="10,0 20,22 14,22 16,40 4,40 6,22 0,22" fill="#2d4a3e" opacity="0.8"/></svg>
+    </div>
+    <div class="tree" style="left:1310px;bottom:107px;">
+      <svg width="14" height="28" viewBox="0 0 14 28"><polygon points="7,0 14,16 10,16 11,28 3,28 4,16 0,16" fill="#2d4a3e" opacity="0.6"/></svg>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero-zone visible" id="hero">
+      <div class="hero-intro">The Journey of</div>
+      <div class="hero-name">Paul P.<br><strong>Xiong</strong></div>
+      <div class="hero-sub">Strategic Software Dev Manager<br>& AI Solutions Architect</div>
+      <div class="scroll-hint" id="scrollHint">
+        Watch the journey unfold <span class="arrow">→</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <div class="chapter" id="ch1" style="left:520px;">
+      <div class="chapter-card" style="border-color:rgba(100,116,139,0.4);">
+        <div class="card-year" style="color:#94a3b8;">2017 — 2020</div>
+        <div class="card-role">Senior Software Engineer</div>
+        <div class="card-company">ConvergeOne · Minneapolis</div>
+        <div class="card-tags">
+          <span class="tag">.NET / C#</span><span class="tag">SQL Server</span>
+          <span class="tag">TFS</span><span class="tag">SSRS</span><span class="tag">CI/CD</span>
+        </div>
+        <div class="card-metric">⚡ Authored the core .NET Middle-Tier Framework</div>
+      </div>
+      <div class="flag-pole" style="height:52px;"></div>
+      <div class="flag" style="background:rgba(71,85,105,0.9);color:#e2e8f0;">2017</div>
+      <div class="flag-dot" style="background:#64748b;border:2px solid #94a3b8;margin-top:4px;"></div>
+    </div>
+
+    <!-- CHAPTER 2 -->
+    <div class="chapter" id="ch2" style="left:920px;">
+      <div class="chapter-card">
+        <div class="card-year">2020 — 2022</div>
+        <div class="card-role">Solutions Architect</div>
+        <div class="card-company">ConvergeOne</div>
+        <div class="card-tags">
+          <span class="tag">MuleSoft</span><span class="tag">CloudHub 2.0</span>
+          <span class="tag">ADO</span><span class="tag">Power BI</span>
+        </div>
+        <div class="card-metric">🗺️ Mapped 90 namespaces for CloudHub migration</div>
+      </div>
+      <div class="flag-pole" style="height:70px;"></div>
+      <div class="flag" style="background:rgba(79,70,229,0.9);color:#e0e7ff;">2020</div>
+      <div class="flag-dot" style="background:#6366f1;border:2px solid #818cf8;margin-top:4px;"></div>
+    </div>
+
+    <!-- CHAPTER 3 -->
+    <div class="chapter" id="ch3" style="left:1320px;">
+      <div class="chapter-card">
+        <div class="card-year">2022 — 2025</div>
+        <div class="card-role">Lead Architect & Developer</div>
+        <div class="card-company">ConvergeOne</div>
+        <div class="card-tags">
+          <span class="tag">EDI / BizTalk</span><span class="tag">Partner Manager</span>
+          <span class="tag">MuleSoft MQ</span><span class="tag">Team Lead</span>
+        </div>
+        <div class="card-metric">🔄 BizTalk sunset · 100+ integrations migrated</div>
+      </div>
+      <div class="flag-pole" style="height:90px;"></div>
+      <div class="flag" style="background:rgba(109,40,217,0.9);color:#ede9fe;">2022</div>
+      <div class="flag-dot" style="background:#7c3aed;border:2px solid #a78bfa;margin-top:4px;"></div>
+    </div>
+
+    <!-- CHAPTER 4 (peak) -->
+    <div class="chapter" id="ch4" style="left:1760px;">
+      <div class="chapter-card">
+        <div class="card-year">2025 — Present</div>
+        <div class="card-role">Software Dev Manager & API Manager</div>
+        <div class="card-company">ConvergeOne · $2M budget · 10+ team</div>
+        <div class="card-tags">
+          <span class="tag">Amazon Connect</span><span class="tag">Azure Fabric</span>
+          <span class="tag">AI / Copilot</span><span class="tag">C-Suite</span>
+        </div>
+        <div class="card-metric">🏔️ 50%+ Time-to-Production improvement</div>
+      </div>
+      <div class="flag-pole" style="height:114px;"></div>
+      <div class="flag" style="background:linear-gradient(135deg,rgba(139,92,246,0.95),rgba(96,165,250,0.95));color:white;box-shadow:0 2px 14px rgba(139,92,246,0.45);">2025</div>
+      <div class="flag-dot" style="background:linear-gradient(135deg,#a78bfa,#60a5fa);border:2px solid #c4b5fd;box-shadow:0 0 10px rgba(167,139,250,0.7);margin-top:4px;"></div>
+    </div>
+
+    <!-- SIDE: Zen Cloud -->
+    <div class="chapter" id="ch5" style="left:1760px;bottom:280px;">
+      <div class="chapter-card" style="border-color:rgba(245,158,11,0.35);">
+        <div class="card-year" style="color:#d97706;">Side Project · Ongoing</div>
+        <div class="card-role">Zen Cloud Media</div>
+        <div class="card-company">Founder & Lead Developer</div>
+        <div class="card-tags">
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Remotion</span>
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Python</span>
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Claude</span>
+          <span class="tag" style="border-color:rgba(245,158,11,0.3);color:#fbbf24;">Next.js</span>
+        </div>
+        <div class="card-metric" style="color:#d97706;">🎬 AI-automated video production pipeline</div>
+      </div>
+      <div class="flag-pole" style="height:18px;background:rgba(245,158,11,0.35);"></div>
+      <div class="flag" style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);color:#fbbf24;font-size:9px;">ZEN CLOUD</div>
+      <div class="flag-dot" style="background:#f59e0b;border:2px solid #fbbf24;margin-top:4px;box-shadow:0 0 8px rgba(245,158,11,0.5);"></div>
+    </div>
+
+    <!-- Destination -->
+    <div class="destination" id="dest">
+      <div class="dest-glow"><div class="dest-star">★</div></div>
+      <div class="dest-label">Next Summit</div>
+      <div class="dest-role">AI Solutions Architect<br>LLMOps · Agentic Systems</div>
+    </div>
+
+  </div><!-- /world-wrap -->
+</div><!-- /viewport -->
+
+<div class="zoom-label" id="zoomLabel">Your full journey — hover any milestone to explore</div>
+
+<script>
+const world = document.getElementById('world');
+const chapters = ['ch1','ch2','ch3','ch4','ch5'].map(id => document.getElementById(id));
+const pbar = document.getElementById('pbar');
+const plabel = document.getElementById('plabel');
+const dest = document.getElementById('dest');
+const zoomLabel = document.getElementById('zoomLabel');
+const phaseLabel = document.getElementById('phase-label');
+const scrollHint = document.getElementById('scrollHint');
+const pathLine = document.getElementById('pathLine');
+
+const years = ['2017', '2020', '2022', '2025', 'ZEN CLOUD'];
+let animDone = false;
+
+// ── Animate path line drawing ──
+function drawPath(duration) {
+  const totalDash = 2200;
+  pathLine.style.strokeDashoffset = totalDash;
+  pathLine.style.transition = `stroke-dashoffset ${duration}ms linear`;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { pathLine.style.strokeDashoffset = 0; });
+  });
+}
+
+// ── Sequence: reveal chapters one by one, then zoom out ──
+function runSequence() {
+  phaseLabel.classList.add('visible');
+  scrollHint.classList.add('visible');
+
+  // Draw the path over the full sequence duration
+  const perChapter = 900;
+  const totalPath = perChapter * 4;
+  setTimeout(() => drawPath(totalPath), 400);
+
+  // Reveal each chapter with delay
+  chapters.forEach((ch, i) => {
+    setTimeout(() => {
+      ch.classList.add('visible');
+      pbar.style.width = ((i + 1) / chapters.length * 80) + '%';
+      plabel.textContent = years[i];
+    }, 500 + i * perChapter);
+  });
+
+  // After last chapter: show destination, then zoom out to full view
+  const afterAll = 500 + chapters.length * perChapter;
+
+  setTimeout(() => {
+    dest.classList.add('visible');
+    pbar.style.width = '100%';
+    plabel.textContent = 'Full Journey';
+    phaseLabel.textContent = 'Zooming out...';
+  }, afterAll);
+
+  setTimeout(() => {
+    // Zoom out so the whole 2600px world fits in the viewport
+    const vw = window.innerWidth;
+    const scale = vw / 2600;
+    world.style.transform = `scale(${scale})`;
+    zoomLabel.classList.add('visible');
+    phaseLabel.classList.remove('visible');
+    animDone = true;
+  }, afterAll + 1000);
+
+  setTimeout(() => {
+    phaseLabel.style.display = 'none';
+  }, afterAll + 1600);
+}
+
+// Start after short pause
+setTimeout(runSequence, 600);
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "id": "74a13d0313e8",
+  "key": "pattern_framer-motion_successfully_description_74a13d",
+  "name": "pattern_framer-motion_successfully_description_74a13d",
+  "claim": "Tool Agent completed successfully",
+  "conditions": [
+    "agent",
+    "completed",
+    "dependency",
+    "description",
+    "framer-motion",
+    "install",
+    "json",
+    "package",
+    "production",
+    "prompt",
+    "successfully",
+    "task",
+    "tool"
+  ],
+  "evidence_ids": [
+    "2026-05-04T15:39:37.982958+00:00",
+    "2026-05-04T15:41:05.472194+00:00",
+    "2026-05-04T15:42:38.307913+00:00"
+  ],
+  "cluster_size": 3,
+  "canonical_salience": 13.095,
+  "staged_at": "2026-05-05T21:50:19.255585+00:00",
+  "status": "rejected",
+  "decisions": [
+    {
+      "ts": "2026-05-05T21:50:19.255585+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-05T21:52:16.537478+00:00",
+      "action": "rejected",
+      "reviewer": "host-agent",
+      "notes": "Mechanical noise: raw tool-call clustering with no extractable principle",
+      "evidence_snapshot": [
+        "2026-05-04T15:39:37.982958+00:00",
+        "2026-05-04T15:41:05.472194+00:00",
+        "2026-05-04T15:42:38.307913+00:00"
+      ],
+      "lessons_sha": "cce215457d64"
+    }
+  ],
+  "rejection_count": 1
+}
