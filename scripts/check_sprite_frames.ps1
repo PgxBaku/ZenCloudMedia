@@ -5,112 +5,203 @@
 
 .USAGE
     powershell -ExecutionPolicy Bypass -File scripts\check_sprite_frames.ps1
-    powershell -ExecutionPolicy Bypass -File scripts\check_sprite_frames.ps1 -Dir public\bear-frames -Prefix frame -Count 9
+    powershell -ExecutionPolicy Bypass -File scripts\check_sprite_frames.ps1 -Dir public\bear-frames -Strips "frame,turn_front" -Count 9 -ExpectedW 150 -ExpectedH 145 -ExpectedMaxY 144
 
-.PARAMETERS
-    -Dir    : folder containing the frames (default: public\sheep-frames)
-    -Strips : comma-separated list of strip prefixes to check (default: walk_left,walk_right,walk_down,walk_up)
-    -Count  : number of frames per strip (default: 8)
+.CHECKS
+    1. Canvas dimensions   -- all frames must be ExpectedW x ExpectedH
+    2. Ground anchor       -- maxY must equal ExpectedMaxY (feet at canvas bottom)
+    3. Height consistency  -- minY spread within each strip must be <= MaxMinYSpread
+    4. Border artifacts    -- wide pixel rows near top/bottom indicate card borders;
+                             pixels in the top LabelClearRows rows indicate label bleed
+    5. Horizontal center   -- body center X must be within MaxCenterDeviationX of canvas center
+                             (critical for scaleX flip characters)
 #>
 
 param(
-    [string]$Dir    = "public\sheep-frames",
-    [string]$Strips = "walk_left,walk_right,walk_down,walk_up",
-    [int]   $Count  = 8,
-    [int]   $ExpectedW = 133,
-    [int]   $ExpectedH = 165,
-    [int]   $ExpectedMaxY = 164,   # feet must touch this row
-    [int]   $MaxMinYSpread = 4,    # max allowed minY variation within one strip
-    # Strips where frame 0 is a special "hold" frame and may legitimately be taller
-    [string]$HoldStrips = "walk_down"
+    [string]$Dir                 = "public\sheep-frames",
+    [string]$Strips              = "walk_left,walk_right,walk_down,walk_up",
+    [int]   $Count               = 8,
+    [int]   $ExpectedW           = 133,
+    [int]   $ExpectedH           = 165,
+    [int]   $ExpectedMaxY        = 164,
+    [int]   $MaxMinYSpread       = 4,
+    [string]$HoldStrips          = "walk_down",
+
+    # Border checks
+    [int]   $LabelClearRows      = 20,    # rows from top that must be empty
+    [float] $BorderSpanRatio     = 0.60,  # row spanning >60% of canvas width = card border
+    [int]   $BorderScanRows      = 15,    # rows from top/bottom to scan for borders
+
+    # Centering checks
+    [int]   $MaxCenterDeviationX = 12,    # max body-center deviation from canvas center (px)
+    [switch]$SkipCenterCheck     = $false # set for explicit-strip characters (no scaleX flip)
 )
 
 Add-Type -AssemblyName System.Drawing
 
 function Measure-Frame($path) {
     if (-not (Test-Path $path)) { return $null }
-    $bmp   = [System.Drawing.Bitmap]::FromFile($path)
-    $minY  = $bmp.Height; $maxY = 0
-    $minX  = $bmp.Width;  $maxX = 0
-    for ($y = 0; $y -lt $bmp.Height; $y++) {
-        for ($x = 0; $x -lt $bmp.Width; $x++) {
+    $bmp = [System.Drawing.Bitmap]::FromFile($path)
+    $W = $bmp.Width; $H = $bmp.Height
+    $minY = $H; $maxY = 0; $minX = $W; $maxX = 0
+    $rowSpans = @{}
+
+    for ($y = 0; $y -lt $H; $y++) {
+        $rMinX = $W; $rMaxX = -1; $rCount = 0
+        for ($x = 0; $x -lt $W; $x++) {
             if ($bmp.GetPixel($x, $y).A -gt 10) {
-                if ($y -lt $minY) { $minY = $y }
-                if ($y -gt $maxY) { $maxY = $y }
-                if ($x -lt $minX) { $minX = $x }
-                if ($x -gt $maxX) { $maxX = $x }
+                $rCount++
+                if ($x -lt $rMinX) { $rMinX = $x }
+                if ($x -gt $rMaxX) { $rMaxX = $x }
+                if ($y -lt $minY)  { $minY = $y }
+                if ($y -gt $maxY)  { $maxY = $y }
+                if ($x -lt $minX)  { $minX = $x }
+                if ($x -gt $maxX)  { $maxX = $x }
+            }
+        }
+        if ($rCount -gt 0) {
+            $rowSpans[$y] = @{ Count=$rCount; MinX=$rMinX; MaxX=$rMaxX; Span=($rMaxX - $rMinX + 1) }
+        }
+    }
+    $bmp.Dispose()
+
+    return @{
+        Path     = $path
+        W        = $W; H = $H
+        MinY     = $minY; MaxY = $maxY
+        MinX     = $minX; MaxX = $maxX
+        BodyH    = ($maxY - $minY + 1)
+        BodyW    = ($maxX - $minX + 1)
+        CenterX  = [int](($minX + $maxX) / 2)
+        RowSpans = $rowSpans
+    }
+}
+
+function Get-BorderIssues($m, $fname) {
+    $issues = @()
+    $W = $m.W
+
+    # Label zone: top LabelClearRows rows must be empty
+    for ($y = 0; $y -lt $LabelClearRows; $y++) {
+        if ($m.RowSpans.ContainsKey($y)) {
+            $issues += "LABEL ARTIFACT: $fname pixels at y=$y (top $LabelClearRows rows must be clear)"
+            break
+        }
+    }
+
+    # Wide rows near top (card border outline)
+    $topEnd = [math]::Min($LabelClearRows + $BorderScanRows, $m.H)
+    for ($y = $LabelClearRows; $y -lt $topEnd; $y++) {
+        if ($m.RowSpans.ContainsKey($y)) {
+            $span = $m.RowSpans[$y].Span
+            $pct  = [int]($span * 100 / $W)
+            if ($span -gt ($W * $BorderSpanRatio)) {
+                $issues += "TOP BORDER: $fname y=$y span=$span/$W px ($pct% width) -- card border outline"
             }
         }
     }
-    $result = @{
-        Path   = $path
-        W      = $bmp.Width
-        H      = $bmp.Height
-        MinY   = $minY
-        MaxY   = $maxY
-        MinX   = $minX
-        MaxX   = $maxX
-        BodyH  = ($maxY - $minY + 1)
-        BodyW  = ($maxX - $minX + 1)
+
+    # Wide rows near bottom (card base line or shadow)
+    # Only flag rows that are sparse (low density) or extremely wide
+    $botStart = [math]::Max($m.MaxY - $BorderScanRows, 0)
+    for ($y = $botStart; $y -le $m.MaxY; $y++) {
+        if ($m.RowSpans.ContainsKey($y)) {
+            $span    = $m.RowSpans[$y].Span
+            $density = $m.RowSpans[$y].Count / $span
+            $pct     = [int]($span * 100 / $W)
+            if ($span -gt ($W * $BorderSpanRatio)) {
+                if ($density -lt 0.75) {
+                    $issues += "BOTTOM BORDER: $fname y=$y span=$span/$W px density=$([math]::Round($density,2)) -- sparse wide row (card base arc)"
+                } elseif ($span -gt ($W * 0.85)) {
+                    $issues += "BOTTOM BORDER: $fname y=$y span=$span/$W px ($pct% width) -- very wide row, possible card base"
+                }
+            }
+        }
     }
-    $bmp.Dispose()
-    return $result
+
+    return $issues
 }
 
-$errors   = @()
-$warnings = @()
-$allOk    = $true
+function Get-CenterIssue($m, $fname, $canvasCenter) {
+    $dev = [math]::Abs($m.CenterX - $canvasCenter)
+    if ($dev -gt $MaxCenterDeviationX) {
+        return "OFF-CENTER: $fname bodyCenter=$($m.CenterX) canvasCenter=$canvasCenter deviation=${dev}px (max $MaxCenterDeviationX) -- scaleX flip will jump"
+    }
+    return $null
+}
 
+# ---- Main loop ----
+
+$errors   = @()
+$allOk    = $true
 $stripList = $Strips -split ","
+$holdList  = $HoldStrips -split ","
+$canvasCenter = [int]($ExpectedW / 2)
 
 foreach ($strip in $stripList) {
-    $frames = @()
+    $frames      = @()
+    $stripErrors = @()
+
     for ($i = 0; $i -lt $Count; $i++) {
-        $path = Join-Path $Dir "$strip`_$i.png"
+        $path = Join-Path $Dir "${strip}_${i}.png"
         $m = Measure-Frame $path
         if ($null -eq $m) {
-            $errors += "MISSING: $path"
-            $allOk = $false
-            continue
+            $stripErrors += "MISSING: $path"; $allOk = $false; continue
         }
         $frames += $m
+        $fname = "${strip}_${i}"
 
-        # Canvas size check
+        # Canvas size
         if ($m.W -ne $ExpectedW -or $m.H -ne $ExpectedH) {
-            $errors += "CANVAS SIZE: $strip`_$i is $($m.W)x$($m.H), expected ${ExpectedW}x${ExpectedH}"
+            $stripErrors += "CANVAS SIZE: $fname is $($m.W)x$($m.H), expected ${ExpectedW}x${ExpectedH}"
             $allOk = $false
         }
-        # Ground anchor check
+
+        # Ground anchor
         if ($m.MaxY -ne $ExpectedMaxY) {
-            $errors += "GROUND ANCHOR: $strip`_$i maxY=$($m.MaxY), expected $ExpectedMaxY (feet not at canvas bottom)"
+            $stripErrors += "GROUND ANCHOR: $fname maxY=$($m.MaxY), expected $ExpectedMaxY"
             $allOk = $false
+        }
+
+        # Border artifacts
+        $bIssues = Get-BorderIssues $m $fname
+        foreach ($bi in $bIssues) { $stripErrors += $bi; $allOk = $false }
+
+        # Centering (skip hold frame and if flag set)
+        $isHoldFrame = ($holdList -contains $strip) -and ($i -eq 0)
+        if (-not $SkipCenterCheck -and -not $isHoldFrame) {
+            $ci = Get-CenterIssue $m $fname $canvasCenter
+            if ($ci) { $stripErrors += $ci; $allOk = $false }
         }
     }
 
+    $errors += $stripErrors
     if ($frames.Count -eq 0) { continue }
 
-    # minY spread check (body top consistency within the strip)
-    # For "hold" strips (e.g. walk_down), frame 0 is a special full-canopy still frame
-    # used only for the hold phase — exclude it from the spread check.
-    $isHoldStrip = ($HoldStrips -split ",") -contains $strip
+    # Height spread (exclude hold frame 0 for hold strips)
+    $isHoldStrip  = $holdList -contains $strip
     $spreadFrames = if ($isHoldStrip) { $frames | Select-Object -Skip 1 } else { $frames }
-    $minYValues = $spreadFrames | ForEach-Object { $_.MinY }
-    $minMinY    = ($minYValues | Measure-Object -Minimum).Minimum
-    $maxMinY    = ($minYValues | Measure-Object -Maximum).Maximum
-    $spread     = $maxMinY - $minMinY
-
+    $minYVals  = $spreadFrames | ForEach-Object { $_.MinY }
+    $minMinY   = ($minYVals | Measure-Object -Minimum).Minimum
+    $maxMinY   = ($minYVals | Measure-Object -Maximum).Maximum
+    $spread    = $maxMinY - $minMinY
     if ($spread -gt $MaxMinYSpread) {
-        $errors += "HEIGHT INCONSISTENCY: $strip minY spread=${spread}px (frames: $(($frames | ForEach-Object { "$($_.Path.Split('\')[-1]):$($_.MinY)" }) -join ', '))"
-        $allOk = $false
+        $errors += "HEIGHT INCONSISTENCY: $strip minY spread=${spread}px"; $allOk = $false
     }
 
-    # Report frame 0 hold height separately for hold strips
-    $holdNote = if ($isHoldStrip) { " [frame0=hold minY=$($frames[0].MinY)]" } else { "" }
-
-    # Summary line for this strip
+    # Center X spread across strip
+    $cxVals   = $spreadFrames | ForEach-Object { $_.CenterX }
+    $minCX    = ($cxVals | Measure-Object -Minimum).Minimum
+    $maxCX    = ($cxVals | Measure-Object -Maximum).Maximum
+    $avgCX    = [math]::Round(($cxVals | Measure-Object -Average).Average, 1)
     $avgBodyH = [math]::Round(($frames | ForEach-Object { $_.BodyH } | Measure-Object -Average).Average, 1)
-    $status = if ($spread -le $MaxMinYSpread -and ($errors | Where-Object { $_ -like "*$strip*" }).Count -eq 0) { "OK" } else { "FAIL" }
-    Write-Host ("  [{0,-4}] {1,-14} frames={2} minY={3}..{4} (spread={5}) avgBodyH={6}{7}" -f $status, $strip, $frames.Count, $minMinY, $maxMinY, $spread, $avgBodyH, $holdNote)
+
+    $holdNote   = if ($isHoldStrip)        { " [frame0=hold minY=$($frames[0].MinY)]" } else { "" }
+    $centerNote = if (-not $SkipCenterCheck) { " cx=$minCX..$maxCX(avg=$avgCX,canvas=$canvasCenter)" } else { "" }
+    $status     = if ($stripErrors.Count -gt 0 -or $spread -gt $MaxMinYSpread) { "FAIL" } else { "OK" }
+
+    Write-Host ("  [{0,-4}] {1,-14} frames={2} minY={3}..{4}(spread={5}) bodyH={6}{7}{8}" -f `
+        $status, $strip, $frames.Count, $minMinY, $maxMinY, $spread, $avgBodyH, $holdNote, $centerNote)
 }
 
 Write-Host ""
