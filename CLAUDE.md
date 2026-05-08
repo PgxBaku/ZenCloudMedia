@@ -1,3 +1,9 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+---
+
 # Project Instructions (Claude Code)
 
 This project uses the **agentic-stack** portable brain. All memory, skills,
@@ -9,6 +15,101 @@ and protocols live in `.agent/`.
 3. `.agent/memory/working/REVIEW_QUEUE.md` — pending lessons awaiting review
 4. `.agent/memory/semantic/LESSONS.md` — what we've already learned
 5. `.agent/protocols/permissions.md` — hard constraints, read before any tool call
+
+---
+
+## Commands
+
+```bash
+npm run dev       # start dev server (localhost:3000)
+npm run build     # production build (runs type-check + compile)
+npm run lint      # ESLint via eslint-config-next
+npm run start     # serve production build locally
+```
+
+**Deploy to production** (lint → build → commit → push → Vercel):
+```bash
+python scripts/checkin_deploy_vercel.py -m "description"
+```
+Never push directly to `main` without using this script.
+
+---
+
+## Architecture
+
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Supabase · Resend · Vercel
+
+### Routes
+
+| Route | Purpose |
+|---|---|
+| `/` | Homepage — hero, social links, live reel carousel |
+| `/reels` | Archive of published shorts |
+| `/divination` | Main feature — interactive Hmong horn divination ritual |
+| `/divination/dictionary` | Glossary of all 12 divination outcomes |
+| `/resume` | Interactive career timeline |
+| `/admin` | Password-protected dashboard (cookie-gated, 8-hour TTL) |
+| `/admin/login` | Entry via `ADMIN_PASSWORD` env var |
+
+**Activation routes** (side-effect redirects):
+- `/divination/activate?key=BYPASS_KEY` — sets 1-year `divination_bypass` cookie
+- `/divination/deactivate` — clears bypass cookies
+
+### Server vs. client pattern
+
+Pages are server-rendered and fetch Supabase data at request time. Client components (`"use client"`) handle interactivity. Mutations use Next.js server actions (`"use server"` in `actions.ts` files). No GraphQL — all Supabase calls are direct via the service-role client in `src/app/lib/supabase-server.ts`.
+
+State lives in three layers: Supabase (throw counts, access expiry, tokens), React hooks (animation/UI), and sessionStorage (per-session throw history).
+
+### Divination feature
+
+The crown feature. Users throw animated buffalo horns and receive spiritual readings from 12 possible outcomes (4 severity levels: positive/caution/serious/neutral). Access is gated by IP:
+
+| Tier | Daily throws | How to get |
+|---|---|---|
+| Free | 6 (configurable) | Default |
+| `throws` token | +N bonus same day | Admin-issued code or video watch |
+| `access` token | 1000/day for N days | Admin-issued code or donation |
+| Bypass | Unlimited | `DIVINATION_BYPASS_KEY` cookie |
+
+Key files:
+- `src/app/divination/page.tsx` — server page, fetches `gateConfig` + `sessionStatus`
+- `src/app/divination/actions.ts` — throw gating, token redemption, code generation
+- `src/app/lib/divination.ts` — all 12 outcome definitions + interpretations
+- `src/app/components/DivinationHorns.tsx` — main interactive component
+- `src/app/components/DivinationGate.tsx` — unlock modal (donate/video/code entry)
+
+### Supabase tables
+
+All in the public schema, accessed with the service-role key (no RLS). IP-based session tracking (Vercel proxies via `x-forwarded-for` header).
+
+| Table | Purpose |
+|---|---|
+| `divination_config` | Admin-editable settings (daily limits, grant days) |
+| `divination_throws` | Per-IP per-day throw counts; PK: (ip, throw_date) |
+| `divination_tokens` | Access/throw codes (ZCM-XXXXXX format) |
+| `divination_token_uses` | Redemption log; enforces one-use-per-IP |
+| `divination_access` | Multi-day access passes; PK: ip |
+
+### Email
+
+Resend for user-facing emails (code delivery) and admin error alerts. Error alerts include full context (function name, IP, code, timestamp, env, stack trace) with a diagnostic guide. Template lives in `src/app/lib/email.ts`.
+
+### Environment variables
+
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+SUPABASE_SECRET_KEY
+ADMIN_PASSWORD
+DIVINATION_BYPASS_KEY
+RESEND_API_KEY
+ALERT_EMAIL
+NEXT_PUBLIC_SITE_URL          # used in email links
+NEXT_PUBLIC_ADSENSE_PUBLISHER_ID  # AdSense (optional)
+```
+
+---
 
 ## Before every non-trivial action — recall first
 
@@ -23,6 +124,8 @@ python3 .agent/tools/recall.py "<one-line description of what you're about to do
 
 Show the output in a `Consulted lessons before acting:` block. If a surfaced
 lesson would be violated by your intended action, stop and explain why.
+
+---
 
 ## While working
 
@@ -49,6 +152,8 @@ When you discover something that should never happen again:
 python3 .agent/tools/learn.py "<the rule, phrased as a principle>" \
     --rationale "<why — include the incident that taught you this>"
 ```
+
+---
 
 ## Manual memory logging — when and how
 
@@ -98,6 +203,8 @@ python3 .agent/tools/memory_reflect.py \
 | 7–8 | Deploy, schema change, architectural decision, non-obvious constraint |
 | 5–6 | Refactor, significant bug fix, API contract change |
 | 3–4 | Routine edit, file creation, test run |
+
+---
 
 ## Documentation
 
@@ -153,6 +260,8 @@ Full documentation for the Divination feature lives in two places:
 ### Samples and examples
 
 Large samples or examples belong on a dedicated **subpage** under the page that describes the feature — not inline and not at the Documentation root level. Example: a sample error alert email lives at `Operations/Sample-Error-Alert`, not at `Documentation/Sample-Error-Alert`. The parent page gets a short `See [Sample ...]` link pointing to it. Name subpages with `Sample-` or `Example-` prefix.
+
+---
 
 ## Rules that override all defaults
 - Never force push to `main`, `production`, or `staging`.

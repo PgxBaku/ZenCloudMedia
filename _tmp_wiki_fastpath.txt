@@ -1,0 +1,391 @@
+[[_TOC_]]
+[[_TOSP_]]
+
+# <h1 style="background: linear-gradient(90deg, teal, aquamarine); color:white; padding:18px 24px; border-radius:6px; font-size:28px; margin-top:0; margin-bottom:16px;">Wiki Upload — Fast Path</h1>
+
+<span style="display:inline-block;padding:1px 8px;border-radius:999px;background:aliceblue;color:midnightblue;border:1px solid lightsteelblue;white-space:nowrap;"><b>HOW-TO</b></span>
+
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>Project Pages (under /Wiki/Projects/)</b></span>
+
+Use the generic uploader. Two steps:
+
+### <span style="color:darkslateblue;"><b>Step 1 — Write the markdown file</b></span>
+
+Place it in `documentation/projects/{ProjectName}/`. Folder structure maps directly to wiki paths:
+
+```text
+documentation/projects/Remotion/
+  index.md                              ->  /Wiki/Projects/Remotion
+  Pipeline.md                           ->  /Wiki/Projects/Remotion/Pipeline
+  Issues/Gemini-CDP-Browser-Fix.md       ->  /Wiki/Projects/Remotion/Issues/Gemini-CDP-Browser-Fix
+```
+
+File naming: use the wiki page title with spaces, hyphens stay as-is. The stem of the filename becomes the page name.
+
+### <span style="color:darkslateblue;"><b>Step 2 — Upload</b></span>
+
+```bash
+cd C:\git\PythonCodeProjects
+
+# Preview what will be uploaded:
+python documentation/uploader.py --project Remotion --dry-run
+
+# Upload a single page:
+python documentation/uploader.py --project Remotion --page Gemini-CDP
+
+# Upload all pages for a project:
+python documentation/uploader.py --project Remotion
+
+# List all pages for a project:
+python documentation/uploader.py --project Remotion --list
+```
+
+The uploader auto-detects existing pages via ETag and handles create vs update.
+
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>Non-Project Pages (any wiki path)</b></span>
+
+For pages under `/Wiki/LLM/`, `/Wiki/Reference/`, or any custom path, use a one-shot Python snippet. This is the minimal pattern:
+
+```python
+import base64, httpx, urllib.parse
+
+# Auth
+pat = open(r"C:\git\PythonCodeProjects\_skill_build\safe-subagent\_Credentials\adokpi").read()
+pat = [l for l in pat.splitlines() if "ADO_PAT" in l and "=" in l][0].split("=",1)[1].strip()
+token = base64.b64encode(f":{pat}".encode()).decode()
+hdrs = {"Authorization": f"Basic {token}", "Content-Type": "application/json"}
+
+# Path
+wiki_path = "/Wiki/LLM/Help/Wiki-Upload-Fast-Path"
+enc = urllib.parse.quote(wiki_path)
+url = f"https://bakuretsu.visualstudio.com/OmegaLantern/_apis/wiki/wikis/OmegaLantern.wiki/pages?path={enc}&api-version=7.1"
+
+# Detect existing page
+r = httpx.get(url, headers=hdrs, timeout=30)
+if r.status_code == 200:
+    hdrs["If-Match"] = r.headers.get("ETag", "*")
+
+# Upload
+content = open("path/to/page.md", encoding="utf-8").read()
+r = httpx.put(url, json={"content": content}, headers=hdrs, timeout=30)
+print(r.status_code, "OK" if r.status_code in (200,201) else r.text[:200])
+```
+
+<span style="background:lightyellow;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>NOTE</b></span> The uploader at `documentation/uploader.py` does this GET-before-PUT internally — you don't need to think about it for project pages. The snippet above is for non-project paths.
+
+### <span style="color:darkslateblue;"><b>Read First, Then Write — always</b></span>
+
+Every wiki upload follows the same two-request pattern:
+
+1. **GET** the page by path (with `includeContent=true` if you need to read existing content)
+2. If the GET returns **200**, capture the `ETag` header and add `If-Match` to the PUT — this is an **update**
+3. If the GET returns **404**, omit `If-Match` — this is a **create**
+
+**Why:** Without the ETag, you risk overwriting changes someone else made since you last read the page. The API rejects PUTs with a stale ETag (409 Conflict), so you always know your starting point.
+
+**Read before you edit** — never start from what you *remember* a page having. Always GET first with `includeContent=true`, save to a temp file, read it, then edit. Pages drift over time and your memory is wrong more often than you think.
+
+### <span style="color:darkslateblue;"><b>Create vs Update vs Subpage</b></span>
+
+The API doesn't have separate "create page" and "create subpage" endpoints — the **path is the only thing that matters**:
+
+| **Action** | **Path** | **PUT result** |
+|-----------|---------|--------------|
+| Create a root-level page | `/Wiki/LLM/Help` | 201 Created |
+| Update that same page | `/Wiki/LLM/Help` (with ETag) | 200 OK |
+| Create a subpage under it | `/Wiki/LLM/Help/My-Topic` | 201 Created |
+| Create a deeper subpage | `/Wiki/LLM/Help/My-Topic/Details` | 201 Created |
+
+The parent page **must already exist** for a subpage PUT to succeed — the API returns 400 if you try to create `/Wiki/LLM/Help/Foo/Bar` when `/Wiki/LLM/Help/Foo` doesn't exist.
+
+<span style="background:lightcyan;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>IMPORTANT</b></span> **Creation order matters for display.** The ADO Wiki lists subpages in order of creation — oldest first, newest last. Create the **deepest/leaf pages first, then the parent hub last**:
+
+```text
+WRONG (parent first):                       RIGHT (children first):
+  PUT /Wiki/LLM/Help/My-Topic    ← 1st        PUT /Wiki/LLM/Help/My-Topic/Setup      ← 1st
+  PUT /Wiki/LLM/Help/My-Topic/Setup  ← 2nd     PUT /Wiki/LLM/Help/My-Topic/Usage       ← 2nd
+  PUT /Wiki/LLM/Help/My-Topic/Usage  ← 3rd     PUT /Wiki/LLM/Help/My-Topic/Reference   ← 3rd
+  PUT /Wiki/LLM/Help/My-Topic/Reference ← 4th  PUT /Wiki/LLM/Help/My-Topic             ← 4th (parent last!)
+```
+
+This way the parent hub page sits at the top of the subpage listing and the detail pages appear below it.
+
+### <span style="color:darkslateblue;"><b>Parent & Child Subpages — when to split</b></span>
+
+For complex subjects that span more than 2 screens of content, break them into a parent hub page with child subpages:
+
+```text
+/Wiki/LLM/Help/My-Topic              ← Parent: overview, TL;DR, links to children
+/Wiki/LLM/Help/My-Topic/Setup         ← Child: installation, prerequisites
+/Wiki/LLM/Help/My-Topic/Usage         ← Child: detailed instructions
+/Wiki/LLM/Help/My-Topic/Reference     ← Child: API, config, troubleshooting
+```
+
+**When to split:**
+- More than 2 full screens of content (roughly 150+ lines of markdown)
+- Multiple distinct sub-topics that users would want to deep-link to
+- One section has a large code sample or table that deserves its own page
+
+**How to link between them:**
+
+```markdown
+See [Setup](/Wiki/LLM/Help/My-Topic/Setup) for prerequisites.
+See [Reference](/Wiki/LLM/Help/My-Topic/Reference) for the full API table.
+```
+
+<span style="background:lightcyan;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>IMPORTANT</b></span> Internal wiki links use page names with hyphens encoded as `%2D`. A subpage named `Wiki-Upload-Fast-Path` is linked as `[text](Wiki%2DUpload%2DFast%2DPath)`. Spaces in page names become hyphens automatically in the wiki path.
+
+### <span style="color:darkslateblue;"><b>Inter-Page Links — get these right</b></span>
+
+This is the single most common failure point for LLMs writing wiki pages. The rules are mechanical — follow them exactly.
+
+**Rule 1: Hyphens in page names MUST be encoded as `%2D`**
+
+This is the #1 mistake. ADO Wiki interprets an unencoded `-` in a link as a space separator between words, so `Wiki-Upload-Fast-Path` becomes "Wiki Upload Fast Path". You must encode every `-` in the page name:
+
+```markdown
+WRONG   [Upload Fast Path](Wiki-Upload-Fast-Path)
+WRONG   [Upload Fast Path](Wiki%20Upload%20Fast%20Path)
+RIGHT   [Upload Fast Path](Wiki%2DUpload%2DFast%2DPath)
+```
+
+**Rule 2: Spaces in page names become `-` in the path, not `%20`**
+
+This is the inverse mistake. When the wiki page title has spaces, the path uses hyphens:
+
+| **Page title** | **Wiki path** | **Link target** |
+|---------------|-------------|----------------|
+| `User Flow` | `/Wiki/Projects/Remotion/User-Flow` | `User-Flow` |
+| `Gemini CDP Browser Fix` | `/Wiki/Projects/Remotion/Issues/Gemini-CDP-Browser-Fix` | `Gemini%2DCDP%2DBrowser%2DFix` |
+
+Note how in the second row, the page name already contains hyphens, so ALL hyphens get encoded — both the ones from spaces and the ones that were hyphens originally. The linker does not distinguish them.
+
+**Rule 3: ALL links are absolute paths from the wiki root**
+
+This is where LLMs most often get it wrong. Bare page names like `(Compositions)` don't work — every link must be the full wiki path starting with `/Wiki/`:
+
+```markdown
+WRONG   See [Setup](Setup)
+WRONG   See [Setup](Setup)                  ← LLMs default to this
+RIGHT   See [Setup](/Wiki/Projects/Remotion/Setup)
+RIGHT   See [Compositions](/Wiki/Projects/Remotion/Compositions)
+```
+
+The path is always relative to the wiki root, not the current page. There is no such thing as a relative sibling link in the ADO wiki.
+
+**Rule 4: Encode hyphens in the path portion only**
+
+```markdown
+WRONG   [/Wiki/Projects/Remotion/Gemini-CDP-Browser-Fix](/Wiki/Projects/Remotion/Gemini-CDP-Browser-Fix)
+RIGHT   [Gemini CDP Browser Fix](/Wiki/Projects/Remotion/Issues/Gemini%2DCDP%2DBrowser%2DFix)
+```
+
+The link text (what the reader sees) is the page title with spaces. The link target (inside the parentheses) is the full `/Wiki/...` path with all `-` encoded to `%2D`.
+
+**Rule 5: Test every link before calling it done**
+
+After uploading, open each link in the browser. A broken link renders as a red "page not found" link in the ADO wiki — it's immediately obvious.
+
+**Quick reference table:**
+
+| **Page title** | **Wiki full path** | **Markdown link** |
+|---------------|-------------------|------------------|
+| `Pipeline` | `/Wiki/Projects/Remotion/Pipeline` | `[Pipeline](/Wiki/Projects/Remotion/Pipeline)` |
+| `Getting Started` | `/Wiki/LLM/Help/Getting-Started` | `[Getting Started](/Wiki/LLM/Help/Getting-Started)` |
+| `Wiki-Upload-Fast-Path` | `/Wiki/LLM/Help/Wiki-Upload-Fast-Path` | `[Wiki Upload Fast Path](/Wiki/LLM/Help/Wiki%2DUpload%2DFast%2DPath)` |
+| `Gemini CDP Browser Fix` | `/Wiki/Projects/Remotion/Issues/Gemini-CDP-Browser-Fix` | `[Gemini CDP Browser Fix](/Wiki/Projects/Remotion/Issues/Gemini%2DCDP%2DBrowser%2DFix)` |
+| `Sample-Error-Alert` | `/Wiki/Projects/Remotion/Issues/Sample-Error-Alert` | `[Sample Error Alert](/Wiki/Projects/Remotion/Issues/Sample%2DError%2DAlert)` |
+
+**Algorithm:** Take the page title → replace spaces with `-` → encode every `-` as `%2D` → prepend the full `/Wiki/...` path prefix. That is your link target. No exceptions.
+
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>Styling Quick Reference</b></span>
+
+Full rules: `C:\git\PythonCodeProjects\documentation\BestPractices\docRules_1.35.0_ado_marker_hardlock_no_legacy_literals.md`
+
+Key constraints:
+
+| **Rule** | **Example** |
+|---------|------------|
+| No emojis | Use text badges instead |
+| CSS named colors only | `lightblue`, `midnightblue` — never `#FF0000` or `rgb()` |
+| No `> [!NOTE]` blocks | Use inline span badges |
+| Mermaid with `::: mermaid` | Never triple backticks for diagrams |
+| Internal links encode hyphens | `User%2DFlow` not `User-Flow` |
+| Spaces in paths → hyphens | `/Wiki/Projects/My-App` for page "My App" |
+| Code fences always typed | ` ```python ` not bare ` ``` ` |
+
+### <span style="color:darkslateblue;"><b>H1 Gradients (pick one per page)</b></span>
+
+```html
+<h1 style="background: linear-gradient(90deg, lightblue, cornflowerblue); color:white; padding:18px 24px; border-radius:6px; font-size:28px; margin-top:0; margin-bottom:16px;">Title</h1>
+<h1 style="background: linear-gradient(90deg, seagreen, mediumaquamarine); color:white; padding:18px 24px; border-radius:6px; font-size:28px; margin-top:0; margin-bottom:16px;">Title</h1>
+<h1 style="background: linear-gradient(90deg, darkslateblue, mediumslateblue); color:white; padding:18px 24px; border-radius:6px; font-size:28px; margin-top:0; margin-bottom:16px;">Title</h1>
+<h1 style="background: linear-gradient(90deg, purple, violet); color:white; padding:18px 24px; border-radius:6px; font-size:28px; margin-top:0; margin-bottom:16px;">Title</h1>
+<h1 style="background: linear-gradient(90deg, sienna, sandybrown); color:white; padding:18px 24px; border-radius:6px; font-size:28px; margin-top:0; margin-bottom:16px;">Title</h1>
+```
+
+### <span style="color:darkslateblue;"><b>H2 Section Headers</b></span>
+
+```html
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>Section Title</b></span>
+```
+
+### <span style="color:darkslateblue;"><b>H3 Subsection Headers</b></span>
+
+```html
+### <span style="color:darkslateblue;"><b>Subsection Title</b></span>
+```
+
+### <span style="color:darkslateblue;"><b>Callout Badges</b></span>
+
+```html
+<span style="background:lightyellow;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>NOTE</b></span>
+<span style="background:honeydew;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>TIP</b></span>
+<span style="background:lightcyan;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>IMPORTANT</b></span>
+<span style="background:moccasin;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>WARNING</b></span>
+<span style="background:mistyrose;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>CAUTION</b></span>
+```
+
+### <span style="color:darkslateblue;"><b>Status Pills</b></span>
+
+```html
+<span style="display:inline-block;padding:1px 8px;border-radius:999px;background:honeydew;color:darkgreen;border:1px solid darkseagreen;white-space:nowrap;"><b>ACTIVE</b></span>
+<span style="display:inline-block;padding:1px 8px;border-radius:999px;background:aliceblue;color:midnightblue;border:1px solid lightsteelblue;white-space:nowrap;"><b>LABEL</b></span>
+<span style="display:inline-block;padding:1px 8px;border-radius:999px;background:cornsilk;color:darkgoldenrod;border:1px solid goldenrod;white-space:nowrap;"><b>PENDING</b></span>
+```
+
+### <span style="color:darkslateblue;"><b>Section Divider</b></span>
+
+```html
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+```
+
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>Credentials</b></span>
+
+The PAT lives in two locations (both tried):
+
+```text
+C:\git\PythonCodeProjects\_Credentials\adokpi          (primary)
+C:\git\PythonCodeProjects\_skill_build\safe-subagent\_Credentials\adokpi  (fallback)
+```
+
+Format: `ADO_PAT = <token>`
+
+Also settable as env var: `ADO_PAT`
+
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>Image Uploads</b></span>
+
+Wiki images are uploaded separately from the page, then linked by their attachment path. The workflow is:
+
+1. **Tag** the image in markdown with an `ADO_ATTACHMENT` comment
+2. **Upload** the image binary to the attachments endpoint
+3. **Rewrite** the markdown: strip tags, replace local paths with `/.attachments/...` paths
+4. **Upload** the final wiki page
+
+### <span style="color:darkslateblue;"><b>Step 1 — Tag images in the markdown</b></span>
+
+Place a comment tag wherever the image should appear. The tag declares the attachment name and the local file to upload:
+
+```markdown
+<!-- ADO_ATTACHMENT name="chart.png" file="images/chart.png" -->
+
+![Flow diagram](./images/chart.png)
+```
+
+The `name` is the attachment identifier in the wiki. The `file` is the local path (relative to the markdown file or absolute). The `![alt](local/path)` is the preview link that gets rewritten after upload.
+
+### <span style="color:darkslateblue;"><b>Step 2 — Upload the attachment</b></span>
+
+**Using the AdoKpi uploader** (if you're in the `AdoKpi` project):
+
+```bash
+python AdoKpi\Src\uploader_wiki.py --update --file "page.md" --attach "images\chart.png" --attach "images\heatmap.png"
+```
+
+This scans the markdown for `ADO_ATTACHMENT` tags, uploads each file, rewrites the links, and publishes the page in one pass.
+
+**Using the REST API directly** (for any project):
+
+```python
+import base64, httpx, sys
+sys.stdout.reconfigure(encoding='utf-8')
+
+# Auth
+pat = [l.split('=',1)[1].strip() for l in open(r'C:\git\PythonCodeProjects\_skill_build\safe-subagent\_Credentials\adokpi', encoding='utf-8') if l.startswith('ADO_PAT') and '=' in l][0]
+hdrs = {
+    'Authorization': f'Basic {base64.b64encode(f":{pat}".encode()).decode()}',
+    'Content-Type': 'application/octet-stream',
+}
+
+# Upload image
+wiki_identifier = 'OmegaLantern.wiki'
+org = 'bakuretsu'
+project = 'OmegaLantern'
+image_name = 'chart.png'
+image_data = open('images/chart.png', 'rb').read()
+
+url = f'https://dev.azure.com/{org}/{project}/_apis/wiki/wikis/{wiki_identifier}/attachments'
+r = httpx.put(url, params={'name': image_name, 'api-version': '7.1'}, headers=hdrs, content=image_data, timeout=60)
+print(r.status_code)
+print(r.json())
+```
+
+The response contains a `path` field like `/.attachments/chart.png` — this is what you use in the wiki page markdown.
+
+<span style="background:lightyellow;color:black;padding:2px 8px;border-radius:4px;display:inline-block;"><b>NOTE</b></span> The endpoint expects raw binary (`application/octet-stream`), not base64. If you get an error about "valid base-64", ADO will accept base64-encoded payload as a fallback — base64-encode the bytes and retry.
+
+### <span style="color:darkslateblue;"><b>Step 3 — Rewrite links in the markdown</b></span>
+
+After upload, the `ADO_ATTACHMENT` tags must be removed and local image paths replaced with attachment paths:
+
+```python
+import re
+
+# Strip ADO_ATTACHMENT comment tags
+content = re.sub(r'<!--\s*ADO_ATTACHMENT\s+name="[^"]+"\s+file="[^"]+"\s*-->', '', content)
+
+# Replace local paths with attachment paths
+for original_name, attachment_path in uploaded_map.items():
+    # Replace (./images/chart.png) → (/.attachments/chart.png)
+    content = re.sub(
+        rf'\((?:\./)?images/{re.escape(original_name)}\)',
+        f'({attachment_path})',
+        content,
+        flags=re.IGNORECASE,
+    )
+
+# After rewrite, the markdown becomes:
+# ![Flow diagram](/.attachments/chart.png)
+```
+
+### <span style="color:darkslateblue;"><b>Step 4 — Publish the page</b></span>
+
+Upload the rewritten markdown with the standard PUT. The `/.attachments/...` paths in the markdown are now valid wiki attachment links.
+
+### <span style="color:darkslateblue;"><b>GUID-based attachment names (AdoKpi uploader)</b></span>
+
+The `uploader_wiki.py` in `AdoKpi` uses GUID-suffixed names (`chart-a1b2c3d4.png`) to avoid collisions across updates and support stale-attachment cleanup. It maintains a `_attachment_hash_cache.json` to skip re-uploading unchanged images. Details in `C:\git\PythonCodeProjects\AdoKpi\ReadMe\readme_uploader_wiki.md`.
+
+<hr style="border:0;height:2px;background:linear-gradient(90deg,lightgray,white);margin:32px 0;">
+
+## <span style="color:midnightblue;border-bottom:2px solid lightsteelblue;padding-bottom:1px;"><b>API Reference</b></span>
+
+| **Operation** | **Endpoint** |
+|--------------|------------|
+| GET page | `GET /{org}/{project}/_apis/wiki/wikis/{wikiId}/pages?path={encodedPath}&api-version=7.1` |
+| GET page by ID | `GET /{org}/{project}/_apis/wiki/wikis/{wikiId}/pages/{pageId}?api-version=7.1` |
+| PUT (create/update) | `PUT /{org}/{project}/_apis/wiki/wikis/{wikiId}/pages?path={encodedPath}&api-version=7.1` |
+| Upload attachment | `PUT /{org}/{project}/_apis/wiki/wikis/{wikiId}/attachments?name={name}&api-version=7.1` |
+| Include content | Add `&includeContent=true` to GET |
+| ETag for update | `If-Match: {etag}` header on PUT |
+| Attachment content type | `Content-Type: application/octet-stream` |

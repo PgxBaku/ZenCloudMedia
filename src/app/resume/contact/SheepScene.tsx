@@ -33,7 +33,7 @@ function buildSequence(seed: number): Phase[] {
       : { kind: 'walkRight', totalFrames: cycles * WALK_FRAMES }
     )
     phases.push({ kind: 'hold', ticks: 2 + Math.floor(r() * 5) })
-    goLeft = !goLeft
+    goLeft = r() > 0.5
   }
   return phases
 }
@@ -51,6 +51,9 @@ export default function SheepScene() {
   })
 
   useEffect(() => {
+    const minX = 80
+    const maxX = (window.innerWidth ?? 1280) - 160
+    xPos.current = minX + Math.floor(Math.random() * (maxX - minX))
     seq.current = buildSequence((Date.now() + 12345) % 100000)
 
     const tick = () => {
@@ -62,12 +65,14 @@ export default function SheepScene() {
 
       if (phase.kind === 'walkLeft') {
         src  = `/sheep-frames/walk_left_${f % WALK_FRAMES}.png`
+        const prevXL = xPos.current
         xPos.current = Math.max(80, xPos.current - WALK_PX)
-        done = f >= phase.totalFrames - 1
+        done = f >= phase.totalFrames - 1 || xPos.current === prevXL
       } else if (phase.kind === 'walkRight') {
         src  = `/sheep-frames/walk_right_${f % WALK_FRAMES}.png`
+        const prevXR = xPos.current
         xPos.current = Math.min((window?.innerWidth ?? 1280) - 160, xPos.current + WALK_PX)
-        done = f >= phase.totalFrames - 1
+        done = f >= phase.totalFrames - 1 || xPos.current === prevXR
       } else if (phase.kind === 'hold') {
         src  = '/sheep-frames/walk_down_0.png'
         done = f >= phase.ticks - 1
@@ -85,7 +90,7 @@ export default function SheepScene() {
   return (
     <div style={{
       position:      'absolute',
-      bottom:        '9%',
+      bottom:        '4%',
       left:          disp.x,
       width:         SHEEP_W,
       height:        SHEEP_H,

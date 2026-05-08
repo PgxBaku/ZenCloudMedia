@@ -15,6 +15,9 @@
                              pixels in the top LabelClearRows rows indicate label bleed
     5. Horizontal center   -- body center X must be within MaxCenterDeviationX of canvas center
                              (critical for scaleX flip characters)
+    6. Body size spread    -- body width (BodyW) spread within a strip must be <= MaxBodyWSpread;
+                             a frame significantly wider or narrower than its neighbors will appear
+                             to shrink/grow during animation
 #>
 
 param(
@@ -34,7 +37,13 @@ param(
 
     # Centering checks
     [int]   $MaxCenterDeviationX = 12,    # max body-center deviation from canvas center (px)
-    [switch]$SkipCenterCheck     = $false # set for explicit-strip characters (no scaleX flip)
+    [switch]$SkipCenterCheck     = $false, # set for explicit-strip characters (no scaleX flip)
+
+    # Body size spread
+    [int]   $MaxBodyWSpread      = 20,    # max allowed body-width spread within one strip (px)
+    # Strips where higher body-width variation is expected (front/back facing -- legs extend sideways)
+    [string]$WideBodyStrips      = "walk_down,walk_up",
+    [int]   $MaxBodyWSpreadWide  = 30     # relaxed threshold for WideBodyStrips
 )
 
 Add-Type -AssemblyName System.Drawing
@@ -194,14 +203,30 @@ foreach ($strip in $stripList) {
     $minCX    = ($cxVals | Measure-Object -Minimum).Minimum
     $maxCX    = ($cxVals | Measure-Object -Maximum).Maximum
     $avgCX    = [math]::Round(($cxVals | Measure-Object -Average).Average, 1)
+
+    # Body width spread across strip
+    $bwVals    = $spreadFrames | ForEach-Object { $_.BodyW }
+    $minBodyW  = ($bwVals | Measure-Object -Minimum).Minimum
+    $maxBodyW  = ($bwVals | Measure-Object -Maximum).Maximum
+    $bwSpread  = $maxBodyW - $minBodyW
+    $wideList  = $WideBodyStrips -split ","
+    $bwThreshold = if ($wideList -contains $strip) { $MaxBodyWSpreadWide } else { $MaxBodyWSpread }
+    if ($bwSpread -gt $bwThreshold) {
+        $errors  += "BODY WIDTH INCONSISTENCY: $strip bodyW spread=${bwSpread}px (min=$minBodyW max=$maxBodyW) -- frames vary in size"
+        $allOk    = $false
+    }
+
     $avgBodyH = [math]::Round(($frames | ForEach-Object { $_.BodyH } | Measure-Object -Average).Average, 1)
+    $avgBodyW = [math]::Round(($bwVals | Measure-Object -Average).Average, 1)
 
-    $holdNote   = if ($isHoldStrip)        { " [frame0=hold minY=$($frames[0].MinY)]" } else { "" }
+    $holdNote   = if ($isHoldStrip)          { " [frame0=hold minY=$($frames[0].MinY)]" } else { "" }
     $centerNote = if (-not $SkipCenterCheck) { " cx=$minCX..$maxCX(avg=$avgCX,canvas=$canvasCenter)" } else { "" }
-    $status     = if ($stripErrors.Count -gt 0 -or $spread -gt $MaxMinYSpread) { "FAIL" } else { "OK" }
+    $sizeNote   = " bodyW=$minBodyW..$maxBodyW(avg=$avgBodyW)"
+    $hasErr     = $stripErrors.Count -gt 0 -or $spread -gt $MaxMinYSpread -or $bwSpread -gt $bwThreshold
+    $status     = if ($hasErr) { "FAIL" } else { "OK" }
 
-    Write-Host ("  [{0,-4}] {1,-14} frames={2} minY={3}..{4}(spread={5}) bodyH={6}{7}{8}" -f `
-        $status, $strip, $frames.Count, $minMinY, $maxMinY, $spread, $avgBodyH, $holdNote, $centerNote)
+    Write-Host ("  [{0,-4}] {1,-14} frames={2} minY={3}..{4}(spread={5}) bodyH={6}{7}{8}{9}" -f `
+        $status, $strip, $frames.Count, $minMinY, $maxMinY, $spread, $avgBodyH, $sizeNote, $holdNote, $centerNote)
 }
 
 Write-Host ""

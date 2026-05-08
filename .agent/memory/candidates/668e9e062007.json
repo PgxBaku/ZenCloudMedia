@@ -1,0 +1,40 @@
+{
+  "id": "668e9e062007",
+  "key": "pattern_zencloudmedia_superpowers_brainstorm_668e9e",
+  "name": "pattern_zencloudmedia_superpowers_brainstorm_668e9e",
+  "claim": "Wrote C:\\git\\ZenCloudMedia\\.superpowers\\brainstorm\\1075-1777858048\\content\\terrain-full.html (591 lines)",
+  "conditions": [
+    "brainstorm",
+    "content",
+    "file_path",
+    "git",
+    "html",
+    "lines",
+    "superpowers",
+    "write",
+    "wrote",
+    "zencloudmedia"
+  ],
+  "evidence_ids": [
+    "2026-05-04T01:28:35.746382+00:00",
+    "2026-05-04T01:36:22.120992+00:00",
+    "2026-05-04T01:38:05.960650+00:00",
+    "2026-05-04T01:50:43.406217+00:00",
+    "2026-05-04T01:56:04.986686+00:00",
+    "2026-05-04T02:08:08.117650+00:00",
+    "2026-05-04T01:58:55.740445+00:00",
+    "2026-05-04T02:05:20.474054+00:00"
+  ],
+  "cluster_size": 8,
+  "canonical_salience": 12.285,
+  "staged_at": "2026-05-08T02:01:22.000292+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-08T02:01:22.000292+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

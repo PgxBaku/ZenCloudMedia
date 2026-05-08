@@ -1,0 +1,70 @@
+{
+  "id": "e6d7229c4014",
+  "key": "pattern_pythoncodeprojects_safe-subagent_successfully_e6d722",
+  "name": "pattern_pythoncodeprojects_safe-subagent_successfully_e6d722",
+  "claim": "Tool Agent completed successfully",
+  "conditions": [
+    "ado",
+    "ado_pat",
+    "adokpi",
+    "agent",
+    "completed",
+    "credentials",
+    "description",
+    "git",
+    "json",
+    "key",
+    "pat",
+    "prompt",
+    "pythoncodeprojects",
+    "read",
+    "safe-subagent",
+    "skill_build",
+    "successfully",
+    "tool",
+    "wiki"
+  ],
+  "evidence_ids": [
+    "2026-05-08T21:46:46.998239+00:00",
+    "2026-05-08T21:49:24.250190+00:00",
+    "2026-05-08T21:54:49.835816+00:00",
+    "2026-05-08T22:06:37.769545+00:00"
+  ],
+  "cluster_size": 4,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-08T22:10:52.838209+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-08T22:10:52.838209+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-08T23:33:18.290936+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-08T23:34:28.589638+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-08T23:34:53.214315+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-08T23:40:02.928884+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-08T23:53:03.367564+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}

@@ -1,0 +1,46 @@
+{
+  "id": "33a321292e93",
+  "key": "pattern_pythoncodeprojects_safe-subagent_successfully_33a321",
+  "name": "pattern_pythoncodeprojects_safe-subagent_successfully_33a321",
+  "claim": "Tool Agent completed successfully",
+  "conditions": [
+    "ado",
+    "ado_pat",
+    "adokpi",
+    "agent",
+    "completed",
+    "credentials",
+    "description",
+    "git",
+    "json",
+    "key",
+    "pages",
+    "pat",
+    "prompt",
+    "pythoncodeprojects",
+    "read",
+    "safe-subagent",
+    "skill_build",
+    "successfully",
+    "summary",
+    "tool",
+    "wiki"
+  ],
+  "evidence_ids": [
+    "2026-05-08T21:46:46.998239+00:00",
+    "2026-05-08T21:49:24.250190+00:00",
+    "2026-05-08T21:54:49.835816+00:00"
+  ],
+  "cluster_size": 3,
+  "canonical_salience": 13.5,
+  "staged_at": "2026-05-08T21:55:01.833480+00:00",
+  "status": "staged",
+  "decisions": [
+    {
+      "ts": "2026-05-08T21:55:01.833480+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    }
+  ],
+  "rejection_count": 0
+}
