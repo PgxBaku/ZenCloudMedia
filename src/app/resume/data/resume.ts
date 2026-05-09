@@ -151,6 +151,12 @@ export const RESUME_ROLES: ResumeRole[] = [
       'Created and organized the company SDLC and CI/CD process using TFS.',
     ],
   },
+  {
+    role: 'Earlier Career',
+    dateRange: '2003 — 2012',
+    company: 'C.H. Robinson (Jr. Developer, 2003–2006) · LPS (Sr. Developer, 2008–2012)',
+    bullets: [],
+  },
 ]
 
 export const SKILL_GROUPS: SkillGroup[] = [

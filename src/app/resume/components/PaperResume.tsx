@@ -100,6 +100,16 @@ export default function PaperResume() {
             <SectionTitle>Experience</SectionTitle>
             {RESUME_ROLES.map((role, i) => (
               <div key={i} style={{ marginBottom: i < RESUME_ROLES.length - 1 ? 20 : 0 }}>
+                {role.bullets.length === 0 ? (
+                  <div style={{
+                    marginTop: 8, paddingTop: 8, borderTop: '1px dashed #e2e8f0',
+                    fontSize: 10, color: '#94a3b8', fontFamily: 'sans-serif', fontStyle: 'italic',
+                  }}>
+                    <span style={{ fontWeight: 600, color: '#64748b', fontStyle: 'normal' }}>Earlier Career</span>
+                    {' — '}{role.company}
+                  </div>
+                ) : (
+                <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3 }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{role.role}</span>
                   <span style={{ fontSize: 10, color: '#64748b', fontFamily: 'sans-serif', whiteSpace: 'nowrap', marginLeft: 8 }}>
@@ -119,6 +129,8 @@ export default function PaperResume() {
                     </li>
                   ))}
                 </ul>
+                </>
+                )}
               </div>
             ))}
           </div>
