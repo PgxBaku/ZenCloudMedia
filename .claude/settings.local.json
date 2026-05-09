@@ -137,7 +137,8 @@
       "Bash(Get-Content *)",
       "PowerShell(*)",
       "Bash(echo \"exit: $?\")",
-      "Bash(browser-use open *)"
+      "Bash(browser-use open *)",
+      "Bash(Select-String --line-buffered \".\")"
     ]
   }
 }

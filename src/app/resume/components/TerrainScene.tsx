@@ -18,6 +18,7 @@ type Props = {
 }
 
 export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const [zoomed, setZoomed] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const [birdTargetIndex, setBirdTargetIndex] = useState(-1)
@@ -69,6 +70,11 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
     const addTimer = (fn: () => void, ms: number) => {
       activeTimers.push(setTimeout(fn, ms))
     }
+    if (isMobile) {
+      onProgress(100, 'Full resume')
+      return
+    }
+
     const updateScale = () => setScale(window.innerWidth / 2600)
 
     window.addEventListener('resize', updateScale)
@@ -123,6 +129,8 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
       activeTimers.forEach(clearTimeout)
     }
   }, [onProgress, onResumeReveal])
+
+  if (isMobile) return null
 
   const milestoneDelays = MILESTONES.map(
     (_, i) => ANIMATION_CONFIG.pathStartDelay + 0.1 + i * ANIMATION_CONFIG.milestoneInterval

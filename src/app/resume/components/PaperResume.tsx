@@ -25,7 +25,7 @@ export default function PaperResume() {
         {/* Header band */}
         <div style={{
           background: 'linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#1e40af 100%)',
-          padding: '32px 40px 24px',
+          padding: 'clamp(20px, 4vw, 32px) clamp(16px, 5vw, 40px) 24px',
           color: 'white',
         }}>
           <h1 style={{ fontSize: 28, fontWeight: 300, lineHeight: 1.15, margin: 0 }}>
@@ -168,7 +168,7 @@ export default function PaperResume() {
         {/* Footer */}
         <div style={{
           borderTop: '1px solid #e2e8f0',
-          padding: '12px 40px',
+          padding: 'clamp(10px, 2vw, 12px) clamp(16px, 5vw, 40px)',
           display: 'flex', justifyContent: 'space-between',
           fontSize: 9, color: '#94a3b8', fontFamily: 'sans-serif', letterSpacing: 0.5,
         }}>
@@ -184,7 +184,7 @@ function SectionTitle({ children }: { children: string }) {
   return (
     <div style={{
       fontSize: 10, color: '#1e3a5f', fontFamily: 'sans-serif',
-      letterSpacing: 3, textTransform: 'uppercase', fontWeight: 600,
+      letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 600,
       marginBottom: 10, paddingBottom: 5,
       borderBottom: '1px solid #e2e8f0',
     }}>

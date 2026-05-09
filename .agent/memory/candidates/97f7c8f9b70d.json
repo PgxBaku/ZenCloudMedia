@@ -29,7 +29,7 @@
     "2026-05-07T01:07:50.917593+00:00"
   ],
   "cluster_size": 15,
-  "canonical_salience": 13.095,
+  "canonical_salience": 12.690000000000001,
   "staged_at": "2026-05-05T21:50:19.243017+00:00",
   "status": "staged",
   "decisions": [
@@ -970,6 +970,21 @@
     },
     {
       "ts": "2026-05-08T23:53:03.360509+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-09T00:00:57.245496+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-09T00:01:27.319891+00:00",
+      "action": "staged",
+      "reviewer": "auto_dream"
+    },
+    {
+      "ts": "2026-05-09T02:15:17.103519+00:00",
       "action": "staged",
       "reviewer": "auto_dream"
     }

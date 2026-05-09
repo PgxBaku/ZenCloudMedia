@@ -8,11 +8,11 @@ type Props = {
 
 export default function ResumeHeader({ progress, label }: Props) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-[300] flex items-center gap-6 px-8 py-2.5"
+    <header className="fixed top-0 left-0 right-0 z-[300] flex items-center gap-2 sm:gap-6 px-3 sm:px-8 py-2.5"
       style={{ background: 'rgba(10,10,20,0.88)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-      <div>
-        <div className="text-slate-200 text-sm font-light tracking-[3px] uppercase">Paul P. Xiong</div>
-        <div className="text-slate-500 text-[10px] tracking-[2px] uppercase" style={{ fontFamily: 'sans-serif' }}>
+      <div className="min-w-0">
+        <div className="text-slate-200 text-sm font-light tracking-[3px] uppercase truncate">Paul P. Xiong</div>
+        <div className="text-slate-500 text-xs tracking-[1px] uppercase hidden sm:block" style={{ fontFamily: 'sans-serif' }}>
           Engineering Manager · AI-Capable
         </div>
       </div>
@@ -26,7 +26,7 @@ export default function ResumeHeader({ progress, label }: Props) {
           }}
         />
       </div>
-      <div className="text-slate-500 text-[10px] tracking-[1px]" style={{ fontFamily: 'sans-serif' }}>
+      <div className="text-slate-500 text-xs tracking-[1px] whitespace-nowrap" style={{ fontFamily: 'sans-serif' }}>
         {label}
       </div>
     </header>

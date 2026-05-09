@@ -380,7 +380,7 @@ export default function ContactPage() {
         />
       ))}
 
-      <svg className="absolute bottom-0 w-full" style={{ height: '42%', minWidth: 900 }} viewBox="0 0 1200 340" preserveAspectRatio="none">
+      <svg className="absolute bottom-0 w-full" style={{ height: '42%' }} viewBox="0 0 1200 340" preserveAspectRatio="none">
         <polygon points="0,340 120,130 250,190 370,80 490,160 600,95 720,170 850,70 970,140 1080,40 1200,100 1200,340" fill="#b8cceb" opacity="0.42" />
         <path d="M0,340 C90,340 150,220 260,230 S390,320 500,300 S630,200 760,210 S900,310 1020,290 S1140,190 1200,200 L1200,340 Z" fill="#8baed4" opacity="0.5" />
         <path d="M0,340 C60,340 100,260 190,265 S310,340 410,320 S540,230 660,240 S790,330 910,310 S1040,220 1160,230 S1200,270 1200,260 L1200,340 Z" fill="#6a99c4" opacity="0.55" />
@@ -464,9 +464,10 @@ export default function ContactPage() {
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(99,102,241,0.35)',
             borderRadius: 14,
-            padding: '36px 48px',
+            padding: 'clamp(20px, 5vw, 36px) clamp(20px, 6vw, 48px)',
             boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(99,102,241,0.08)',
             maxWidth: 400,
+            width: '100%',
           }}
         >
           <div style={{
