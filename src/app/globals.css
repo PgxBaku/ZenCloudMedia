@@ -183,6 +183,23 @@ body {
   100% { transform: translateY(0)     rotate(360deg) scale(1);    }
 }
 
+@media print {
+  @page {
+    margin: 0.45in;
+    size: letter;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

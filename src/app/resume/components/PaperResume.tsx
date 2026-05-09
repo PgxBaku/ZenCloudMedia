@@ -6,13 +6,25 @@ import { RESUME_ROLES, SKILL_GROUPS, METRICS, PROJECTS } from '../data/resume'
 export default function PaperResume() {
   return (
     <motion.section
-      className="min-h-screen bg-slate-100 flex flex-col items-center py-16 px-4"
+      className="min-h-screen bg-slate-100 flex flex-col items-center py-16 px-4 print:bg-white print:py-0 print:min-h-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+      <div className="w-full flex justify-end mb-3 print:hidden" style={{ maxWidth: 820 }}>
+        <button
+          onClick={() => window.print()}
+          style={{
+            padding: '6px 16px', fontSize: 11, fontFamily: 'sans-serif', cursor: 'pointer',
+            background: 'rgba(30,64,175,0.07)', border: '1px solid rgba(30,64,175,0.2)',
+            color: '#1e40af', borderRadius: 6, letterSpacing: 0.5,
+          }}
+        >
+          ↓ Download PDF
+        </button>
+      </div>
       <motion.div
-        className="w-full bg-white overflow-hidden"
+        className="w-full bg-white overflow-hidden print:overflow-visible"
         style={{
           maxWidth: 820,
           borderRadius: 4,

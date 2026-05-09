@@ -10,7 +10,7 @@ Run `python .agent/tools/list_candidates.py` for detail, then:
 
 ## Priority order (top 10)
 
-- **f08719a07f19** (priority=51902.49, size=1641, rejections=1) — FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST "h
+- **f08719a07f19** (priority=52060.63, size=1646, rejections=1) — FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST "h
 - **c039b0b18cc6** (priority=30928.73, size=1139, rejections=0) — FAILURE in claude-code: High-stakes op FAILED (create-table): curl -s -X POST "h
 - **97f7c8f9b70d** (priority=231.14, size=15, rejections=1) — Tool Agent completed successfully
 - **3b5c8fb2a7d1** (priority=116.02, size=8, rejections=0) — Wrote C:\git\ZenCloudMedia\.superpowers\brainstorm\1075-1777858048\content\journ

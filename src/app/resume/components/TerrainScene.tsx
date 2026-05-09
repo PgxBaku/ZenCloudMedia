@@ -128,6 +128,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
       window.removeEventListener('resize', updateScale)
       activeTimers.forEach(clearTimeout)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onProgress, onResumeReveal])
 
   if (isMobile) return null
@@ -138,7 +139,7 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
 
   return (
     <section
-      className="relative h-screen overflow-hidden"
+      className="relative h-screen overflow-hidden print:hidden"
       style={{ background: 'linear-gradient(180deg,#bfdbfe 0%,#dbeafe 35%,#eff6ff 65%,#f0fdf4 85%,#dcfce7 100%)' }}
     >
       {/* 2600px world that zooms out */}

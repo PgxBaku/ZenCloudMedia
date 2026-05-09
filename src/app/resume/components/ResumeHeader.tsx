@@ -8,7 +8,7 @@ type Props = {
 
 export default function ResumeHeader({ progress, label }: Props) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-[300] flex items-center gap-2 sm:gap-6 px-3 sm:px-8 py-2.5"
+    <header className="fixed top-0 left-0 right-0 z-[300] flex items-center gap-2 sm:gap-6 px-3 sm:px-8 py-2.5 print:hidden"
       style={{ background: 'rgba(10,10,20,0.88)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
       <div className="min-w-0">
         <div className="text-slate-200 text-sm font-light tracking-[3px] uppercase truncate">Paul P. Xiong</div>
