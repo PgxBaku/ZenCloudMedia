@@ -22,6 +22,7 @@ Main files:
 - `src/app/pgx/resume/ats/page.tsx` - plain ATS-friendly resume route
 - `src/app/pgx/resume/text/route.ts` - text-only resume endpoint for LLM and crawler ingestion
 - `src/app/pgx/resume/story/page.tsx` - animated resume story route
+- `src/app/resume/components/MobileResumeStory.tsx` - mobile milestone slideshow for the resume story
 - `src/app/resume/page.tsx` - compatibility redirect to `/pgx/resume`
 - `public/llms.txt` - AI crawler map pointing to the preferred resume surfaces
 - `scripts/validate-resume-machine-readable.mjs` - machine-readable resume route validator
