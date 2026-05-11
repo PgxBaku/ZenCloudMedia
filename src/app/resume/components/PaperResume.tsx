@@ -1,6 +1,7 @@
 // src/app/resume/components/PaperResume.tsx
 'use client'
 import { motion } from 'framer-motion'
+import { Sparkles } from 'lucide-react'
 import { RESUME_ROLES, SKILL_GROUPS, METRICS, PROJECTS } from '../data/resume'
 
 export default function PaperResume() {
@@ -11,7 +12,21 @@ export default function PaperResume() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <div className="w-full flex justify-end mb-3 print:hidden" style={{ maxWidth: 820 }}>
+      <div className="w-full flex justify-between gap-2 mb-3 print:hidden" style={{ maxWidth: 820 }}>
+        <a
+          href="/pgx/resume/story"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 7,
+            padding: '7px 14px', fontSize: 11, fontFamily: 'sans-serif',
+            background: 'linear-gradient(135deg, rgba(251,191,36,0.18), rgba(30,64,175,0.10))',
+            border: '1px solid rgba(30,64,175,0.22)',
+            color: '#0f172a', borderRadius: 999, letterSpacing: 0.5, textDecoration: 'none',
+            boxShadow: '0 6px 18px rgba(15,23,42,0.08)',
+          }}
+        >
+          <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
+          View Story
+        </a>
         <button
           onClick={() => window.print()}
           style={{
@@ -48,7 +63,7 @@ export default function PaperResume() {
             fontSize: 14, color: '#cbd5e1', fontFamily: 'sans-serif',
             marginTop: 6, letterSpacing: 0.5,
           }}>
-            Strategic Software Dev Manager &amp; Solutions Architect
+            Software Development Manager | AI Automation &amp; Enterprise Integration Architect
           </div>
           <div style={{
             display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap',
@@ -61,6 +76,8 @@ export default function PaperResume() {
             <ContactItem label="LinkedIn" href="/resume/contact" />
             <ContactItemSep />
             <ContactItem label="zencloudweb.com" href="https://zencloudweb.com" />
+            <ContactItemSep />
+            <ContactItem label="GitHub" href="https://github.com/PgxBaku/ZenCloudMedia" />
           </div>
         </div>
 
@@ -90,11 +107,14 @@ export default function PaperResume() {
               fontSize: 12, color: '#334155', lineHeight: 1.7, fontFamily: 'sans-serif',
               marginBottom: 24,
             }}>
-              Enterprise architect and engineering manager who bridges legacy .NET/MuleSoft
-              integration with modern AI pipelines. Cut time-to-production 50%+ across 100+
-              integrations. Currently leading a $2M, 10-engineer API team while shipping
-              AI-automated video production tooling. Rare blend: enterprise-scale
-              architecture credibility plus hands-on AI delivery.
+              Software development manager and AI automation architect with 8+ years leading
+              enterprise integration modernization across .NET, MuleSoft, Microsoft Fabric,
+              Data Lake, Amazon Connect, and AI-assisted delivery. Built reusable platforms
+              behind 100+ integrations, 50%+ faster delivery, $2M budget ownership, and 10+
+              engineer leadership. Currently building ZenCloudMedia as a public proof platform
+              for Next.js, Supabase, Remotion, Python, browser automation, and LLM-enabled media
+              workflows. Available for AI automation, software development leadership,
+              enterprise integration, and LLMOps architecture roles.
             </p>
 
             <SectionTitle>Experience</SectionTitle>
@@ -184,7 +204,7 @@ export default function PaperResume() {
               padding: '8px 10px', background: 'rgba(30,64,175,0.05)', borderRadius: 3,
               border: '1px solid rgba(30,64,175,0.1)',
             }}>
-              AI Solutions Architect · Software Dev Manager, AI/Automation · LLMOps / Agentic Workflow Lead
+              AI Solutions Architect · Software Development Manager, AI/Automation · LLMOps / Agentic Workflow Lead · Enterprise Integration Architect
             </div>
           </div>
         </div>

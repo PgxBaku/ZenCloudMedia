@@ -84,10 +84,10 @@ export const MILESTONES: Milestone[] = [
   {
     id: 'dev-manager',
     year: '2025',
-    dateRange: '2025 — Present',
-    role: 'Software Dev Manager & API Manager',
+    dateRange: '2025 — 2026',
+    role: 'Software Development Manager & API Manager',
     company: 'ConvergeOne · $2M budget · 10+ team',
-    tags: ['Amazon Connect', 'Azure Fabric', 'AI / Copilot', 'C-Suite'],
+    tags: ['Amazon Connect', 'Microsoft Fabric', 'Data Lake', 'GitHub Copilot'],
     metric: '🏔️ 50%+ Time-to-Production improvement',
     flagLeft: 1760,
     poleHeight: 114,
@@ -96,12 +96,12 @@ export const MILESTONES: Milestone[] = [
   },
   {
     id: 'zen-cloud',
-    year: 'ZEN CLOUD',
-    dateRange: 'Side Project · Ongoing',
-    role: 'ZenCloudMedia',
-    company: 'Founder & Lead Developer',
-    tags: ['Remotion', 'Python', 'Claude', 'Codex', 'Ollama', 'DeepSeek', 'Next.js'],
-    metric: '🎬 AI-automated video production pipeline',
+    year: '2026',
+    dateRange: 'Apr 2026 — Present',
+    role: 'Founder & Principal AI Automation Engineer',
+    company: 'ZenCloudMedia',
+    tags: ['Remotion', 'Python', 'Browser Automation', 'LLMOps', 'Next.js', 'Vercel'],
+    metric: '🎬 Building AI-native media and automation systems',
     flagLeft: 2000,
     poleHeight: 200,
     flagStyle: 'amber',
@@ -111,14 +111,25 @@ export const MILESTONES: Milestone[] = [
 
 export const RESUME_ROLES: ResumeRole[] = [
   {
-    role: 'Software Dev Manager & API Manager',
-    dateRange: 'Apr 2025 — Present',
+    role: 'Founder & Principal AI Automation Engineer',
+    dateRange: 'Apr 2026 — Present',
+    company: 'ZenCloudMedia',
+    bullets: [
+      'Built ZenCloudMedia as a hands-on AI automation studio for short-form media, publishing workflows, and agentic engineering systems.',
+      'Built a production Next.js and Supabase web app with public resume, reels hub, trust pages, backend data flows, Vercel deployment, sitemap, and crawlable policy surface.',
+      'Automated short-form video production workflows using Python, Remotion, browser automation, LLM-assisted scripting, captions, and publishing-ready outputs.',
+      'Published machine-readable resume, reels, trust pages, sitemap, and crawler-ready content surfaces as a public proof system for AI workflow orchestration.',
+    ],
+  },
+  {
+    role: 'Software Development Manager & API Manager',
+    dateRange: 'Apr 2025 — Apr 2026',
     company: 'ConvergeOne',
     bullets: [
-      'Ultimate technical escalation point for global developers across US and India.',
-      'Orchestrates high-availability API layers connecting core systems to Amazon Connect and Azure Fabric.',
-      'Manages $2M annual budget; reports on infrastructure ROI and talent performance to C-suite.',
-      'Implementing GitHub Copilot and AI-driven CI/CD automated code reviews across the team.',
+      'Final technical escalation owner for global developers across US and India, resolving production integration blockers and architecture failures.',
+      'Led high-availability API layers connecting core systems to Amazon Connect, Microsoft Fabric, Data Lake, managed services, and professional services workflows.',
+      'Managed $2M annual budget across infrastructure, staffing, delivery planning, and executive ROI reporting.',
+      'Rolled out GitHub Copilot and AI-assisted CI/CD code review practices across a 10+ engineer API team.',
     ],
   },
   {
@@ -126,9 +137,9 @@ export const RESUME_ROLES: ResumeRole[] = [
     dateRange: 'Jun 2022 — Apr 2025',
     company: 'ConvergeOne',
     bullets: [
-      'Architected the complete sunset of BizTalk EDI, transitioning all vendor integrations to MuleSoft Partner Manager.',
+      'Led the complete BizTalk EDI sunset, transitioning vendor integrations to MuleSoft Partner Manager.',
       'Directed porting of 25 business processes into governed MuleSoft assets using modular shared patterns.',
-      'Architected and co-developed 100+ integration processes using the proprietary middle-tier framework.',
+      'Co-developed 100+ integration processes using a proprietary middle-tier framework and reusable delivery patterns.',
     ],
   },
   {
@@ -148,7 +159,7 @@ export const RESUME_ROLES: ResumeRole[] = [
     bullets: [
       'Authored the core .NET Middle-Tier Framework (C#, MEF, Async Queues) — backbone of 50%+ Time-to-Production improvement.',
       'Managed database reporting via SQL Server and SSRS across 90+ core business processes.',
-      'Created and organized the company SDLC and CI/CD process using TFS.',
+      'Created the company SDLC and CI/CD process using TFS, establishing repeatable delivery governance for integration work.',
     ],
   },
   {
@@ -163,17 +174,17 @@ export const SKILL_GROUPS: SkillGroup[] = [
   {
     name: 'Integration & Cloud',
     variant: 'default',
-    items: ['MuleSoft', 'BizTalk EDI', 'Azure Fabric', 'Amazon Connect', 'CloudHub 2.0', 'MQ FIFO'],
+    items: ['MuleSoft', 'BizTalk EDI', 'Microsoft Fabric', 'Data Lake', 'Amazon Connect', 'CloudHub 2.0', 'MQ FIFO'],
   },
   {
     name: 'AI & Engineering',
     variant: 'ai',
-    items: ['Claude', 'Copilot', 'Gemini', 'LLMOps', '.NET / C#', 'Python', 'Next.js', 'Supabase'],
+    items: ['Copilot', 'LLMOps', 'Agentic Workflows', '.NET / C#', 'Python', 'Next.js', 'Remotion', 'Supabase'],
   },
   {
     name: 'Leadership',
     variant: 'infra',
-    items: ['C-Suite Roadmaps', 'Budget Mgmt', 'Talent Lifecycle', 'ADO / KPI'],
+    items: ['Executive Roadmaps', 'Budget Management', 'Engineering Hiring', 'Azure DevOps KPI Dashboards'],
   },
 ]
 
@@ -185,6 +196,8 @@ export const METRICS = [
 ]
 
 export const PROJECTS = [
-  { name: 'ZenCloudMedia', desc: 'Automated AI video pipeline: Python, Remotion, Claude, Gemini — geopolitical news to MP4, end-to-end.', url: 'https://zencloudweb.com' },
-  { name: '7pace + ADO KPI Dashboards', desc: 'Custom ADO widgets correlating time-tracking data with developer velocity metrics.' },
+  { name: 'ZenCloudMedia', desc: 'Automated short-form video workflow using Python, Remotion, browser automation, LLM-assisted scripting, captions, and publishing-ready outputs.', url: 'https://zencloudweb.com' },
+  { name: 'ZenCloudMedia GitHub', desc: 'Public Next.js/Supabase site repo that backs the resume, reels hub, trust pages, backend workflows, and production Vercel deployment.', url: 'https://github.com/PgxBaku/ZenCloudMedia' },
+  { name: 'Enterprise Integration Modernization', desc: 'BizTalk EDI sunset, Partner Manager transition, and 100+ integration processes delivered through governed reusable patterns.' },
+  { name: '7pace + ADO KPI Dashboards', desc: 'Custom ADO widgets correlating time-tracking data with developer velocity metrics and engineering performance reporting.' },
 ]

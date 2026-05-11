@@ -279,10 +279,10 @@ export default function TerrainScene({ onResumeReveal, onProgress }: Props) {
             ]},
             // ── Milestone 3: 2025 Dev Manager ──
             { left: 1430, bottom: 96, w: 84, h: 220, fill: '#1d3a2e', stroke: '#142a20', milestone: 3, badges: [
-              { tech: 'AI / Copilot', x: 34, y: 56 },
+              { tech: 'GitHub Copilot', x: 34, y: 56 },
               { tech: 'Amazon Connect', x: 22, y: 96 },
-              { tech: 'Azure Fabric', x: 62, y: 100 },
-              { tech: 'C-Suite', x: 42, y: 142 },
+              { tech: 'Microsoft Fabric', x: 62, y: 100 },
+              { tech: 'Data Lake', x: 72, y: 118 },
             ]},
             // ── Milestone 4: Zen Cloud ──
             { left: 1940, bottom: 100, w: 78, h: 210, fill: '#2d5b3f', stroke: '#1d3a2e', milestone: 4, badges: [

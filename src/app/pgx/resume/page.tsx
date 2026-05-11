@@ -1,0 +1,37 @@
+import type { Metadata } from 'next'
+import PaperResume from '../../resume/components/PaperResume'
+import { buildResumeJsonLd } from '../../resume/data/machine-readable'
+
+export const metadata: Metadata = {
+  title: 'Paul P. Xiong Resume | AI Automation & Enterprise Integration',
+  description:
+    'Software development manager and AI automation architect with Microsoft Fabric, Data Lake, Supabase, 100+ integrations, $2M budget ownership, and 10+ engineers led.',
+  alternates: {
+    canonical: '/pgx/resume',
+  },
+  openGraph: {
+    title: 'Paul P. Xiong Resume | Software Development Manager',
+    description:
+      'ZenCloudMedia founder building AI automation systems, backed by enterprise integration leadership across MuleSoft, .NET, Amazon Connect, Microsoft Fabric, and Data Lake.',
+    images: ['/zencloudmedia-logo.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Paul P. Xiong Resume',
+    description:
+      'Software development manager and AI automation architect with Microsoft Fabric, Data Lake, Supabase, and enterprise integration delivery.',
+    images: ['/zencloudmedia-logo.png'],
+  },
+}
+
+export default function PgxResumePage() {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildResumeJsonLd()) }}
+      />
+      <PaperResume />
+    </>
+  )
+}

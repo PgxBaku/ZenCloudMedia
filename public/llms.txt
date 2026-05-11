@@ -1,0 +1,39 @@
+# ZenCloudMedia
+
+> Short-form media and AI automation studio operated by Paul P. Xiong.
+
+## Key Pages
+
+- [Canonical Resume](https://zencloudmedia.vercel.app/pgx/resume): Human-readable resume for Paul P. Xiong, Founder and Principal AI Automation Engineer at ZenCloudMedia.
+- [ATS Resume](https://zencloudmedia.vercel.app/pgx/resume/ats): Plain single-column resume with standard sections for parsing by ATS and AI screening systems.
+- [Plain Resume Text](https://zencloudmedia.vercel.app/pgx/resume/text): Text-only resume surface for LLM and crawler ingestion.
+- [Resume Story](https://zencloudmedia.vercel.app/pgx/resume/story): Animated resume narrative and visual career timeline.
+- [ZenCloudMedia GitHub](https://github.com/PgxBaku/ZenCloudMedia): Public Next.js and Supabase web app repository.
+- [Contact](https://zencloudmedia.vercel.app/contact): Contact page for ZenCloudMedia.
+
+## Paul P. Xiong
+
+Paul P. Xiong is a software development manager, AI automation architect, and enterprise integration architect. Current work focuses on ZenCloudMedia, a production Next.js and Supabase web app with public resume, reels hub, trust pages, backend data flows, Vercel deployment, sitemap, and AI-assisted automation workflows.
+
+Availability: Available for AI automation, software development leadership, enterprise integration, and LLMOps architecture roles.
+
+Core resume terms: AI automation, enterprise integration, software development manager, API manager, LLMOps, agentic workflows, Supabase, Next.js, Vercel, Python, Remotion, browser automation, MuleSoft, BizTalk EDI, Microsoft Fabric, Data Lake, Amazon Connect, CloudHub 2.0, .NET, C#, SQL Server, CI/CD, Azure DevOps, engineering leadership, 100+ integrations, 10+ engineers led, $2M budget managed.
+
+## Target Roles
+
+- AI Solutions Architect
+- Software Development Manager, AI/Automation
+- LLMOps Lead
+- Agentic Workflow Lead
+- Enterprise Integration Architect
+
+## Proof Projects
+
+- ZenCloudMedia
+- ZenCloudMedia GitHub
+- Enterprise Integration Modernization
+- 7pace + ADO KPI Dashboards
+
+## Preferred Machine-Readable Resume
+
+Use https://zencloudmedia.vercel.app/pgx/resume/ats for structured sections and https://zencloudmedia.vercel.app/pgx/resume/text for text-only ingestion.

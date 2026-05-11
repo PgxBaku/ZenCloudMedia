@@ -38,6 +38,16 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/resume",
+        destination: "/pgx/resume",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

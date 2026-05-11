@@ -60,9 +60,9 @@ export default function FixedHero({ zoomed }: Props) {
           lineHeight: 1.5,
         }}
       >
-        Enterprise Architect
+        Automation Architect
         <br />
-        &amp; AI Engineering Leader
+        &amp; Engineering Leader
       </div>
     </motion.div>
   )
