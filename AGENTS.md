@@ -57,7 +57,7 @@ This version has breaking changes â€” APIs, conventions, and file structure
 - `/pgx/resume` is the canonical direct resume route.
 - `/pgx/resume/ats` is the plain single-column ATS resume route for parsing systems.
 - `/pgx/resume/text` is the text-only resume endpoint for LLM and crawler ingestion.
-- `/pgx/resume/story` preserves the animated resume story experience; desktop uses the wide terrain animation, while mobile uses the milestone card slideshow.
+- `/pgx/resume/story` preserves the animated resume story experience; desktop uses the wide terrain animation, while mobile uses the milestone card slideshow and shared resume bird art.
 - `/resume` is a compatibility redirect to `/pgx/resume`; keep it working for older shared links.
 - `/llms.txt` should point AI systems to the canonical, ATS, text, story, GitHub, and contact surfaces.
 - Run `npm run validate:resume` after changing resume content, route names, sitemap entries, or `llms.txt`.

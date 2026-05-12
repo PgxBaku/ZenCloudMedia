@@ -7,4 +7,4 @@
 - Added `/pgx/resume/text` as a text-only endpoint.
 - Added `/llms.txt` to point AI crawlers at canonical resume surfaces.
 - Added `npm run validate:resume` for local route/content verification.
-- Added mobile `/pgx/resume/story` milestone slideshow with progress dots, swipe/arrow navigation, resume action, print action, and animated bird.
+- Added mobile `/pgx/resume/story` milestone slideshow with progress dots, swipe/arrow navigation, resume action, print action, and shared resume bird art flying around the card.

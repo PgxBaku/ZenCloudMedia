@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, FileText, Printer } from 'lucide-react'
 import { MILESTONES } from '../data/resume'
+import { ResumeBirdArt } from './Bird'
 
 type Props = {
   onResumeReveal: () => void
@@ -72,15 +73,30 @@ export default function MobileResumeStory({ onProgress, onResumeReveal }: Props)
 
         <div className="relative flex flex-1 items-center">
           <motion.div
-            className="pointer-events-none absolute right-1 top-[-22px] z-20"
+            className="pointer-events-none absolute z-20"
+            style={{ width: 64, height: 48 }}
             animate={{
-              x: [0, -18, 8, 0],
-              y: [0, -10, 4, 0],
-              rotate: [0, -6, 4, 0],
+              left: ['-10%', '66%', '92%', '22%', '-10%'],
+              top: ['10%', '-2%', '34%', '62%', '10%'],
             }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{
+              duration: 9,
+              ease: 'easeInOut',
+              repeat: Infinity,
+              repeatDelay: 1.2,
+            }}
           >
-            <MobileBird />
+            <motion.div
+              animate={{
+                y: [0, -10, 0, -7, 0],
+                rotate: [0, -5, 4, -3, 0],
+                scaleX: [1, 1, -1, -1, 1],
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              className="scale-125"
+            >
+              <ResumeBirdArt variant="moe" />
+            </motion.div>
           </motion.div>
 
           <AnimatePresence mode="wait" custom={direction}>
@@ -191,32 +207,5 @@ export default function MobileResumeStory({ onProgress, onResumeReveal }: Props)
         </div>
       </div>
     </section>
-  )
-}
-
-function MobileBird() {
-  return (
-    <svg width="84" height="64" viewBox="0 0 84 64" fill="none" aria-hidden="true">
-      <motion.path
-        d="M36 30 C24 12, 10 10, 6 22 C14 26, 24 30, 38 35 Z"
-        fill="#fbbf24"
-        animate={{ rotate: [-8, 16, -8] }}
-        transition={{ duration: 0.7, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ originX: 0.45, originY: 0.5 }}
-      />
-      <motion.path
-        d="M38 34 C28 52, 14 54, 8 42 C18 38, 28 35, 40 31 Z"
-        fill="#f59e0b"
-        animate={{ rotate: [10, -14, 10] }}
-        transition={{ duration: 0.7, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ originX: 0.45, originY: 0.5 }}
-      />
-      <ellipse cx="43" cy="34" rx="18" ry="13" fill="#fde68a" />
-      <circle cx="58" cy="27" r="12" fill="#fcd34d" />
-      <circle cx="62" cy="24" r="3.2" fill="#0f172a" />
-      <circle cx="63" cy="23" r="1" fill="white" />
-      <path d="M69 27 L80 31 L69 35 Z" fill="#fb923c" />
-      <path d="M26 39 L13 47 L20 36 Z" fill="#d97706" />
-    </svg>
   )
 }

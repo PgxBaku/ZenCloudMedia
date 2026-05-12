@@ -50,6 +50,17 @@ export type BirdVariant = 'sparrow' | 'chibi' | 'moe' | 'peach'
 
 type Props = { activeIndex: number; phase: BirdPhase; variant?: BirdVariant }
 
+export function ResumeBirdArt({
+  isPerched = false,
+  variant = 'moe',
+}: {
+  isPerched?: boolean
+  variant?: BirdVariant
+}) {
+  const BirdArt = variant === 'sparrow' ? SparrowBird : variant === 'chibi' ? ChibiBird : variant === 'peach' ? PeachFledgling : MoeBird
+  return <BirdArt isPerched={isPerched} />
+}
+
 // ── Chibi anime-style bird SVG ──────────────────────────────────────────────
 
 function ChibiBird({ isPerched }: { isPerched: boolean }) {
@@ -508,8 +519,6 @@ export default function Bird({ activeIndex, phase, variant = 'moe' }: Props) {
     animate(scope.current, { bottom: t.y + (isPerched ? 0 : 8) }, { duration: 0.35 })
   }, [isPerched]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const BirdArt = variant === 'sparrow' ? SparrowBird : variant === 'chibi' ? ChibiBird : variant === 'peach' ? PeachFledgling : MoeBird
-
   return (
     <motion.div
       ref={scope}
@@ -548,7 +557,7 @@ export default function Bird({ activeIndex, phase, variant = 'moe' }: Props) {
           }
           style={{ transform: facingRight ? 'scaleX(1)' : 'scaleX(-1)' }}
         >
-          <BirdArt isPerched={isPerched} />
+          <ResumeBirdArt isPerched={isPerched} variant={variant} />
         </motion.div>
       </motion.div>
     </motion.div>
