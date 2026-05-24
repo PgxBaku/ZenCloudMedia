@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/admin"],
       },
     ],
-    sitemap: "https://zencloudmedia.vercel.app/sitemap.xml",
+    sitemap: "https://www.zencloudweb.com/sitemap.xml",
   };
 }
