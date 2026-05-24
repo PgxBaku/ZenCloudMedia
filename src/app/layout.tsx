@@ -18,6 +18,30 @@ const siteUrl = "https://www.zencloudweb.com";
 const description =
   "Short-form news reels for AI, markets, science, space, world events, and oil prices. Clear sourced explainers built for the scroll.";
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "ZenCloudMedia",
+  url: siteUrl,
+  logo: `${siteUrl}/zencloudmedia-logo.png`,
+  description:
+    "Independent short-form news reel studio. AI-assisted production covering oil markets, geopolitics, science, space, AI, and world events.",
+  email: "zen1cloud1@gmail.com",
+  sameAs: [
+    "https://www.youtube.com/@ZenCloud1Media",
+    "https://www.tiktok.com/@baku_retsu",
+    "https://www.facebook.com/61573241866709",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "ZenCloudMedia",
+  url: siteUrl,
+  description,
+};
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -69,7 +93,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head />
+      <head>
+        <script type="application/ld+json">
+          {JSON.stringify([organizationSchema, websiteSchema])}
+        </script>
+      </head>
       <body className="min-h-full flex flex-col">
         {children}
         <SpeedInsights />
