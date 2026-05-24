@@ -1,15 +1,54 @@
 # ZenCloudMedia
 
-> Short-form media and AI automation studio operated by Paul P. Xiong.
+> Independent short-form news reel studio publishing AI-assisted video explainers on oil markets, geopolitics, science, space, AI, and world events.
+
+## What ZenCloudMedia Publishes
+
+ZenCloudMedia produces short-form video reels (60–90 seconds) distributed on YouTube Shorts, TikTok, and Facebook Reels. Each reel covers a single fast-moving story with sourced research, motion graphics, word-level captions, and narration.
+
+Topics covered: oil and energy markets, geopolitics and global conflict, artificial intelligence, science discoveries, space news, and world events.
+
+Production uses AI-assisted tooling (research, script drafting, image generation, text-to-speech, automated captions) with human editorial review for topic selection, framing, and publication decisions.
+
+## Content Series
+
+- Oil Price Pulse — regular briefings on WTI crude, Brent crude, and U.S. gas prices with market context
+- World News — curated international top stories
+- AI News — artificial intelligence developments and industry shifts
+- Science News — research discoveries and science developments
+- Space News — astronomy, space exploration, and satellite events
+- Gaming News — gaming industry news
+- Special Reels — longer documentary-style explainers on specific topics
+
+## Editorial Standards
+
+ZenCloudMedia selects stories where a short explainer adds practical context rather than outrage. Scripts are built from public reporting, official releases, and primary data sources. AI tools assist research and production; final editorial decisions are human-led. See https://www.zencloudweb.com/editorial-policy for the full policy.
+
+## Channels
+
+- YouTube: https://www.youtube.com/@ZenCloud1Media/shorts
+- TikTok: https://www.tiktok.com/@baku_retsu
+- Facebook: https://www.facebook.com/61573241866709
 
 ## Key Pages
 
-- [Canonical Resume](https://zencloudmedia.vercel.app/pgx/resume): Human-readable resume for Paul P. Xiong, Founder and Principal AI Automation Engineer at ZenCloudMedia.
-- [ATS Resume](https://zencloudmedia.vercel.app/pgx/resume/ats): Plain single-column resume with standard sections for parsing by ATS and AI screening systems.
-- [Plain Resume Text](https://zencloudmedia.vercel.app/pgx/resume/text): Text-only resume surface for LLM and crawler ingestion.
-- [Resume Story](https://zencloudmedia.vercel.app/pgx/resume/story): Animated resume narrative and visual career timeline.
+- [Home](https://www.zencloudweb.com): Reel hub and channel overview
+- [Reels](https://www.zencloudweb.com/reels): Published reel archive
+- [About](https://www.zencloudweb.com/about): Studio overview and mission
+- [Editorial Policy](https://www.zencloudweb.com/editorial-policy): Sourcing and production standards
+- [Contact](https://www.zencloudweb.com/contact): Contact and corrections
+
+---
+
+## About the Operator
+
+ZenCloudMedia is operated by Paul P. Xiong, software development manager and AI automation architect.
+
+- [Canonical Resume](https://www.zencloudweb.com/pgx/resume): Human-readable resume for Paul P. Xiong, Founder and Principal AI Automation Engineer at ZenCloudMedia.
+- [ATS Resume](https://www.zencloudweb.com/pgx/resume/ats): Plain single-column resume with standard sections for parsing by ATS and AI screening systems.
+- [Plain Resume Text](https://www.zencloudweb.com/pgx/resume/text): Text-only resume surface for LLM and crawler ingestion.
+- [Resume Story](https://www.zencloudweb.com/pgx/resume/story): Animated resume narrative and visual career timeline.
 - [ZenCloudMedia GitHub](https://github.com/PgxBaku/ZenCloudMedia): Public Next.js and Supabase web app repository.
-- [Contact](https://zencloudmedia.vercel.app/contact): Contact page for ZenCloudMedia.
 
 ## Paul P. Xiong
 
@@ -27,13 +66,6 @@ Core resume terms: AI automation, enterprise integration, software development m
 - Agentic Workflow Lead
 - Enterprise Integration Architect
 
-## Proof Projects
-
-- ZenCloudMedia
-- ZenCloudMedia GitHub
-- Enterprise Integration Modernization
-- 7pace + ADO KPI Dashboards
-
 ## Preferred Machine-Readable Resume
 
-Use https://zencloudmedia.vercel.app/pgx/resume/ats for structured sections and https://zencloudmedia.vercel.app/pgx/resume/text for text-only ingestion.
+Use https://www.zencloudweb.com/pgx/resume/ats for structured sections and https://www.zencloudweb.com/pgx/resume/text for text-only ingestion.

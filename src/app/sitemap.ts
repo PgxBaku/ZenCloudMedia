@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = "https://zencloudmedia.vercel.app";
-  const lastModified = new Date("2026-05-05");
+  const siteUrl = "https://www.zencloudweb.com";
+  const lastModified = new Date();
   const routes = [
     { path: "", priority: 1 },
     { path: "/about", priority: 0.85 },
