@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://zencloudmedia.vercel.app";
+const siteUrl = "https://www.zencloudweb.com";
 const description =
   "Short-form news reels for AI, markets, science, space, world events, and oil prices. Clear sourced explainers built for the scroll.";
 
@@ -73,6 +73,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <SpeedInsights />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ST9XEYEMVS"
+          strategy="afterInteractive"
+        />
+        <Script src="/ga4-init.js" strategy="afterInteractive" />
         <Script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID ?? 'ca-pub-3651454000211352'}`}
