@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
 import PaperResume from '../../../resume/components/PaperResume'
 import type { PaperResumeVariant } from '../../../resume/components/PaperResume'
 import { VARIANTS, type VariantModule } from '../../../resume/data/variants'
+import VariantCookieSetter from '../VariantCookieSetter'
 
 type Props = {
   params: Promise<{ variant: string }>
@@ -47,16 +47,6 @@ export default async function VariantResumePage({ params }: Props) {
     notFound()
   }
 
-  // Pin visitor to this variant for 30 days
-  const cookieStore = await cookies()
-  cookieStore.set('resume_variant', slug, {
-    path: '/',
-    maxAge: 30 * 24 * 60 * 60,
-    sameSite: 'lax',
-    httpOnly: true,
-    secure: true,
-  })
-
   const variantData: PaperResumeVariant = {
     headline: mod.VARIANT_HEADLINE,
     summary: mod.VARIANT_SUMMARY,
@@ -65,5 +55,10 @@ export default async function VariantResumePage({ params }: Props) {
     skillGroups: mod.SKILL_GROUPS,
   }
 
-  return <PaperResume variant={variantData} />
+  return (
+    <>
+      <VariantCookieSetter slug={slug} />
+      <PaperResume variant={variantData} />
+    </>
+  )
 }
