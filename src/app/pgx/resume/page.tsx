@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import PaperResume from '../../resume/components/PaperResume'
 import { buildResumeJsonLd } from '../../resume/data/machine-readable'
 
@@ -24,7 +26,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function PgxResumePage() {
+export default async function PgxResumePage() {
+  const cookieStore = await cookies()
+  const variant = cookieStore.get('resume_variant')?.value
+
+  if (variant) {
+    redirect(`/pgx/resume/${variant}`)
+  }
+
   return (
     <>
       <script
