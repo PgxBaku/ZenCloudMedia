@@ -42,3 +42,7 @@ next-env.d.ts
 
 # agent episodic memory — local runtime log, not needed across machines
 .agent/memory/episodic/
+
+# disposable temp files created during wiki ops / debugging
+__tmp_*.*
+_tmp_*.*
