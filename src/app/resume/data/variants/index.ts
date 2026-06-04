@@ -19,5 +19,5 @@ export interface VariantModule {
 }
 
 export const VARIANTS: Record<string, () => Promise<VariantModule>> = {
-  // Variants will be registered here (Task 2)
+  devManager_v1: () => import('./devManager_v1'),
 }
