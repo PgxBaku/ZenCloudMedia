@@ -5,7 +5,7 @@ import type { ResumeRole, SkillGroup } from '../resume'
 export const VARIANT_META: VariantMeta = {
   slug: 'devManager_v1',
   headline:
-    'Software Development Manager | DevEx AI Tools | Platform Automation | Agentic Engineering Workflows',
+    'Software Development Manager | AI Developer Experience | Platform Automation | Engineering Productivity',
   description:
     'Engineering manager with 8+ years leading enterprise integration modernization, CI/CD governance, AI-assisted delivery, and platform engineering. Tailored for Figma DevEx AI Tools Manager role.',
   targetRole: 'Engineering Manager, DevEx AI Tools',
@@ -13,13 +13,13 @@ export const VARIANT_META: VariantMeta = {
 }
 
 export const VARIANT_HEADLINE =
-  'Software Development Manager | DevEx AI Tools | Platform Automation | Agentic Engineering Workflows'
+  'Software Development Manager | AI Developer Experience | Platform Automation | Engineering Productivity'
 
 export const VARIANT_SUMMARY =
-  'Engineering manager and platform architect with 8+ years leading enterprise integration modernization, reusable platform engineering, CI/CD governance, and AI-assisted delivery across distributed teams. Rolled out GitHub Copilot and AI-assisted CI/CD code review practices across 10+ engineer API teams. Owned production integration platforms, managed $2M budgets, and built review, governance, and adoption practices for AI engineering tooling. Currently building hands-on AI automation workflows using Python, browser automation, LLM-assisted scripting, Next.js, Supabase, and production deployment patterns. Available for engineering leadership roles in DevEx AI tools, platform engineering, and developer productivity.'
+  'Software Development Manager with 8+ years leading enterprise integration, platform automation, and developer productivity initiatives across distributed engineering teams. Experienced in building reusable engineering systems, modernizing CI/CD delivery, improving observability and operational governance, and leading AI-assisted development practices that improve delivery speed and code quality. Hands-on background across API architecture, workflow automation, cloud deployment, LLM-assisted tooling, and engineering KPI platforms, including AdoKpi for measuring workflow efficiency, PR collaboration, developer output, and DORA proxy metrics. Known for building high-trust teams, establishing execution cadence, mentoring engineers, and turning emerging technology into practical systems that scale across engineering organizations.'
 
 export const VARIANT_TARGET_ROLES =
-  'Engineering Manager, DevEx AI Tools · Platform Engineering Manager · Developer Productivity Lead · AI-Assisted Engineering Lead'
+  'Engineering Manager, AI Developer Experience · Platform Engineering Manager · Developer Productivity Manager · Engineering Productivity Lead'
 
 export const RESUME_ROLES: ResumeRole[] = [
   {
@@ -42,7 +42,8 @@ export const RESUME_ROLES: ResumeRole[] = [
       'Led high-availability API layers connecting core systems to Amazon Connect, Microsoft Fabric, Data Lake, managed services, and professional services workflows.',
       'Rolled out GitHub Copilot and AI-assisted CI/CD code review practices across a 10+ engineer API team, improving developer productivity while establishing review, governance, and adoption practices.',
       'Managed $2M annual budget across infrastructure, staffing, delivery planning, and executive ROI reporting.',
-      'Defined KPI dashboards and delivery metrics to evaluate engineering productivity, delivery speed, platform adoption, and operational impact.',
+      'Designed and built AdoKpi, an engineering productivity intelligence platform tracking 30+ metrics across workflow efficiency, PR collaboration, developer output, and DORA proxy measurements, including cycle time, lead time, throughput, WIP, time-to-merge p50/p90, review participation, deployment frequency, change failure rate, and episode-based MTTR.',
+      'Published automated Azure DevOps Wiki dashboards for 40+ developers with multi-period trend analysis, anomaly detection, configurable health scoring, and leadership-ready visibility into delivery speed, platform adoption, engineering productivity, and operational impact.',
     ],
   },
   {
@@ -51,7 +52,7 @@ export const RESUME_ROLES: ResumeRole[] = [
     company: 'ConvergeOne',
     bullets: [
       'Led the complete BizTalk EDI sunset, transitioning vendor integrations to MuleSoft Partner Manager with governed modular shared patterns.',
-      'Evaluated vendor, platform, and custom-build options across integration, automation, and developer tooling initiatives — making thoughtful build-versus-buy decisions.',
+      'Evaluated vendor, platform, and custom-build options across integration and automation — led the strategic shift from a proprietary .NET middle-tier framework to MuleSoft after reviewing, purchasing, and training 10+ developers on the platform, converting legacy modules into governed reusable assets.',
       'Co-developed 100+ integration processes using a proprietary middle-tier framework and reusable delivery patterns, establishing repeatable engineering governance.',
     ],
   },
