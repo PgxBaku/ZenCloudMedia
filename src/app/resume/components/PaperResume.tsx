@@ -1,5 +1,6 @@
 // src/app/resume/components/PaperResume.tsx
 'use client'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import { RESUME_ROLES, SKILL_GROUPS, METRICS, PROJECTS, type ResumeRole, type SkillGroup } from '../data/resume'
@@ -42,7 +43,7 @@ export default function PaperResume({ variant }: PaperResumeProps) {
     >
       <div className="w-full flex justify-between gap-2 mb-3 print:hidden" style={{ maxWidth: 820 }}>
         {showStoryLink && (
-        <a
+        <Link
           href="/pgx/resume/story"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 7,
@@ -55,7 +56,7 @@ export default function PaperResume({ variant }: PaperResumeProps) {
         >
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
           View Story
-        </a>
+        </Link>
         )}
         <button
           onClick={() => window.print()}
