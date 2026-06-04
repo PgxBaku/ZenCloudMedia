@@ -172,11 +172,6 @@ export function buildResumeText() {
     'B.A. Computer Science - University of St. Thomas',
     'Saint Paul, MN. International study in China and Japan.',
     '',
-    'Machine-Readable Resume Surfaces',
-    `${absoluteUrl(RESUME_PATH)} - canonical resume`,
-    `${absoluteUrl(RESUME_ATS_PATH)} - plain ATS resume`,
-    `${absoluteUrl(RESUME_TEXT_PATH)} - text-only resume`,
-    `${absoluteUrl(RESUME_STORY_PATH)} - animated resume story`,
   ]
 
   return lines.filter((line, index, arr) => line !== '' || arr[index - 1] !== '').join('\n')
