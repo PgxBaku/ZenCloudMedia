@@ -2,9 +2,37 @@
 'use client'
 import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
-import { RESUME_ROLES, SKILL_GROUPS, METRICS, PROJECTS } from '../data/resume'
+import { RESUME_ROLES, SKILL_GROUPS, METRICS, PROJECTS, type ResumeRole, type SkillGroup } from '../data/resume'
 
-export default function PaperResume() {
+export interface PaperResumeVariant {
+  headline: string
+  summary: string
+  targetRoles: string
+  roles: ResumeRole[]
+  skillGroups: SkillGroup[]
+}
+
+interface PaperResumeProps {
+  variant?: PaperResumeVariant
+}
+
+export default function PaperResume({ variant }: PaperResumeProps) {
+  const headline = variant?.headline ?? 'Software Development Manager | AI Automation &amp; Enterprise Integration Architect'
+  const summary = variant?.summary ??
+    'Software development manager and AI automation architect with 8+ years leading ' +
+    'enterprise integration modernization across .NET, MuleSoft, Microsoft Fabric, ' +
+    'Data Lake, Amazon Connect, and AI-assisted delivery. Built reusable platforms ' +
+    'behind 100+ integrations, 50%+ faster delivery, $2M budget ownership, and 10+ ' +
+    'engineer leadership. Currently building ZenCloudMedia as a public proof platform ' +
+    'for Next.js, Supabase, Remotion, Python, browser automation, and LLM-enabled media ' +
+    'workflows. Available for AI automation, software development leadership, ' +
+    'enterprise integration, and LLMOps architecture roles.'
+  const targetRoles = variant?.targetRoles ??
+    'AI Solutions Architect · Software Development Manager, AI/Automation · LLMOps / Agentic Workflow Lead · Enterprise Integration Architect'
+  const roles = variant?.roles ?? RESUME_ROLES
+  const skillGroups = variant?.skillGroups ?? SKILL_GROUPS
+  const showStoryLink = !variant
+
   return (
     <motion.section
       className="min-h-screen bg-slate-100 flex flex-col items-center py-16 px-4 print:bg-white print:py-0 print:min-h-0"
@@ -13,6 +41,7 @@ export default function PaperResume() {
       transition={{ duration: 1 }}
     >
       <div className="w-full flex justify-between gap-2 mb-3 print:hidden" style={{ maxWidth: 820 }}>
+        {showStoryLink && (
         <a
           href="/pgx/resume/story"
           style={{
@@ -27,6 +56,7 @@ export default function PaperResume() {
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
           View Story
         </a>
+        )}
         <button
           onClick={() => window.print()}
           style={{
@@ -63,7 +93,7 @@ export default function PaperResume() {
             fontSize: 14, color: '#cbd5e1', fontFamily: 'sans-serif',
             marginTop: 6, letterSpacing: 0.5,
           }}>
-            Software Development Manager | AI Automation &amp; Enterprise Integration Architect
+            {headline}
           </div>
           <div style={{
             display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap',
@@ -107,19 +137,12 @@ export default function PaperResume() {
               fontSize: 12, color: '#334155', lineHeight: 1.7, fontFamily: 'sans-serif',
               marginBottom: 24,
             }}>
-              Software development manager and AI automation architect with 8+ years leading
-              enterprise integration modernization across .NET, MuleSoft, Microsoft Fabric,
-              Data Lake, Amazon Connect, and AI-assisted delivery. Built reusable platforms
-              behind 100+ integrations, 50%+ faster delivery, $2M budget ownership, and 10+
-              engineer leadership. Currently building ZenCloudMedia as a public proof platform
-              for Next.js, Supabase, Remotion, Python, browser automation, and LLM-enabled media
-              workflows. Available for AI automation, software development leadership,
-              enterprise integration, and LLMOps architecture roles.
+              {summary}
             </p>
 
             <SectionTitle>Experience</SectionTitle>
-            {RESUME_ROLES.map((role, i) => (
-              <div key={i} style={{ marginBottom: i < RESUME_ROLES.length - 1 ? 20 : 0 }}>
+            {roles.map((role, i) => (
+              <div key={i} style={{ marginBottom: i < roles.length - 1 ? 20 : 0 }}>
                 {role.bullets.length === 0 ? (
                   <div style={{
                     marginTop: 8, paddingTop: 8, borderTop: '1px dashed #e2e8f0',
@@ -158,7 +181,7 @@ export default function PaperResume() {
           {/* Sidebar */}
           <div className="w-full md:w-[220px] flex-shrink-0">
             <SectionTitle>Skills</SectionTitle>
-            {SKILL_GROUPS.map(g => (
+            {skillGroups.map(g => (
               <div key={g.name} style={{ marginBottom: 14 }}>
                 <div style={{ fontSize: 10, color: '#1e40af', fontFamily: 'sans-serif', fontWeight: 600, letterSpacing: 1, marginBottom: 5, textTransform: 'uppercase' }}>
                   {g.name}
@@ -204,7 +227,7 @@ export default function PaperResume() {
               padding: '8px 10px', background: 'rgba(30,64,175,0.05)', borderRadius: 3,
               border: '1px solid rgba(30,64,175,0.1)',
             }}>
-              AI Solutions Architect · Software Development Manager, AI/Automation · LLMOps / Agentic Workflow Lead · Enterprise Integration Architect
+              {targetRoles}
             </div>
           </div>
         </div>
