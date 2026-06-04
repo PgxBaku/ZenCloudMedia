@@ -53,6 +53,8 @@ export default async function VariantResumePage({ params }: Props) {
     path: '/',
     maxAge: 30 * 24 * 60 * 60,
     sameSite: 'lax',
+    httpOnly: true,
+    secure: true,
   })
 
   const variantData: PaperResumeVariant = {

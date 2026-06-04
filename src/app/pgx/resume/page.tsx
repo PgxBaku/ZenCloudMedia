@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import PaperResume from '../../resume/components/PaperResume'
 import { buildResumeJsonLd } from '../../resume/data/machine-readable'
+import { VARIANTS } from '../../resume/data/variants'
 
 export const metadata: Metadata = {
   title: 'Paul P. Xiong Resume | AI Automation & Enterprise Integration',
@@ -30,7 +31,7 @@ export default async function PgxResumePage() {
   const cookieStore = await cookies()
   const variant = cookieStore.get('resume_variant')?.value
 
-  if (variant) {
+  if (variant && VARIANTS[variant]) {
     redirect(`/pgx/resume/${variant}`)
   }
 

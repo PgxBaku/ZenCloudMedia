@@ -17,7 +17,7 @@ interface PaperResumeProps {
 }
 
 export default function PaperResume({ variant }: PaperResumeProps) {
-  const headline = variant?.headline ?? 'Software Development Manager | AI Automation &amp; Enterprise Integration Architect'
+  const headline = variant?.headline ?? 'Software Development Manager | AI Automation & Enterprise Integration Architect'
   const summary = variant?.summary ??
     'Software development manager and AI automation architect with 8+ years leading ' +
     'enterprise integration modernization across .NET, MuleSoft, Microsoft Fabric, ' +
